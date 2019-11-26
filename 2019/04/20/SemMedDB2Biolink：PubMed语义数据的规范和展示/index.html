@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="这个月的工作是对SemMedDB与Biolink Model的初探和尝试。SemMedDB(The Semantic MEDLINE Database)是一个以SPO三元组存储了PubMed中文本语义关系的数据库，大概有9400万条预测关系。而Biolink Model是一个高级别的生物医学实体和关系框架。通过把SemMedDB的关系型数据用Biolink Model规范与展示，可以实现更广泛的生">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SemMedDB2Biolink：PubMed语义数据的规范和展示">
+<meta property="og:url" content="http://yoursite.com/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/index.html">
+<meta property="og:site_name" content="C&#39;est La Vie">
+<meta property="og:description" content="这个月的工作是对SemMedDB与Biolink Model的初探和尝试。SemMedDB(The Semantic MEDLINE Database)是一个以SPO三元组存储了PubMed中文本语义关系的数据库，大概有9400万条预测关系。而Biolink Model是一个高级别的生物医学实体和关系框架。通过把SemMedDB的关系型数据用Biolink Model规范与展示，可以实现更广泛的生">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/3.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/6.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/8.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/9.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/10.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/11.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/12.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/13.png">
+<meta property="og:updated_time" content="2019-07-30T07:58:44.660Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SemMedDB2Biolink：PubMed语义数据的规范和展示">
+<meta name="twitter:description" content="这个月的工作是对SemMedDB与Biolink Model的初探和尝试。SemMedDB(The Semantic MEDLINE Database)是一个以SPO三元组存储了PubMed中文本语义关系的数据库，大概有9400万条预测关系。而Biolink Model是一个高级别的生物医学实体和关系框架。通过把SemMedDB的关系型数据用Biolink Model规范与展示，可以实现更广泛的生">
+<meta name="twitter:image" content="http://yoursite.com/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/">
+
+
+
+
+
+  <title>SemMedDB2Biolink：PubMed语义数据的规范和展示 | C'est La Vie</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="alternate" href="/atom.xml" title="C'est La Vie" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C'est La Vie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Love or death</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="SonicYouth">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C'est La Vie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SemMedDB2Biolink：PubMed语义数据的规范和展示</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-20T09:39:18+08:00">
+                2019-04-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,247
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  5
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这个月的工作是对SemMedDB与Biolink Model的初探和尝试。SemMedDB(The Semantic MEDLINE Database)是一个以SPO三元组存储了PubMed中文本语义关系的数据库，大概有9400万条预测关系。而Biolink Model是一个高级别的生物医学实体和关系框架。通过把SemMedDB的关系型数据用Biolink Model规范与展示，可以实现更广泛的生物医学知识推理和运用。转换过程中还用到了一体化医学语言系统UMLS的术语映射。正文如下：</p>
+ <a id="more"></a>
+<p>生物医学领域文献繁多，隐藏的语义信息庞大而繁杂，如何通过文献挖掘为生物医学研究人员提取一些常识性的论断，还有如何高效地在文献中找到自己所需要的关键信息是知识库构建的初衷。PubMed提供了NLM的MEDLINE数据库千万篇文献摘要和索引信息，而SemMedDB是NLM用SemRep系统抽取PubMed语义信息得到的数据库，核心是近1亿条以主语-谓语-宾语的形式存储的生物医学关系表，存储在MySQL数据库里，模式scheme如下：</p>
+<img src="/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/1.png" title="PREDICATION table of SemMedDB">
+<p>主语信息以SUBJECT_NAME, SUBJECT_CUI（概念标识符）, SUBJECT_SEMTYPE和SUBJECT_NOVELTY管控，谓语信息是PREDICATE表示的，宾语信息同主语信息，并提供了出现该语义关系的PubMed文献的PMID值及出现的句子位置。</p>
+<p>SemMedDB的实体概念是以UMLS管控的，UMLS全称统一医学语言系统，它的元叙事表是由各种受控词表和术语以及它们之间的关系所构成的集合，包括医学主题词MeSH等，是生物医学信息的规范。</p>
+<p>Biolink模型是生物医学实体和关系的本体层架构，它以节点、边和槽定义模式，节点代表实体；边就是实体间的关系；槽分为节点属性、边属性和关系类型。如图是用本体软件protege展示的节点层：</p>
+<img src="/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/2.png" title="Entity (Node) Types">
+<p>它是一个更高层管理数据的方式，类似于用RDF或OWL描述的本体层，如图：</p>
+<img src="/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/3.jpg" title="PREDICATION table of SemMedDB">
+<p>我的思路是将SemMedDB提供的生物医学关系与Biolink模型的模式建立映射关系，从而可以用SparQL实现语义级别的查询，还有用图数据库Neo4j展示。</p>
+<p>分为如下几部实现：</p>
+<ol>
+<li>原始数据清洗</li>
+<li>使用biolink对实体类型规范化</li>
+<li>依实体类型过滤关系类型</li>
+<li>限定领域范围，依照本体修改mapping</li>
+<li>关联外部数据库</li>
+<li>用Neo4j图数据库展示</li>
+</ol>
+<p>下面依次介绍：</p>
+<ol>
+<li><p>原始数据清洗：</p>
+<p>首先提取SemMedDB数据库的生物医学关系，其中’SUBJECT_CUI’, ‘PREDICATE’, ‘OBJECT_CUI’, ‘PMID’这几项内容是我需要的。然后将含有同一SPO三元组的PMID值合并；加入NEG一列指示关系类型为positive或negative，处理后将其保存为关系数据表。</p>
+<img src="/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/4.png" title="SemMedDB ——> 关系表：22,280,924条关系">
+<p>实体数据表则是由UMLS的受控词表MRCONSO_ENG.RRF清洗得到。其中的ID值对应SemMedDB的SUBJECT_CUI或OBJECT_CUI，label是ID对应的实体名称。</p>
+<img src="/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/5.png" title="UMLS ——> 实体表：259,227个实体">
+</li>
+<li><p>使用biolink对实体类型规范化：</p>
+<p>这一步按照biolink模型的框架描述过滤了实体表。首先在实体表中加入实体的类型值umls_type，这是从UMLS的另一张受控词表MRSTY.RRF得到的。然后将umls_type映射到biolink本体的node_type，实现实体类型的规范化。剔除了不含有node_type的节点。</p>
+<img src="/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/6.png" title="映射后的实体表">
+<img src="/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/7.png" title="用biolink的node_type过滤后的实体类型排序">
+</li>
+<li><p>过滤实体类型和关系类型：</p>
+<p>这一步用上一步过滤好的实体类型和biolink模型自身的关系类型过滤第一步存储的边表。移除了不含有UMLS类型的主语或宾语构成的SPO三元组关系，移除了[‘compared_with’, ‘higher_than’, ‘lower_than’, ‘different_from’, ‘different_than’, ‘same_as’,’OCCURS_IN’, ‘PROCESS_OF’, ‘DIAGNOSES’, ‘METHOD_OF’, ‘USES’,’AUGMENTS’, ‘ADMINISTERED_TO’, ‘COMPLICATES’]这些biolink模型不含有的关系，再用筛选后的关系表反过来过滤实体表。这一步后剩余165,765个实体和14,066,229条关系。</p>
+<img src="/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/8.png" title="过滤后的关系类型数目排序">
+</li>
+<li><p>限定领域范围，依照本体修改mapping：</p>
+<p>先在关系表中加入关系的领域domain和范围range，如图：</p>
+<img src="/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/9.png" title="修改后的关系表">
+<p>然后依照领域和范围，用自定义的知识库对预测领域范围做限定，根据自己本体修改mapping文件，这一步实现了本体层和数据层的融合，即用本体模式实现了对数据的管控，便于之后的查询和展示。</p>
+<img src="/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/10.png" title="最终得到的关系表">
+</li>
+<li><p>关联外部数据库：</p>
+<p>Chemical and Drugs：链接到FDA</p>
+<p>Anatomy：链接到uberon</p>
+<p>Disease：链接到Disease Ontology</p>
+<p>Proteins：UMLS自带的MESH条款管控</p>
+<p>biological_process_or_activity/activity_and_behavior：UMLS自带的GO(gene ontology)</p>
+<p>Gene：链接到HGNC（人类基因组数据库） and OMIM（人类遗传学数据库）</p>
+<p>结果展示：</p>
+<img src="/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/11.png" title="关联外部数据库的:实体表">
+</li>
+<li><p>用Neo4j图数据库展示：</p>
+<img src="/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/12.png">
+<img src="/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/13.png">
+</li>
+</ol>
+<p>整个清理流程的结果：</p>
+<p>Start:<br>20,620,113 edges<br>268,918 nodes<br>32 predicates<br>15 node types</p>
+<p>End:<br>14,033,126 edges<br>165,658 nodes<br>18 predicates<br>13 node types</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/09/生物医学知识库技术调研/" rel="next" title="生物医学知识库技术调研">
+                <i class="fa fa-chevron-left"></i> 生物医学知识库技术调研
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/08/脑空间信息知识图谱技术/" rel="prev" title="脑空间信息知识图谱技术">
+                脑空间信息知识图谱技术 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="SonicYouth">
+          <p class="site-author-name" itemprop="name">SonicYouth</p>
+           
+              <p class="site-description motion-element" itemprop="description">白日梦王国</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/dearchill" target="_blank" title="Github">
+                  
+                    
+                      Github
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/190669470/" target="_blank" title="Douban">
+                  
+                    
+                      Douban
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SonicYouth</span>
+</div>
+
+
+<!-- <div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+-->
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共35.0k字</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+  <script src="/js/src/md5.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: 'b61fdebb6de09def4ffe',
+          clientSecret: '1dc1dd7b7382d093cf16977e282dd3bbcf301380',
+          repo: 'dearchill.github.io',
+          owner: 'dearchill',
+          admin: ['dearchill'],
+          id: md5(location.pathname),
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')
+       </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

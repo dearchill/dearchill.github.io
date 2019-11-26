@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="上篇主要是用多任务学习做NER的文献，这次关注一下迁移学习。正文如下：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文献阅读0708">
+<meta property="og:url" content="http://yoursite.com/2019/07/08/文献阅读0708/index.html">
+<meta property="og:site_name" content="C&#39;est La Vie">
+<meta property="og:description" content="上篇主要是用多任务学习做NER的文献，这次关注一下迁移学习。正文如下：">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/07/08/文献阅读0708/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/08/文献阅读0708/2.png">
+<meta property="og:updated_time" content="2019-09-02T08:46:22.420Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="文献阅读0708">
+<meta name="twitter:description" content="上篇主要是用多任务学习做NER的文献，这次关注一下迁移学习。正文如下：">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/08/文献阅读0708/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/07/08/文献阅读0708/">
+
+
+
+
+
+  <title>文献阅读0708 | C'est La Vie</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="alternate" href="/atom.xml" title="C'est La Vie" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C'est La Vie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Love or death</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/08/文献阅读0708/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="SonicYouth">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C'est La Vie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">文献阅读0708</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-08T10:36:16+08:00">
+                2019-07-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,102
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  4
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>上篇主要是用多任务学习做NER的文献，这次关注一下迁移学习。正文如下：</p>
+ <a id="more"></a>
+<h4 id="Transfer-learning-for-biomedical-named-entity-recognition-with-neural-networks-2018"><a href="#Transfer-learning-for-biomedical-named-entity-recognition-with-neural-networks-2018" class="headerlink" title="Transfer learning for biomedical named entity recognition with neural networks(2018)"></a>Transfer learning for biomedical named entity recognition with neural networks(2018)</h4><h5 id="一句话总结"><a href="#一句话总结" class="headerlink" title="一句话总结"></a>一句话总结</h5><p>深度学习大量依赖金标准数据集GSCs，带噪声的银标准数据集SSCs能够用于迁移学习弥补金标准数据集较少的情况，目标数据集越小迁移带来的精度提高越明显，目标GSC数据集较大时反而可能会恶化精度。<a href="https://github.com/
+BaderLab/Transfer-Learning-BNER-Bioinformatics-2018/" target="_blank" rel="noopener">项目地址</a></p>
+<h5 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h5><p>迁移学习的原理就是在”source”数据集上学到的知识能够帮助提高”target”数据集的表现，提高泛化能力，减少训练次数，模型本身baseline用的是<a href="https://github.com/Franck-Dernoncourt/NeuroNER" target="_blank" rel="noopener">neuroner</a>，一个BiLSTM字符嵌入+BiLSTM词嵌入+CRF的网络，注意一点就是训练时要从银标准数据集中剔除那些出现在金标准数据集中的PubMed ID。</p>
+<h5 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h5><p>在23个金标准数据集上与baseline相比平均误差降低了11％</p>
+<h4 id="Effective-Use-of-Bidirectional-Language-Modeling-for-Transfer-Learning-in-Biomedical-Named-Entity-Recognition-2018"><a href="#Effective-Use-of-Bidirectional-Language-Modeling-for-Transfer-Learning-in-Biomedical-Named-Entity-Recognition-2018" class="headerlink" title="Effective Use of Bidirectional Language Modeling for Transfer Learning in Biomedical Named Entity Recognition(2018)"></a>Effective Use of Bidirectional Language Modeling for Transfer Learning in Biomedical Named Entity Recognition(2018)</h4><h5 id="一句话总结-1"><a href="#一句话总结-1" class="headerlink" title="一句话总结"></a>一句话总结</h5><p>在无标签数据上运用双向语言模型来预训练初始化模型权重，对金标准数据NER做迁移学习来提高精度。</p>
+<h5 id="方法-1"><a href="#方法-1" class="headerlink" title="方法"></a>方法</h5><p>基本模型也是char-textCNN+word-BiLSTM+CRF，对每套数据集，用training和validation训练双向语言模型，双向语言模型的训练方法是最小化前后语言模型的平均交叉熵CElm = −λ(log pf (w1:n) + log pb(wn:1))。然后在此权重参数基础上训练NER模型微调，得到decoder CRF的参数。</p>
+<h5 id="结果-1"><a href="#结果-1" class="headerlink" title="结果"></a>结果</h5><img src="/2019/07/08/文献阅读0708/1.png" title="4个数据集上的效果提升">
+<p>效果比之前那个多任务学习的精度要好，而且只针对当前数据集训练，没有用到别的数据集信息。最后还绘制了learning curve曲线展示了无论target数据集有多大，都能带来精度的提升。</p>
+<h4 id="Towards-reliable-named-entity-recognition-in-the-biomedical-domain-2019"><a href="#Towards-reliable-named-entity-recognition-in-the-biomedical-domain-2019" class="headerlink" title="Towards reliable named entity recognition in the biomedical domain(2019)"></a>Towards reliable named entity recognition in the biomedical domain(2019)</h4><h5 id="一句话总结-2"><a href="#一句话总结-2" class="headerlink" title="一句话总结"></a>一句话总结</h5><p>一个很大的问题是在金标准数据集训练好的NER模型很难泛化到其他数据集上（主要还是训练数据太少了），更别说直接用到生物医学非结构化文本抽取了。这篇文章用了几个方法来improve regularization，包括Variational Dropout、多任务学习和迁移学习，然后综合这些模型的优点开源了一个Python工具包。<a href="https://github.com/BaderLab/saber" target="_blank" rel="noopener">工具地址</a>  <a href="https://github.com/BaderLab/Towards-reliable-BioNER" target="_blank" rel="noopener">项目地址</a></p>
+<h5 id="方法-2"><a href="#方法-2" class="headerlink" title="方法"></a>方法</h5><ol>
+<li><p>Variational Dropout：文章说之前的模型用dropout主要是在字符嵌入层和词嵌入层的参数上，很少有用到LSTM层的？？？没有啊我之前看的都用在了LSTM层。但确实LSTM层的dropout不太一样，因为直接使用会损害RNNs对文本的长距离依赖性。而2016年提出的variational dropout能够解决这一问题。因为它不是在每个time step都随机丢弃一些单元，而是在跨多个time steps丢弃相同的单元(因为LSTM是按照时间序列展开的，最终dropout会作用在同一层的连续位置，如图显示相同颜色的线代表在整个序列使用相同的dropout mask。我理解的就是有的一整个输入句子整个都被dropout，有的整个句子都不dropout，这样可以保证连续性)</p>
+<img src="/2019/07/08/文献阅读0708/2.png" title="Naive dropout v.s. variational dropout">
+</li>
+<li><p>迁移学习：同最上面那篇，用的数据集也是CALBC-SSC-III</p>
+</li>
+<li><p>多任务学习：用的是共享权重的方法，target-specific CRF前的所有字符层和单词层的隐层单元都共享权重，然后每个数据集计算各自的损失并优化，当所有的数据集都训练一遍（顺序随机，总共需要二项式系数次）算一个epoch。为什么没用之前那篇多任务文章提到的优化总的损失函数我也不知道，可能分别计算效果好吧。</p>
+</li>
+</ol>
+<h5 id="结果-2"><a href="#结果-2" class="headerlink" title="结果"></a>结果</h5><p>文章花大量篇幅展示了baseline+VD，baseline+TL，MTL模型与baseline相比在In-corpus (IC) performance和Out-of-corpus (OOC) performance的效果提升，并分析了这些方法对提高泛化能力的作用。最后总结了OOC相比IC平均会减少31.16%的精度，加上这些方法的作用能够平均挽回10％的精度。开源的模型对用在PubMed大规模文本抽取有效。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/06/文献阅读0706/" rel="next" title="文献阅读0706">
+                <i class="fa fa-chevron-left"></i> 文献阅读0706
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/09/文献阅读0709/" rel="prev" title="文献阅读0709">
+                文献阅读0709 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="SonicYouth">
+          <p class="site-author-name" itemprop="name">SonicYouth</p>
+           
+              <p class="site-description motion-element" itemprop="description">白日梦王国</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/dearchill" target="_blank" title="Github">
+                  
+                    
+                      Github
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/190669470/" target="_blank" title="Douban">
+                  
+                    
+                      Douban
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Transfer-learning-for-biomedical-named-entity-recognition-with-neural-networks-2018"><span class="nav-number">1.</span> <span class="nav-text">Transfer learning for biomedical named entity recognition with neural networks(2018)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#一句话总结"><span class="nav-number">1.1.</span> <span class="nav-text">一句话总结</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#方法"><span class="nav-number">1.2.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#结果"><span class="nav-number">1.3.</span> <span class="nav-text">结果</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Effective-Use-of-Bidirectional-Language-Modeling-for-Transfer-Learning-in-Biomedical-Named-Entity-Recognition-2018"><span class="nav-number">2.</span> <span class="nav-text">Effective Use of Bidirectional Language Modeling for Transfer Learning in Biomedical Named Entity Recognition(2018)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#一句话总结-1"><span class="nav-number">2.1.</span> <span class="nav-text">一句话总结</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#方法-1"><span class="nav-number">2.2.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#结果-1"><span class="nav-number">2.3.</span> <span class="nav-text">结果</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Towards-reliable-named-entity-recognition-in-the-biomedical-domain-2019"><span class="nav-number">3.</span> <span class="nav-text">Towards reliable named entity recognition in the biomedical domain(2019)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#一句话总结-2"><span class="nav-number">3.1.</span> <span class="nav-text">一句话总结</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#方法-2"><span class="nav-number">3.2.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#结果-2"><span class="nav-number">3.3.</span> <span class="nav-text">结果</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SonicYouth</span>
+</div>
+
+
+<!-- <div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+-->
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共35.0k字</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+  <script src="/js/src/md5.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: 'b61fdebb6de09def4ffe',
+          clientSecret: '1dc1dd7b7382d093cf16977e282dd3bbcf301380',
+          repo: 'dearchill.github.io',
+          owner: 'dearchill',
+          admin: ['dearchill'],
+          id: md5(location.pathname),
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')
+       </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="因为马上去上海开会交流还要做PPT展示，所以先写篇文章总结下目前这个项目我能实现的技术和卡住的地方，也算是对入手这个项目一年多的技术总结。 脑空间信息学是以脑连接的基本结构与功能单元为研究对象，揭示脑连接空间信息机制，引导脑疾病防治与智能技术发展的新兴交叉学科。脑空间信息知识库能够为研究认知和行为的神经活动机制等脑科学问题提供帮助。由于脑科学的研究范围涵盖面广，领域跨度大，研究人员很难具有跨自身专">
+<meta property="og:type" content="article">
+<meta property="og:title" content="脑空间信息知识图谱技术">
+<meta property="og:url" content="http://yoursite.com/2019/05/08/脑空间信息知识图谱技术/index.html">
+<meta property="og:site_name" content="C&#39;est La Vie">
+<meta property="og:description" content="因为马上去上海开会交流还要做PPT展示，所以先写篇文章总结下目前这个项目我能实现的技术和卡住的地方，也算是对入手这个项目一年多的技术总结。 脑空间信息学是以脑连接的基本结构与功能单元为研究对象，揭示脑连接空间信息机制，引导脑疾病防治与智能技术发展的新兴交叉学科。脑空间信息知识库能够为研究认知和行为的神经活动机制等脑科学问题提供帮助。由于脑科学的研究范围涵盖面广，领域跨度大，研究人员很难具有跨自身专">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/05/08/脑空间信息知识图谱技术/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/08/脑空间信息知识图谱技术/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/08/脑空间信息知识图谱技术/3.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/08/脑空间信息知识图谱技术/6.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/08/脑空间信息知识图谱技术/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/08/脑空间信息知识图谱技术/8.png">
+<meta property="og:updated_time" content="2019-07-30T03:23:26.880Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="脑空间信息知识图谱技术">
+<meta name="twitter:description" content="因为马上去上海开会交流还要做PPT展示，所以先写篇文章总结下目前这个项目我能实现的技术和卡住的地方，也算是对入手这个项目一年多的技术总结。 脑空间信息学是以脑连接的基本结构与功能单元为研究对象，揭示脑连接空间信息机制，引导脑疾病防治与智能技术发展的新兴交叉学科。脑空间信息知识库能够为研究认知和行为的神经活动机制等脑科学问题提供帮助。由于脑科学的研究范围涵盖面广，领域跨度大，研究人员很难具有跨自身专">
+<meta name="twitter:image" content="http://yoursite.com/2019/05/08/脑空间信息知识图谱技术/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/08/脑空间信息知识图谱技术/">
+
+
+
+
+
+  <title>脑空间信息知识图谱技术 | C'est La Vie</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="alternate" href="/atom.xml" title="C'est La Vie" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C'est La Vie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Love or death</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/08/脑空间信息知识图谱技术/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="SonicYouth">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C'est La Vie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">脑空间信息知识图谱技术</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-08T14:53:15+08:00">
+                2019-05-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,405
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  5
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>因为马上去上海开会交流还要做PPT展示，所以先写篇文章总结下目前这个项目我能实现的技术和卡住的地方，也算是对入手这个项目一年多的技术总结。</p>
+<p>脑空间信息学是以脑连接的基本结构与功能单元为研究对象，揭示脑连接空间信息机制，引导脑疾病防治与智能技术发展的新兴交叉学科。脑空间信息知识库能够为研究认知和行为的神经活动机制等脑科学问题提供帮助。由于脑科学的研究范围涵盖面广，领域跨度大，研究人员很难具有跨自身专业的知识；此外脑科学领域的文献数目逐年剧增，了解并跟进前沿知识费时费力，催生了自动化获取文献信息的需求。项目目标是综合运用文本挖掘、自然语言处理和机器学习技术，建立一个服务脑科学研究人员，整合已有的知识库，能实现文献语义级别搜索的知识图谱。</p>
+<p>知识图谱的构建流程大致是知识抽取、知识融合、知识加工、知识存储和知识表示。我的工作主要是前面的知识抽取和知识融合中的技术细节，主要做了文献挖掘、实体抽取和消歧、关系/事件抽取、知识库和本体整合等内容。详细如下：</p>
+ <a id="more"></a>
+<ol>
+<li><p>文献获取和预处理</p>
+<ul>
+<li>以E-utilities向PubMed发送查询并下载文献，以关键词核团”nucleus accumbens”为例，共下载19572篇摘要，以txt的格式返回它们的，标识符pmids</li>
+<li>使用StanfordNLP进行文本清洗：包括分词、过滤字符、去除停用词、词干化处理、词性标注等</li>
+<li>统计词频、语言模型、tf-idf等</li>
+</ul>
+<p>遇到的问题及难点：PMC全文的获取有困难，缺少文献数据库</p>
+</li>
+<li><p>知识抽取</p>
+<img src="/2019/05/08/脑空间信息知识图谱技术/1.png">
+<p>知识抽取根据不同的数据源分别进行，我们主要针对的是文献中的纯文本数据。三个子任务包括：</p>
+<ul>
+<li>实体抽取：识别文本中有意义的实体，通常是名词</li>
+<li>关系抽取：SPO三元组，事件抽取相当于多元关系的抽取</li>
+<li>属性抽取：三元组中一个谓词和两个形参各自的属性，也可以简化为关系抽取</li>
+</ul>
+<p>实体抽取：</p>
+<p>采用端到端的深度学习算法，基于多任务学习的双向LSTM+CRF网络，采用的训练数据集为CoNLL格式的金标准生物医学NER数据集，该系统能够识别基因、蛋白质、细胞类型、化学物质、疾病实体。</p>
+<p>模型和训练数据集详细信息如图：</p>
+<img src="/2019/05/08/脑空间信息知识图谱技术/2.png">
+<img src="/2019/05/08/脑空间信息知识图谱技术/3.png">
+<p>目前识别出的结果如下：</p>
+<img src="/2019/05/08/脑空间信息知识图谱技术/6.png">
+<p>后期准备整合Pubtator和UMLS对识别出来的实体按照实体类型和MESH条款进行管控。</p>
+<p>遇到的问题及难点：</p>
+<ul>
+<li>难以识别出脑区核团、神经元等一些金标准训练集中未标定出来的实体类型。</li>
+<li>金标准训练集的数量太少，训练模型易欠拟合，泛化能力差，难以对大量的文献文本做实体预测，且难以对预测结果的精确度进行定量评估。</li>
+</ul>
+<p>关系抽取：</p>
+<p>同样是基于端到端的方法，模型是加入自注意力机制的双向LSTM网络，主要抽取的是基因-化学物质-疾病这三者相互之间的关系。</p>
+<p>模型和训练数据集详细信息如图：</p>
+<img src="/2019/05/08/脑空间信息知识图谱技术/7.png">
+<img src="/2019/05/08/脑空间信息知识图谱技术/8.png">
+<p>目前的训练精度很差，准备加入句法依存树解决句法依赖的问题，还有配合生物医学本体建立层级间的关联，加入远程监督和多实例学习解决训练样本太少的问题。</p>
+<p>遇到的问题及难点：</p>
+<ul>
+<li>关系抽取难度大，主流的最好的模型精度也只有60-70％</li>
+<li>划定关系类型没有统一的标准，严重依赖本体层级的划分，需要神经科学背景的研究人员提供指导</li>
+<li>关系抽取得到的结果中包含的主语和宾语实体需要与实体抽取的结果匹配，可以考虑采用联合模型同时抽取实体和它们间的关系。</li>
+</ul>
+</li>
+<li><p>知识融合</p>
+<p>主要做了SemMedDB关系数据库(NIH抽取PubMed摘要得到的9400多万个关系)与本体层面的融合。</p>
+<p>采用的本体是biolink，是一个以节点、边、槽表示生物医学实体和关系的本体层架构。SemMedDB数据库以MySQL的形式存储，先将其通过UMLS进行规范化，然后用biolink在模式层管理这些关系。</p>
+<p>遇到的问题及难点：</p>
+<ul>
+<li>原SemMedDB是采用SemRep系统抽取，它的精确度、召回率和F值分别为 0.73, 0.55, 0.63</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>由于精确度较低，所以需要先过滤总共只出现很少次的关系类型，在次数的选择上也需要折中考虑关系的误判和漏判<ul>
+<li>由于系统只能做到抽取单个句子中的实体间的关系，很难抽取到跨句子级别的关系，所以召回率很低，但是PubMed摘要中的很多关系只出现在整个文档级别中</li>
+</ul>
+</li>
+<li>biolink并不一定是最适合我们的生物医学本体，需要内部专家修改和评估。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/20/SemMedDB2Biolink：PubMed语义数据的规范和展示/" rel="next" title="SemMedDB2Biolink：PubMed语义数据的规范和展示">
+                <i class="fa fa-chevron-left"></i> SemMedDB2Biolink：PubMed语义数据的规范和展示
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/06/文献阅读0706/" rel="prev" title="文献阅读0706">
+                文献阅读0706 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="SonicYouth">
+          <p class="site-author-name" itemprop="name">SonicYouth</p>
+           
+              <p class="site-description motion-element" itemprop="description">白日梦王国</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/dearchill" target="_blank" title="Github">
+                  
+                    
+                      Github
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/190669470/" target="_blank" title="Douban">
+                  
+                    
+                      Douban
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SonicYouth</span>
+</div>
+
+
+<!-- <div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+-->
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共35.0k字</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+  <script src="/js/src/md5.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: 'b61fdebb6de09def4ffe',
+          clientSecret: '1dc1dd7b7382d093cf16977e282dd3bbcf301380',
+          repo: 'dearchill.github.io',
+          owner: 'dearchill',
+          admin: ['dearchill'],
+          id: md5(location.pathname),
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')
+       </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

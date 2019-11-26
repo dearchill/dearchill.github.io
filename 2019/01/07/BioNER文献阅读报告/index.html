@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="NER,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="过了这么久调研，大项目终于启动了。从NER开始做起，读了两月文献（才怪）这篇文章是对生物医学领域命名实体识别系统文章的模型综述和总结，涵盖CNN,biLSTM+CRF,多任务模型，迁移学习等知识。正文如下：">
+<meta name="keywords" content="NER">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BioNER文献阅读报告">
+<meta property="og:url" content="http://yoursite.com/2019/01/07/BioNER文献阅读报告/index.html">
+<meta property="og:site_name" content="C&#39;est La Vie">
+<meta property="og:description" content="过了这么久调研，大项目终于启动了。从NER开始做起，读了两月文献（才怪）这篇文章是对生物医学领域命名实体识别系统文章的模型综述和总结，涵盖CNN,biLSTM+CRF,多任务模型，迁移学习等知识。正文如下：">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/01/07/BioNER文献阅读报告/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/07/BioNER文献阅读报告/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/07/BioNER文献阅读报告/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/07/BioNER文献阅读报告/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/07/BioNER文献阅读报告/6.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/07/BioNER文献阅读报告/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/07/BioNER文献阅读报告/8.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/07/BioNER文献阅读报告/9.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/07/BioNER文献阅读报告/10.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/07/BioNER文献阅读报告/11.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/07/BioNER文献阅读报告/14.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/07/BioNER文献阅读报告/13.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/07/BioNER文献阅读报告/12.png">
+<meta property="og:updated_time" content="2019-07-23T09:21:31.970Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="BioNER文献阅读报告">
+<meta name="twitter:description" content="过了这么久调研，大项目终于启动了。从NER开始做起，读了两月文献（才怪）这篇文章是对生物医学领域命名实体识别系统文章的模型综述和总结，涵盖CNN,biLSTM+CRF,多任务模型，迁移学习等知识。正文如下：">
+<meta name="twitter:image" content="http://yoursite.com/2019/01/07/BioNER文献阅读报告/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/07/BioNER文献阅读报告/">
+
+
+
+
+
+  <title>BioNER文献阅读报告 | C'est La Vie</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="alternate" href="/atom.xml" title="C'est La Vie" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C'est La Vie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Love or death</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/07/BioNER文献阅读报告/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="SonicYouth">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C'est La Vie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">BioNER文献阅读报告</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-07T14:47:34+08:00">
+                2019-01-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  852
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  5
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>过了这么久调研，大项目终于启动了。从NER开始做起，读了两月文献（才怪）这篇文章是对生物医学领域命名实体识别系统文章的模型综述和总结，涵盖CNN,biLSTM+CRF,多任务模型，迁移学习等知识。正文如下：<br> <a id="more"></a></p>
+<h3 id="A-convolution-neural-network-multi-task-learning-model"><a href="#A-convolution-neural-network-multi-task-learning-model" class="headerlink" title="A convolution neural network multi-task learning model"></a>A convolution neural network multi-task learning model</h3><ol>
+<li><p>Purpose: use task-specific, manually-annotated datasets together to improve NER performance.</p>
+</li>
+<li><p>Corpora: 15 biomedical datasets containing multiple named entities including Anatomy, Chemical, Disease, Gene/Protein and Species. Plus one dataset on biomedical POS tagging.</p>
+<img src="/2019/01/07/BioNER文献阅读报告/1.png" title="The datasets and details of their annotations">
+</li>
+<li><p><a href="https://github.com/cambridgeltl/MTL-Bioinformatics-2016" target="_blank" rel="noopener">Models</a>: </p>
+<ul>
+<li><p>Baseline model:</p>
+<p>A feed-forward neural network with a hidden Rectified Linear Unit (ReLU) activation layer leading to an output layer with Softmax activation.</p>
+</li>
+<li><p>Single task model:</p>
+<ul>
+<li><p>Input layer:2n + 1 words</p>
+</li>
+<li><p>Convolution layer: multiple filter sizes, ReLU activation</p>
+</li>
+<li>No max-pooling after the convolution layer to remain the positional information.</li>
+<li>Fully connected layer</li>
+<li>Softmax layer</li>
+</ul>
+</li>
+<li><p>Multi-output multi-task model: </p>
+<p>A private output layer with Softmax activation represents each task but all tasks share the rest of the model.</p>
+</li>
+<li><p>Dependent multi-task model: </p>
+<p>Concatenate the fully connected layers of the model trained for the auxiliary task(such as POS tagging) and the one trained for the main task(NER in our example).</p>
+<img src="/2019/01/07/BioNER文献阅读报告/2.png" title="Architecture of single-task model, multi-output multi-task model, multi-task dependent model">
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="A-cross-type-multi-task-learning-model-based-on-LM-LSTM-CRF"><a href="#A-cross-type-multi-task-learning-model-based-on-LM-LSTM-CRF" class="headerlink" title="A cross-type multi-task learning model(based on LM-LSTM-CRF)"></a>A cross-type multi-task learning model(based on <a href="https://github.com/LiyuanLucasLiu/LM-LSTM-CRF" target="_blank" rel="noopener">LM-LSTM-CRF</a>)</h3><ol>
+<li><a href="https://github.com/yuzhimanhua/Multi-BioNER" target="_blank" rel="noopener">Models</a>:<ul>
+<li>Single task model<img src="/2019/01/07/BioNER文献阅读报告/4.png" title="Architecture of a single-task neural network"></li>
+<li>Three multi-task models:<img src="/2019/01/07/BioNER文献阅读报告/5.png" title="Three multi-task learning neural network models">
+(a) MTM-C: multi-task learning neural network with a shared character layer and a task-specific word layer, (b): MTM-W: multi-task learning neural network with a task-specific character layer and a shared word layer, (c) MTM-CW: multi-task learning neural network with shared character and word layers.</li>
+</ul>
+</li>
+<li>Datasets: 5 datasets based on Crichton et al.(the first article)<img src="/2019/01/07/BioNER文献阅读报告/6.png" title="Biomedical NER datasets used in the experiments"></li>
+<li>Results:<img src="/2019/01/07/BioNER文献阅读报告/7.png" title="Performance of the proposed MTM-CW model">
+</li>
+</ol>
+<h3 id="A-collaboration-of-deep-neural-networks-model"><a href="#A-collaboration-of-deep-neural-networks-model" class="headerlink" title="A collaboration of deep neural networks model"></a>A collaboration of deep neural networks model</h3><p>In CollaboNet, models trained on a different dataset are connected to each other so that a target model obtains information from other collaborator models to reduce false positives. Every model is an expert on their target entity type and takes turns serving as a target and a collaborator model during training time.</p>
+<ol>
+<li><p><a href="https://github.com/wonjininfo/CollaboNet" target="_blank" rel="noopener">Models</a>:</p>
+<img src="/2019/01/07/BioNER文献阅读报告/8.png" title="Single-task model structure: Character level word embedding using CNN and an overview of Bidirectional LSTM with Conditional Random Field (BiLSTM-CRF)">
+<img src="/2019/01/07/BioNER文献阅读报告/9.png" title="Structure of CollaboNet: Arrows show the flow of information when target model M_Target is training. The models in CollaboNet take turns in being the target model">
+</li>
+<li><p>Datasets: 5 datasets(BC2GM, BC4CHEMD, BC5CDR, JNLPBA, NCBI) based on Crichton et al.(the first article)</p>
+</li>
+<li><p>Results:</p>
+<img src="/2019/01/07/BioNER文献阅读报告/10.png" title="Performances of single-task models comparing with others">
+<img src="/2019/01/07/BioNER文献阅读报告/11.png" title="Performance of CollaboNet and the Multi-Task Model by Wang et al.">
+</li>
+</ol>
+<h3 id="A-transfer-learning-model-based-on-NeuroNER-with-silver-standard-corpora-SSCs"><a href="#A-transfer-learning-model-based-on-NeuroNER-with-silver-standard-corpora-SSCs" class="headerlink" title="A transfer learning model(based on NeuroNER with silver-standard corpora(SSCs))"></a>A transfer learning model(based on <a href="https://github.com/ Franck-Dernoncourt/NeuroNER/" target="_blank" rel="noopener">NeuroNER</a> with silver-standard corpora(SSCs))</h3><ol>
+<li><p><a href="https://github.com/BaderLab/Transfer-Learning-BNER-Bioinformatics-2018" target="_blank" rel="noopener">Corpus</a>:</p>
+<ul>
+<li><p>Gold standard corpora: 23 datasets on four entity types: chemicals, diseases, species and genes/proteins</p>
+<img src="/2019/01/07/BioNER文献阅读报告/14.png" title="Gold standard corpora (GSCs) used in this work">
+</li>
+<li><p>Silver standard corpora: 50 000 abstracts (from a total of 174 999) at random from the CALBC-SSC-III-Small corpus for each of the four entity types it annotates: chemicals and drugs (CHED), diseases (DISO), living beings (LIVB) and genes/proteins (PRGE).</p>
+</li>
+</ul>
+</li>
+<li><p>Innovation: It’s like an <strong>instance-based transfer learning</strong> method instead of <strong>parameter-transfer learning</strong> method used in multi-task learning model used in Crichton et al.(the first article) or <strong>feature-representation transfer learning</strong>.</p>
+</li>
+</ol>
+<h3 id="A-Neural-Multi-Task-Learning-Framework-to-Jointly-Model-Medical-Named-Entity-Recognition-and-Normalization"><a href="#A-Neural-Multi-Task-Learning-Framework-to-Jointly-Model-Medical-Named-Entity-Recognition-and-Normalization" class="headerlink" title="A Neural Multi-Task Learning Framework to Jointly Model Medical Named Entity Recognition and Normalization"></a>A Neural Multi-Task Learning Framework to Jointly Model Medical Named Entity Recognition and Normalization</h3><p>Medical named entity normalization (MEN) is to map obtained medical named entities into a controlled vocabulary. It is usually considered as a follow-up task of MER. In this paper, we consider MEN and MER as parallel tasks instead of hierarchical tasks.</p>
+<ol>
+<li><p><a href="https://github.com/SendongZhao/Multi-Task-Learning-for-MER-and-MEN" target="_blank" rel="noopener">Model</a>:</p>
+<img src="/2019/01/07/BioNER文献阅读报告/13.png" title="The main architecture of our neural multi-task learning model with two explicit feedback strategies for MER and MEN">
+<ul>
+<li>CNN for character-level representation</li>
+<li>Sequence-labeling with Bi-LSTM</li>
+<li>Multi-task mode with explicit feedback strategies</li>
+</ul>
+</li>
+<li><p>Corpus: BC5CDR task corpus  and the NCBI Disease corpus. To map disease mentions to MeSH/OMIM concepts (IDs), we use the Comparative Toxicogenomics Database (CTD) MEDIC disease vocabulary.</p>
+</li>
+<li><p>Error analysis: Out-of-Vocabulary words (OOV) performance  on Bi-LSTM-CNNs-CRF and feedback added.</p>
+</li>
+</ol>
+<h3 id="An-attention-based-BiLSTM-CRF-approach-to-document-level-chemical-named-entity-recognition"><a href="#An-attention-based-BiLSTM-CRF-approach-to-document-level-chemical-named-entity-recognition" class="headerlink" title="An attention-based BiLSTM-CRF approach to document-level chemical named entity recognition"></a>An attention-based BiLSTM-CRF approach to document-level chemical named entity recognition</h3><ol>
+<li><p><a href="https://github.com/lingluodlut/Att-ChemdNER" target="_blank" rel="noopener">Models</a>：</p>
+<p>Att-BiLSTM-CRF to document-level chemical NER model for enforcing tagging consistency </p>
+<img src="/2019/01/07/BioNER文献阅读报告/12.png" title="The basic sentence-level BiLSTM-CRF model and our document-level Att-BiLSTM-CRF model">
+<ul>
+<li>Features: Word embedding, Character embedding and Additional features(POS and chunking generated by the GENIA tagger)</li>
+<li>BiLSTM-CRF model</li>
+<li>Att-BiLSTM-CRF model: Introduced an attention matrix A to calculate the similarity between the current target word and all words in the document, not only in one sentence. The each value of A is derived by calculating  similarty of the words.</li>
+</ul>
+</li>
+<li><p>Results: </p>
+<p>State-of-the-art result in BioCreative IV chemical compound and drug name recognition (CHEMDNER) corpus and the BioCreative V chemical-disease relation (CDR) task corpus(the F-scores of 91.14 and 92.57%, respectively) </p>
+</li>
+</ol>
+<p>我们的思路暂时是：字符级别的CNN+词级别的BiLSTM+CRF，用协同多任务学习来提高精度，效果不好用银标准数据迁移学习，因为是工程项目，预处理和数据主导，模型新颖性要求不太高，有成型的模型最好，所以暂时不考虑attention</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NER/" rel="tag"><i class="fa fa-tag"></i> NER</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/22/NLP与ML的关键技术综述/" rel="next" title="NLP与ML的关键技术综述">
+                <i class="fa fa-chevron-left"></i> NLP与ML的关键技术综述
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/08/BioRE文献阅读报告/" rel="prev" title="BioRE文献阅读报告">
+                BioRE文献阅读报告 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="SonicYouth">
+          <p class="site-author-name" itemprop="name">SonicYouth</p>
+           
+              <p class="site-description motion-element" itemprop="description">白日梦王国</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/dearchill" target="_blank" title="Github">
+                  
+                    
+                      Github
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/190669470/" target="_blank" title="Douban">
+                  
+                    
+                      Douban
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#A-convolution-neural-network-multi-task-learning-model"><span class="nav-number">1.</span> <span class="nav-text">A convolution neural network multi-task learning model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-cross-type-multi-task-learning-model-based-on-LM-LSTM-CRF"><span class="nav-number">2.</span> <span class="nav-text">A cross-type multi-task learning model(based on LM-LSTM-CRF)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-collaboration-of-deep-neural-networks-model"><span class="nav-number">3.</span> <span class="nav-text">A collaboration of deep neural networks model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-transfer-learning-model-based-on-NeuroNER-with-silver-standard-corpora-SSCs"><span class="nav-number">4.</span> <span class="nav-text">A transfer learning model(based on NeuroNER with silver-standard corpora(SSCs))</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-Neural-Multi-Task-Learning-Framework-to-Jointly-Model-Medical-Named-Entity-Recognition-and-Normalization"><span class="nav-number">5.</span> <span class="nav-text">A Neural Multi-Task Learning Framework to Jointly Model Medical Named Entity Recognition and Normalization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#An-attention-based-BiLSTM-CRF-approach-to-document-level-chemical-named-entity-recognition"><span class="nav-number">6.</span> <span class="nav-text">An attention-based BiLSTM-CRF approach to document-level chemical named entity recognition</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SonicYouth</span>
+</div>
+
+
+<!-- <div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+-->
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共35.0k字</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+  <script src="/js/src/md5.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: 'b61fdebb6de09def4ffe',
+          clientSecret: '1dc1dd7b7382d093cf16977e282dd3bbcf301380',
+          repo: 'dearchill.github.io',
+          owner: 'dearchill',
+          admin: ['dearchill'],
+          id: md5(location.pathname),
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')
+       </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

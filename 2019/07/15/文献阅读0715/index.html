@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="本着思路优先、生物医学领域优先和开源代码优先的原则，这周准备写一些关系抽取的文献。因为关系抽取的文献多又杂，方法五花八门，不像NER模型简单应用起来也方便，所以看起来比较吃力。废话不多说了正文如下：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文献阅读0715">
+<meta property="og:url" content="http://yoursite.com/2019/07/15/文献阅读0715/index.html">
+<meta property="og:site_name" content="C&#39;est La Vie">
+<meta property="og:description" content="本着思路优先、生物医学领域优先和开源代码优先的原则，这周准备写一些关系抽取的文献。因为关系抽取的文献多又杂，方法五花八门，不像NER模型简单应用起来也方便，所以看起来比较吃力。废话不多说了正文如下：">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/07/15/文献阅读0715/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/15/文献阅读0715/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/15/文献阅读0715/3.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/15/文献阅读0715/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/15/文献阅读0715/5.png">
+<meta property="og:updated_time" content="2019-09-02T08:46:51.140Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="文献阅读0715">
+<meta name="twitter:description" content="本着思路优先、生物医学领域优先和开源代码优先的原则，这周准备写一些关系抽取的文献。因为关系抽取的文献多又杂，方法五花八门，不像NER模型简单应用起来也方便，所以看起来比较吃力。废话不多说了正文如下：">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/15/文献阅读0715/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/07/15/文献阅读0715/">
+
+
+
+
+
+  <title>文献阅读0715 | C'est La Vie</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="alternate" href="/atom.xml" title="C'est La Vie" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C'est La Vie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Love or death</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/15/文献阅读0715/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="SonicYouth">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C'est La Vie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">文献阅读0715</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-15T10:20:50+08:00">
+                2019-07-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,073
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  4
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本着思路优先、生物医学领域优先和开源代码优先的原则，这周准备写一些关系抽取的文献。因为关系抽取的文献多又杂，方法五花八门，不像NER模型简单应用起来也方便，所以看起来比较吃力。废话不多说了正文如下：</p>
+<a id="more"></a>
+<h4 id="Relation-Extraction-from-Biomedical-Literature-with-Minimal-Supervision-and-Grouping-Strategy-2014"><a href="#Relation-Extraction-from-Biomedical-Literature-with-Minimal-Supervision-and-Grouping-Strategy-2014" class="headerlink" title="Relation Extraction from Biomedical Literature with Minimal Supervision and Grouping Strategy(2014)"></a>Relation Extraction from Biomedical Literature with Minimal Supervision and Grouping Strategy(2014)</h4><h5 id="一句话总结"><a href="#一句话总结" class="headerlink" title="一句话总结"></a>一句话总结</h5><p>文章提出了一个新颖的远程监督模型，不需要手动标注数据，运用了外部知识库UMLS和分组策略，基于统计模型而非启发式规则，抽取文献中的基因和脑区间的基因表达关系。</p>
+<h5 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h5><ol>
+<li><p>实体标注：标注基因（BioTagger）和脑区实体(NIF和脑区词典)</p>
+</li>
+<li><p>分组策略：远程监督通常假设抽取到的实体对是独立的，但是在生物医学领域很容易出现平行的实体对，所以文章采用Stanford parser解析句子获取出现在相似位置的名词和名词短语（通常是and相连的），并把连续的实体组成一组然后表示它们与其他实体的关系。</p>
+<img src="/2019/07/15/文献阅读0715/1.png" title="以and相连的名词和名词短语">
+</li>
+<li><p>特征提取：词法特征（两实体的词袋，和实体间单词的词袋特征）和句法特征（最短依存路径）。</p>
+</li>
+<li><p>远程监督关系抽取(模型训练)：远程监督假设文本中至少出现一个实体对表现出知识库中相应实体对的关系，这里利用了生物医学领域的知识库UMLS，然后将关系对用无向图建模。</p>
+<img src="/2019/07/15/文献阅读0715/2.png">
+<p>建立条件概率公式如下，z(i)表示从每个句子x(i)抽取得到的关系，然后用y表示建立关系到知识库的映射：</p>
+<img src="/2019/07/15/文献阅读0715/3.png">
+<p>我理解的公式的意思是：(3)是只要有句子表现出知识库中的r(e1,e2)关系就Φcorpus设定为1，然后(2)是一个对数线性模型来衡量实体对的关系类型（是基因表达关系还是其他关系），(1)然后把基因表达关系映射到知识库中的基因表达关系上，训练公式(2)中的θ参数使结果概率最大化。</p>
+<p>(The model first predicts the relation types for the entity pair corresponding to each of its evidences.<br>Then, the predictions of relation types at sentential-level are aggregated to approximate the relation types for the entity pair at corpus-level. As long as one of the sentences is classified into the <em>geneExpression</em> category, the <em>geneExpression</em> relation is returned at corpus-level; otherwise, only <em>otherRelation</em> is returned.)</p>
+</li>
+</ol>
+<h5 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h5><p>找了10000篇全文，抽取大约得到30,000个有基因-脑区关系的句子，用分组得到包含大约7700个实体对，然后金标准标选了259个句子(114个基因表达，143个其他关系)用作模型测试，最后得到的精度大致和有监督的SVM相当。</p>
+<h4 id="Large-scale-extraction-of-gene-interactions-from-full-text-literature-using-DeepDive-2016"><a href="#Large-scale-extraction-of-gene-interactions-from-full-text-literature-using-DeepDive-2016" class="headerlink" title="Large-scale extraction of gene interactions from full-text literature using DeepDive(2016)"></a>Large-scale extraction of gene interactions from full-text literature using DeepDive(2016)</h4><h5 id="一句话总结-1"><a href="#一句话总结-1" class="headerlink" title="一句话总结"></a>一句话总结</h5><p>用deepdive远程监督抽取100000篇plos全文的基因间的关系(包括PPI和转录因子间的关系)。<a href="https://github.com/edoughty/deepdive_genegene_app" target="_blank" rel="noopener">项目地址</a></p>
+<h5 id="方法-1"><a href="#方法-1" class="headerlink" title="方法"></a>方法</h5><img src="/2019/07/15/文献阅读0715/4.png" title="预处理、构建候选实体对、deepdive推理计算概率、专家微调">
+<ol>
+<li>文献预处理：使用Stanford CoreNLP分句、分词、POS、NER、DP</li>
+<li>提取候选实体对：基于共现关系提取出现在HGNC的候选基因对，并提取特征(词窗特征、依存特征等)</li>
+<li>远程监督：运用外部数据库为候选基因对设labels为True，False or Unknown。为防止过拟合，设定一些高频的已知为True的基因对为Unknown，再随机设置一些unknown为负例</li>
+<li>用deepdive推理：将带is_correct label的候选基因对输入，50％的标签不动作为权重特征学习和校准，其他的用factor graph推测概率(deepdive的原理待补充)</li>
+<li>系统微调：每次迭代做错误分析和预测，用滚雪球策略增加正例(如果候选对被预测为真，加入到training中)</li>
+<li>两种评估：金标准PPI数据集测F值，以及随机挑选的正负基因对curation</li>
+</ol>
+<h4 id="Distant-Supervision-for-Large-Scale-Extraction-of-Gene–Disease-Associations-from-Literature-Using-DeepDive-2018"><a href="#Distant-Supervision-for-Large-Scale-Extraction-of-Gene–Disease-Associations-from-Literature-Using-DeepDive-2018" class="headerlink" title="Distant Supervision for Large-Scale Extraction of Gene–Disease Associations from Literature Using DeepDive(2018)"></a>Distant Supervision for Large-Scale Extraction of Gene–Disease Associations from Literature Using DeepDive(2018)</h4><p>用deepdive抽取了879585篇PubMed摘要中的75595个独特基因-疾病关系，没什么新意，思路和上一篇文章基本一样，放下结果吧。</p>
+<img src="/2019/07/15/文献阅读0715/5.png">
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/12/文献阅读0712/" rel="next" title="文献阅读0712">
+                <i class="fa fa-chevron-left"></i> 文献阅读0712
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/16/文献阅读0716/" rel="prev" title="文献阅读0716">
+                文献阅读0716 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="SonicYouth">
+          <p class="site-author-name" itemprop="name">SonicYouth</p>
+           
+              <p class="site-description motion-element" itemprop="description">白日梦王国</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/dearchill" target="_blank" title="Github">
+                  
+                    
+                      Github
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/190669470/" target="_blank" title="Douban">
+                  
+                    
+                      Douban
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Relation-Extraction-from-Biomedical-Literature-with-Minimal-Supervision-and-Grouping-Strategy-2014"><span class="nav-number">1.</span> <span class="nav-text">Relation Extraction from Biomedical Literature with Minimal Supervision and Grouping Strategy(2014)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#一句话总结"><span class="nav-number">1.1.</span> <span class="nav-text">一句话总结</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#方法"><span class="nav-number">1.2.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#结果"><span class="nav-number">1.3.</span> <span class="nav-text">结果</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Large-scale-extraction-of-gene-interactions-from-full-text-literature-using-DeepDive-2016"><span class="nav-number">2.</span> <span class="nav-text">Large-scale extraction of gene interactions from full-text literature using DeepDive(2016)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#一句话总结-1"><span class="nav-number">2.1.</span> <span class="nav-text">一句话总结</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#方法-1"><span class="nav-number">2.2.</span> <span class="nav-text">方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Distant-Supervision-for-Large-Scale-Extraction-of-Gene–Disease-Associations-from-Literature-Using-DeepDive-2018"><span class="nav-number">3.</span> <span class="nav-text">Distant Supervision for Large-Scale Extraction of Gene–Disease Associations from Literature Using DeepDive(2018)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SonicYouth</span>
+</div>
+
+
+<!-- <div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+-->
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共35.0k字</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+  <script src="/js/src/md5.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: 'b61fdebb6de09def4ffe',
+          clientSecret: '1dc1dd7b7382d093cf16977e282dd3bbcf301380',
+          repo: 'dearchill.github.io',
+          owner: 'dearchill',
+          admin: ['dearchill'],
+          id: md5(location.pathname),
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')
+       </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

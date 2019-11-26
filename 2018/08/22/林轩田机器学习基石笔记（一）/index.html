@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="机器学习,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="最近在想用哪个机器学习课程入门。说是“入门”，其实掉在坑里很久了，一直都没爬出来，原因是没有系统地把机器学习常用的算法都学一下。上学期选了一门《机器学习》课，老师讲得啰嗦又没有课程逻辑，经常上一秒是朴素贝叶斯下一秒到了深度学习。Andrew Ng的 ML 课程很好，也认真看完了，但还是感觉没学到位，而且课程的算法实现到作业都基于 Matlab，我更想找一个是 Python 的。">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="林轩田机器学习基石笔记（一）">
+<meta property="og:url" content="http://yoursite.com/2018/08/22/林轩田机器学习基石笔记（一）/index.html">
+<meta property="og:site_name" content="C&#39;est La Vie">
+<meta property="og:description" content="最近在想用哪个机器学习课程入门。说是“入门”，其实掉在坑里很久了，一直都没爬出来，原因是没有系统地把机器学习常用的算法都学一下。上学期选了一门《机器学习》课，老师讲得啰嗦又没有课程逻辑，经常上一秒是朴素贝叶斯下一秒到了深度学习。Andrew Ng的 ML 课程很好，也认真看完了，但还是感觉没学到位，而且课程的算法实现到作业都基于 Matlab，我更想找一个是 Python 的。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/08/22/林轩田机器学习基石笔记（一）/1.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/08/22/林轩田机器学习基石笔记（一）/2.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/08/22/林轩田机器学习基石笔记（一）/3.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/08/22/林轩田机器学习基石笔记（一）/4.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/08/22/林轩田机器学习基石笔记（一）/5.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/08/22/林轩田机器学习基石笔记（一）/6.jpg">
+<meta property="og:updated_time" content="2018-09-11T01:07:08.120Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="林轩田机器学习基石笔记（一）">
+<meta name="twitter:description" content="最近在想用哪个机器学习课程入门。说是“入门”，其实掉在坑里很久了，一直都没爬出来，原因是没有系统地把机器学习常用的算法都学一下。上学期选了一门《机器学习》课，老师讲得啰嗦又没有课程逻辑，经常上一秒是朴素贝叶斯下一秒到了深度学习。Andrew Ng的 ML 课程很好，也认真看完了，但还是感觉没学到位，而且课程的算法实现到作业都基于 Matlab，我更想找一个是 Python 的。">
+<meta name="twitter:image" content="http://yoursite.com/2018/08/22/林轩田机器学习基石笔记（一）/1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/22/林轩田机器学习基石笔记（一）/">
+
+
+
+
+
+  <title>林轩田机器学习基石笔记（一） | C'est La Vie</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="alternate" href="/atom.xml" title="C'est La Vie" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C'est La Vie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Love or death</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/22/林轩田机器学习基石笔记（一）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="SonicYouth">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C'est La Vie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">林轩田机器学习基石笔记（一）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-22T14:18:23+08:00">
+                2018-08-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,476
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  6
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近在想用哪个机器学习课程入门。说是“入门”，其实掉在坑里很久了，一直都没爬出来，原因是没有系统地把机器学习常用的算法都学一下。上学期选了一门《机器学习》课，老师讲得啰嗦又没有课程逻辑，经常上一秒是朴素贝叶斯下一秒到了深度学习。Andrew Ng的 ML 课程很好，也认真看完了，但还是感觉没学到位，而且课程的算法实现到作业都基于 Matlab，我更想找一个是 Python 的。<a id="more"></a> 虽然也有自己用 Python 重新实现的代码比如这个<a href="https://yoyoyohamapi.gitbooks.io/mit-ml/content/" target="_blank" rel="noopener">Python 版的笔记</a>，但我还是看得有点吃力（好吧我承认自己 Python 基础也很辣鸡）。周志华老师的西瓜书很好，但还是有中式教材的通病，不适合自学，适合做老师讲解的教材补充。最后千辛万苦找到了台大林轩田老师的两门课《机器学习基石》和《机器学习技法》，一看 syllabus 就疯狂爱上。于是决定写博客记笔记督促自己看完吧。<br><img src="/2018/08/22/林轩田机器学习基石笔记（一）/1.jpg" title="The Syllabus of Course"></p>
+<p>废话不多说，整个课程分为四个部分：</p>
+<ul>
+<li>When Can Machine Learn?</li>
+<li>Why Can Machine Learn?</li>
+<li>How Can Machine Learn?</li>
+<li>How Can Machine Learn Better?</li>
+</ul>
+<p>粗略看了一下 lecture1-8，对 when 和 why 有了相对清晰的认识，笔记如下：</p>
+<h4 id="The-Learning-Problem"><a href="#The-Learning-Problem" class="headerlink" title="The Learning Problem"></a>The Learning Problem</h4><p>讲了机器学习的定义：根据模型 H，使用算法 A，在训练样本 D 上进行训练，得到最好的 h，其对应的假设 g 就是我们最后需要的机器学习的模型函数，一般 g 接近于目标函数 f(x—&gt;y)。<br><img src="/2018/08/22/林轩田机器学习基石笔记（一）/2.jpg" title="Practical Definition of Machine Learning"></p>
+<h4 id="Learning-to-Answer-Yes-No"><a href="#Learning-to-Answer-Yes-No" class="headerlink" title="Learning to Answer Yes-No"></a>Learning to Answer Yes-No</h4><p>介绍了感知机模型PLA，要解决的问题是点线性分类，目的是求出权值w和阈值threshold($w_0$)，思路是先随机选一条直线分类，对$h(x) = sign(w_0 + w_1x_1 + w_2x_2)$与labels y符号不同的点，即分类错误的点做更正。算法伪代码为：</p>
+<blockquote>
+<p>if <script type="math/tex">y_n(t) * w_t^Tx_n(t) < 0</script>:<br>    then <script type="math/tex">w_{t+1} \leftarrow w_t + y_n(t) * x_n(t)</script></p>
+</blockquote>
+<p>然后证明了只要点是线性可分的，PLA总可以停下来并正确分类的。对线性不可分的情况转为 Packet Algorithm，即取分类错误点个数最小的直线作为最终选择的分类直线。</p>
+<h4 id="Types-of-Learning"><a href="#Types-of-Learning" class="headerlink" title="Types of Learning"></a>Types of Learning</h4><p>介绍了按照不同方式分类的机器学习：Out Space、Data Label、Protocol、Input Space</p>
+<ul>
+<li>按照结构输出空间分类：<strong>二元分类</strong>、多元分类、<strong>回归</strong>、结构化学习等</li>
+<li>按照输出标签y分类：监督式学习、非监督式学习、半监督式学习和增强学习等</li>
+<li>按照学习协议分类：batch learning, online learning, active learning</li>
+<li>按照输入X的 features 分类：concrete features, raw features（如图片的像素mxn), abstract features，后两种需要通过 Feature Transform 转为具体的特征</li>
+</ul>
+<h4 id="Feasibility-of-Learning"><a href="#Feasibility-of-Learning" class="headerlink" title="Feasibility of Learning"></a>Feasibility of Learning</h4><p>分析了机器学习的可行性。首先用没有免费午餐定理(NFL)说明了无法保证一个机器学习算法在训练数据以外的数据集上一定能分类或预测正确，即算法 A 总是最优能使假设 g = f。但根据霍夫丁不等式(Hoeffding’s inequality)，如果固定 h，只要样本 D 的个数 N 足够大，样本和总体的错误率就是PAC的。对 h 个数很多的情况，只要 h 个数 M 是有限的，且 N 足够大，就能保证 $E<em>{in} \approx E</em>{out}$，证明机器学习是可行的。<br><img src="/2018/08/22/林轩田机器学习基石笔记（一）/3.jpg" title="The Statistical Learning Flow"></p>
+<h4 id="Training-versus-Testing"><a href="#Training-versus-Testing" class="headerlink" title="Training versus Testing"></a>Training versus Testing</h4><img src="/2018/08/22/林轩田机器学习基石笔记（一）/4.jpg" title="Two Central Questions">
+<p>由课程第一部分引出来机器学习的两个核心问题：$E<em>{in}(g) = E</em>{out}(g)$和$E_{in}(g) = 0$，这两个问题刚好对应 test 和 train 两个过程。<br>为解决第一个问题，探讨了 M 个 hypothesis 到底可以划分为多少种。记 M = effective(N)，定义了成长函数$m_H(H)$：使 N 个点二分类个数最多的分类值（上界是 2^N），定义了截断点（break point）：成长函数不等于2^N 时的最小 N。我们猜测成长函数和 N 存在多项式关系，这样对霍夫丁不等式：</p>
+<script type="math/tex; mode=display">P[|E_{in}(g) - E_{out}(g)| > \epsilon] \leqslant 2 * M * exp(-2\epsilon^2 N)]</script><p>由于 M 相对 N 的增长速度远小于2^N，第一个问题基本满足。而对足够多的 M 总能找到一个 h 满足$E_{in}(g) \approx 0$，机器学习就是可行的。</p>
+<h4 id="Theory-of-Generalization"><a href="#Theory-of-Generalization" class="headerlink" title="Theory of Generalization"></a>Theory of Generalization</h4><p>这节证明了只要存在break point其成长函数$m_H(H)$就满足poly(N)。并将$m_H(H)$代入了Hoffding不等式中，推导出了 VC bound，证明了机器学习的可行性。（具体证明过程略）</p>
+<h4 id="The-VC-Dimension"><a href="#The-VC-Dimension" class="headerlink" title="The VC Dimension"></a>The VC Dimension</h4><p>引入了 VC Dimension 的定义：某假设集H能够shatter的最多inputs的个数，即最大完全正确的分类能力，等于break point数减一。以 PLA 算法为例，2D 下$d<em>{vc}$ = 3，高维的$d</em>{vc}$个数为维数加1。从物理意义上讲，VC Dimension 代表了假设空间的分类能力，即反映了H的自由度，也就等于features的个数。<br>$E<em>{out}$, $E</em>{in}$和模型复杂度随$d<em>{vc}$变化的曲线如图：<br><img src="/2018/08/22/林轩田机器学习基石笔记（一）/5.jpg" title="Error vs. VC Dimension"><br>所以选择合适的$d</em>{vc}$，或者features才能使模型具有很好的泛化能力。如2D PLA 下的线性分类，W = {$w_0,w_1,w_2$}，也就是说 input 只需要 3 个 features 就能很好学习。</p>
+<h4 id="Noise-and-Error"><a href="#Noise-and-Error" class="headerlink" title="Noise and Error"></a>Noise and Error</h4><p>这节讲了数据集有噪声时机器学习的适用性。<br>引入噪声后，数据集在某点处不是确定分布而变成按照P(y|x)概率分布，加入误差测量后，机器学习模型变为：<br><img src="/2018/08/22/林轩田机器学习基石笔记（一）/6.jpg" title="The New Learning Flow"><br>机器学习cost function常用的 Error 有0/1 error和squared error两类，训练的目的是使得Error($E_{in}$)不断变小。实际问题中，对false accept（误把负类当成正类）和false reject（误把正类当成负类）两类错误应该选择不同的权重进行错误惩罚。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"><i class="fa fa-tag"></i> 机器学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/17/小鼠脑科学知识库/" rel="next" title="小鼠脑科学知识库">
+                <i class="fa fa-chevron-left"></i> 小鼠脑科学知识库
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/23/林轩田机器学习基石笔记（二）/" rel="prev" title="林轩田机器学习基石笔记（二）">
+                林轩田机器学习基石笔记（二） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="SonicYouth">
+          <p class="site-author-name" itemprop="name">SonicYouth</p>
+           
+              <p class="site-description motion-element" itemprop="description">白日梦王国</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/dearchill" target="_blank" title="Github">
+                  
+                    
+                      Github
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/190669470/" target="_blank" title="Douban">
+                  
+                    
+                      Douban
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#The-Learning-Problem"><span class="nav-number">1.</span> <span class="nav-text">The Learning Problem</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Learning-to-Answer-Yes-No"><span class="nav-number">2.</span> <span class="nav-text">Learning to Answer Yes-No</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Types-of-Learning"><span class="nav-number">3.</span> <span class="nav-text">Types of Learning</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Feasibility-of-Learning"><span class="nav-number">4.</span> <span class="nav-text">Feasibility of Learning</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Training-versus-Testing"><span class="nav-number">5.</span> <span class="nav-text">Training versus Testing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Theory-of-Generalization"><span class="nav-number">6.</span> <span class="nav-text">Theory of Generalization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#The-VC-Dimension"><span class="nav-number">7.</span> <span class="nav-text">The VC Dimension</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Noise-and-Error"><span class="nav-number">8.</span> <span class="nav-text">Noise and Error</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SonicYouth</span>
+</div>
+
+
+<!-- <div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+-->
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共35.0k字</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+  <script src="/js/src/md5.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: 'b61fdebb6de09def4ffe',
+          clientSecret: '1dc1dd7b7382d093cf16977e282dd3bbcf301380',
+          repo: 'dearchill.github.io',
+          owner: 'dearchill',
+          admin: ['dearchill'],
+          id: md5(location.pathname),
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')
+       </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

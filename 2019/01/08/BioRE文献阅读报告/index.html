@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="上篇是生物医学命名实体识别(BioNER)的文献调研报告，这篇是关系抽取(BioRE)的调研。正文如下：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BioRE文献阅读报告">
+<meta property="og:url" content="http://yoursite.com/2019/01/08/BioRE文献阅读报告/index.html">
+<meta property="og:site_name" content="C&#39;est La Vie">
+<meta property="og:description" content="上篇是生物医学命名实体识别(BioNER)的文献调研报告，这篇是关系抽取(BioRE)的调研。正文如下：">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/01/08/BioRE文献阅读报告/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/08/BioRE文献阅读报告/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/08/BioRE文献阅读报告/15.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/08/BioRE文献阅读报告/3.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/08/BioRE文献阅读报告/16.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/08/BioRE文献阅读报告/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/08/BioRE文献阅读报告/6.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/08/BioRE文献阅读报告/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/08/BioRE文献阅读报告/10.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/08/BioRE文献阅读报告/11.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/08/BioRE文献阅读报告/12.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/08/BioRE文献阅读报告/17.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/08/BioRE文献阅读报告/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/08/BioRE文献阅读报告/8.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/08/BioRE文献阅读报告/13.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/08/BioRE文献阅读报告/14.png">
+<meta property="og:updated_time" content="2019-09-02T03:21:48.350Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="BioRE文献阅读报告">
+<meta name="twitter:description" content="上篇是生物医学命名实体识别(BioNER)的文献调研报告，这篇是关系抽取(BioRE)的调研。正文如下：">
+<meta name="twitter:image" content="http://yoursite.com/2019/01/08/BioRE文献阅读报告/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/08/BioRE文献阅读报告/">
+
+
+
+
+
+  <title>BioRE文献阅读报告 | C'est La Vie</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="alternate" href="/atom.xml" title="C'est La Vie" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C'est La Vie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Love or death</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/08/BioRE文献阅读报告/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="SonicYouth">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C'est La Vie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">BioRE文献阅读报告</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-08T09:49:30+08:00">
+                2019-01-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2,665
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  11
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>上篇是生物医学命名实体识别(BioNER)的文献调研报告，这篇是关系抽取(BioRE)的调研。<br>正文如下：<br> <a id="more"></a></p>
+<h3 id="Biomedical-Relation-Extraction-From-Binary-to-Complex"><a href="#Biomedical-Relation-Extraction-From-Binary-to-Complex" class="headerlink" title="Biomedical Relation Extraction: From Binary to Complex"></a>Biomedical Relation Extraction: From Binary to Complex</h3><p>这篇文章从生物医学领域关系抽取的主要内容出发综述。NRE早期多侧重于二元关系的抽取，如PPI(protein- protein interactions)，如今多侧重于复杂的生物分子关系。文章描述了基本的抽取框架、抽取系统和方法。<br><img src="/2019/01/08/BioRE文献阅读报告/1.png" title="The general framework of a relation extraction system"></p>
+<ol>
+<li><p>二元关系抽取</p>
+<ul>
+<li><p>基于规则和模式：”PROTEIN1.∗ not (interact|associate|bind|complex)..∗ PROTEIN2.”</p>
+</li>
+<li><p>基于机器学习方法：转为分类问题(POS tagging, syntactic parsing, and dependency parsing)</p>
+<img src="/2019/01/08/BioRE文献阅读报告/2.png" title="General procedure of a PPI extraction system employing different methodologies">
+</li>
+<li><p>可用数据集：</p>
+<img src="/2019/01/08/BioRE文献阅读报告/15.png" title="Available annotated corpora for binary relation extraction in the biomedical domain.">
+</li>
+</ul>
+</li>
+<li><p>复杂关系抽取</p>
+<ul>
+<li><p>生物关系事件触发词识别：</p>
+<ul>
+<li>基于词典</li>
+<li>基于规则：NN/NNS + of + PROTEIN and VBN + PROTEIN<img src="/2019/01/08/BioRE文献阅读报告/3.png" title="An example of identifying trigger words based on the predefined pattern."></li>
+<li>基于机器学习</li>
+</ul>
+</li>
+<li><p>事件抽取：</p>
+<ul>
+<li><p>基于规则：句法解析及修剪，候选词识别，模式抽取</p>
+<img src="/2019/01/08/BioRE文献阅读报告/16.png" title="Feature-based approaches to event extraction">
+</li>
+<li><p>基于特征的分类器：SVM, decision tree</p>
+</li>
+<li><p>基于核函数：𝐾 (𝑥, 𝑦) = 𝑒^(−𝛾(edit_distance(𝑥,𝑦))) </p>
+</li>
+</ul>
+</li>
+<li><p>联合抽取：通过一系列二元提取实现</p>
+</li>
+<li>可用数据集<br>BioNLP’09, The BioNLP’11 shared task, The GENIA task, The EPI task</li>
+</ul>
+</li>
+</ol>
+<h3 id="A-Survey-of-Deep-Learning-Methods-for-Relation-Extraction"><a href="#A-Survey-of-Deep-Learning-Methods-for-Relation-Extraction" class="headerlink" title="A Survey of Deep Learning Methods for Relation Extraction"></a>A Survey of Deep Learning Methods for Relation Extraction</h3><p>这篇文章详述了关系抽取领域使用的深度学习模型，虽然不是具体针对生物医学领域的。</p>
+<p>背景自不必多提，关系抽取是提取结构化信息构建知识库的关键。传统的抽取方法机器学习模型主要分为基于特征和基于核函数的方法，缺点是需要手动构建特征工程。<br>早期采用的数据集需要密集的人工标注，如ACE 2005和SemEval-2010 Task 8数据集。后来提出了远程监督的方法，其假设（两个实体如果在知识库中存在某种关系，则包含该两个实体的非结构化句子均能表示出这种关系）会导致大量的带噪声数据的产生，而后为了减少噪声，又加入多实例学习（如果一个实体对有某种关联，那么该实体对包中至少一个文档能表现出这种关联）。最常使用的远程监督数据集是New York Times corpus(NYT)。</p>
+<p>深度学习采用的模型也发生了演变，从最初仅使用词嵌入的TextCNN，到引入Position Embedding，再到PCNN（按实体位置分割句子，CNN对分割后的词对作最大池化而不是对整个句子），引入多实例学习（将包含相同实体对的句子划分成一个包，通过置信度来对包中的句子进行选择分类），最后到句子级别的注意力机制（计算包中每条句子的权重，再将包中的句子根据权重进行加和计算，得到包级别的特征表示）。</p>
+<p>按照运用的模型可以分为以下几类，按照通用领域模型改进——&gt;生物医学领域应用的方式组织：</p>
+<p><strong><em>1. CNN  and PCNN , with attention:</em></strong></p>
+<h3 id="Distant-Supervision-for-Relation-Extraction-via-Piecewise-Convolutional-Neural-Networks-2015"><a href="#Distant-Supervision-for-Relation-Extraction-via-Piecewise-Convolutional-Neural-Networks-2015" class="headerlink" title="Distant Supervision for Relation Extraction via Piecewise Convolutional Neural Networks(2015)"></a>Distant Supervision for Relation Extraction via Piecewise Convolutional Neural Networks(2015)</h3><p>A novel model based on PCNN(Piecewise Convolutional Neural Networks) with multi-instance learning to address two problems: one is the wrong heuristic alignment results caused by distant supervision, the other is feature enginerring noise.</p>
+<p>自动化所的文章，创新点：PCNN提出分段进行max pooling，从而考虑两个Entity之间的结构特征：</p>
+<img src="/2019/01/08/BioRE文献阅读报告/4.png" title="The architecture of PCNNs">
+<p>加入multi-instance learning，用来解决远程监督引发的错误标签问题：</p>
+<p>T bags {M1,M2,···, MT}，每个bag包含qi个实例，然后feed bags到神经网络学习，找到每个bag中最大的第j个实例，更新梯度，迭代收敛。</p>
+<h3 id="Neural-Relation-Extraction-with-Selective-Attention-over-Instances-2016"><a href="#Neural-Relation-Extraction-with-Selective-Attention-over-Instances-2016" class="headerlink" title="Neural Relation Extraction with Selective Attention over Instances(2016)"></a>Neural Relation Extraction with Selective Attention over Instances(2016)</h3><p>A sentence-level attention-based model over multiple instances for relation extraction to alleviate distant supervision noise.</p>
+<p>清华大学的文章，由于普通pcnn的multi-instance learning假设只要实体对的一个句子具有特定关系，那么该实体对也就具有该关系，并且选取置信度高的句子作为预测和训练，会丢失大量负例的有用信息。本文采用 Selective Attention over Instances，模型如下：</p>
+<img src="/2019/01/08/BioRE文献阅读报告/6.png" title="The architecture of sentence-level attention-based CNN">
+<p>该框架首先通过 CNN 编码后得到句子向量xi，再通过计算xi与实体关系s向量的相似度来赋予xi在整个句子集合中的权重。所采用的PCNN模型同上，将经过加权取和后的池化结果通过softmax输出label</p>
+<p>GitHub源码地址：<a href="https://github.com/thunlp/OpenNRE" target="_blank" rel="noopener">https://github.com/thunlp/OpenNRE</a></p>
+<h3 id="Distant-Supervision-for-Relation-Extraction-with-Sentence-Level-Attention-and-Entity-Descriptions-2017"><a href="#Distant-Supervision-for-Relation-Extraction-with-Sentence-Level-Attention-and-Entity-Descriptions-2017" class="headerlink" title="Distant Supervision for Relation Extraction with Sentence-Level Attention and Entity Descriptions(2017)"></a>Distant Supervision for Relation Extraction with Sentence-Level Attention and Entity Descriptions(2017)</h3><p>A sentence-level attention model to select the valid instances, which makes full use of the supervision information from knowledge bases(Freebase and Wikipedia)</p>
+<p>自动化所的文章，是对2015年组内那篇PCNN的改进，同上篇清华大学的文章类似，也是基于句子级别的Attention模型，对分类正确或错误的句子选取不同的权重，找到尽可能多的对关系分类有帮助的句子，弥补多实例学习不能充分运用每条句子信息的不足。</p>
+<img src="/2019/01/08/BioRE文献阅读报告/5.png" title="The architecture of APCNNs model">
+<p>其中PCNNs模型依然是词嵌入（Word2Vec + Position Embeddings）- 卷积 - 分段池化几部分，句子级别的注意力模型则是后面的权重提取和softmax部分，计算带权特征值，预测每个bag的label。</p>
+<p>其中 attention 权值的计算方法是：利用“实体-实体=关系”的方法表示实体间关系，同时利用卷积神经网络捕获实体描述页面特征，丰富实体表示，最后通过计算实体间关系与句子间的相似度赋予句子不同的权重。</p>
+<h3 id="Relation-Classification-via-Multi-Level-Attention-CNNs-2016"><a href="#Relation-Classification-via-Multi-Level-Attention-CNNs-2016" class="headerlink" title="Relation Classification via Multi-Level Attention CNNs(2016)"></a>Relation Classification via Multi-Level Attention CNNs(2016)</h3><p>A CNN model relying on two levels of attention in order to better discern patterns in heterogeneous contexts.</p>
+<p>具体分析参考这篇：<a href="http://www.shuang0420.com/2018/09/15/知识抽取-实体及关系抽取/" target="_blank" rel="noopener">Att-CNN</a></p>
+<p><strong><em>2. LSTM with Attention:</em></strong></p>
+<h3 id="A-Bi-LSTM-RNN-Model-for-Relation-Classification-Using-Low-Cost-Sequence-Features-2016"><a href="#A-Bi-LSTM-RNN-Model-for-Relation-Classification-Using-Low-Cost-Sequence-Features-2016" class="headerlink" title="A Bi-LSTM-RNN Model for Relation Classification Using Low-Cost Sequence Features(2016)"></a>A Bi-LSTM-RNN Model for Relation Classification Using Low-Cost Sequence Features(2016)</h3><p>A Bi-LSTM model based on low-cost sequence features to address relation classification, which using sentence segment to divide a sentence to two target entities and their three contexts, proving the context between two target entities can be used as an approximate replacement of the shortest dependency path when dependency parsing is not used.</p>
+<p>武大计算机系的文章，双向LSTM模型，用五部分表征句子序列建模：两个目标实体和三个上下文</p>
+<img src="/2019/01/08/BioRE文献阅读报告/10.png" title="The architecture of model">
+<p>关系抽取时使用五种特征表征输入：pre-trained word features, random word features, character features, POS features and WordNet hypernym features</p>
+<img src="/2019/01/08/BioRE文献阅读报告/11.png" title="Feature usage in Bi-LSTM-RNN">
+<p>在SemEval-2010 Task 8和BioNLP-ST 2016 Task BB3做了测试。测试结果：</p>
+<img src="/2019/01/08/BioRE文献阅读报告/12.png" title="Comparisons of neural network models in SemEval-2010">
+<p>GitHub源码地址：<a href="https://github.com/foxlf823/semeval-2010-task-8" target="_blank" rel="noopener">https://github.com/foxlf823/semeval-2010-task-8</a></p>
+<h3 id="Attention-Based-Bidirectional-Long-Short-Term-Memory-Networks-for-Relation-Classification（2016）"><a href="#Attention-Based-Bidirectional-Long-Short-Term-Memory-Networks-for-Relation-Classification（2016）" class="headerlink" title="Attention-Based Bidirectional Long Short-Term Memory Networks for Relation Classification（2016）"></a>Attention-Based Bidirectional Long Short-Term Memory Networks for Relation Classification（2016）</h3><p>自动化所的文章。前面已经有了CNN+Attn，其中CNN 可以处理文本较短的输入，但是长距离的依赖还是需要 LSTM，这一篇就是中规中矩的 BiLSTM+Attn 来做关系分类任务。</p>
+<img src="/2019/01/08/BioRE文献阅读报告/17.png" title="Att-BLSTM model struction">
+<h3 id="Semantic-Relation-Classification-via-Bidirectional-LSTM-Networks-with-Entity-aware-Attention-using-Latent-Entity-Typing-2019"><a href="#Semantic-Relation-Classification-via-Bidirectional-LSTM-Networks-with-Entity-aware-Attention-using-Latent-Entity-Typing-2019" class="headerlink" title="Semantic Relation Classification via Bidirectional LSTM Networks with Entity-aware Attention using Latent Entity Typing(2019)"></a>Semantic Relation Classification via Bidirectional LSTM Networks with Entity-aware Attention using Latent Entity Typing(2019)</h3><p>A novel end-to-end recurrent neural model which incorporates an entity-aware attention mechanism with a latent entity typing (LET) method.  State-of- the-art on the SemEval-2010 Task 8.</p>
+<p>GitHub源码地址：<a href="https://github.com/roomylee/entity-aware-relation-classification" target="_blank" rel="noopener">https://github.com/roomylee/entity-aware-relation-classification</a></p>
+<p><strong><em>3.  joint model:</em></strong></p>
+<h3 id="Joint-Extraction-of-Entities-and-Relations-Based-on-a-Novel-Tagging-Scheme-2017"><a href="#Joint-Extraction-of-Entities-and-Relations-Based-on-a-Novel-Tagging-Scheme-2017" class="headerlink" title="Joint Extraction of Entities and Relations Based on a Novel Tagging Scheme(2017)"></a>Joint Extraction of Entities and Relations Based on a Novel Tagging Scheme(2017)</h3><p>A end-to-end Bi-LSTM encoding model based on a novel tagging scheme to extract entities and their relations simultaneously.</p>
+<p>自动化所的文章。联合抽取方法使用一个模型同时实现实体抽取和关系抽取，能更好的整合实体及其关系之间的信息。但是现有的联合抽取方法大多都是基于特征来实现的，并且非常依赖其他可能会引入误差的NLP工具。为了减少人工抽取特征工作，提出基于神经网络的end-to-end模型来联合抽取实体和关系。本论文提出将一种新的标注方法和end-to-end的Bi-LSTM方法相结合的模型来解决联合抽取任务，将联合抽取问题转化为标注问题，这样就可以避免复杂的特征工程。</p>
+<p>本文提出的标签类型主要由三部分组成：实体标签-关系标签-三元组标签，实体标签用经典的“BIES” (Begin, Inside, End, Single)指代实体，关系标签用有限个关系种类指代关系，三元组标签把相同关系标签的实体联系起来，1代表第一个实体，2代表第二个实体。</p>
+<img src="/2019/01/08/BioRE文献阅读报告/7.png" title="Gold standard annotation for an example sentence based on our tagging scheme">
+<p>采用的端到端模型如下：</p>
+<img src="/2019/01/08/BioRE文献阅读报告/8.png" title="An illustration of our model">
+<h3 id="A-neural-joint-model-for-entity-and-relation-extraction-from-biomedical-text-2017"><a href="#A-neural-joint-model-for-entity-and-relation-extraction-from-biomedical-text-2017" class="headerlink" title="A neural joint model for entity and relation extraction from biomedical text(2017)"></a>A neural joint model for entity and relation extraction from biomedical text(2017)</h3><p>A Bi-LSTM-RNN neural joint model to extract biomedical entities as well as their relations simultaneously.</p>
+<p>武大计算机系的文章，是上面那篇A Bi-LSTM-RNN Model for Relation Classification Using Low-Cost Sequence Features 组内的改进，从pipeline models变到neural joint model，模型分为两部分，NER和RE：</p>
+<img src="/2019/01/08/BioRE文献阅读报告/13.png" title="The Bi-LSTM-RNN for NER and RE">
+<p>在drug and disease relations和bacteria and location relations上做了测试，发现结果精度只有略微提高。</p>
+<p>GitHub源码地址（基于C++）：<a href="https://github.com/foxlf823/njmere" target="_blank" rel="noopener">https://github.com/foxlf823/njmere</a></p>
+<h3 id="CoType-Joint-Extraction-of-Typed-Entities-and-Relations-with-Knowledge-Bases-2017"><a href="#CoType-Joint-Extraction-of-Typed-Entities-and-Relations-with-Knowledge-Bases-2017" class="headerlink" title="CoType: Joint Extraction of Typed Entities and Relations with Knowledge Bases.(2017)"></a>CoType: Joint Extraction of Typed Entities and Relations with Knowledge Bases.(2017)</h3><p>Joint extraction of typed entities and distant supervision. Including modeling automatically-labeled training corpus, joint entity and relation embedding, entity and relation inference.</p>
+<p>GitHub源码地址：<a href="https://github.com/INK-USC/DS-RelationExtraction" target="_blank" rel="noopener">https://github.com/INK-USC/DS-RelationExtraction</a></p>
+<h3 id="Attending-to-All-Mention-Pairs-for-Full-Abstract-Biological-Relation-Extraction-2017"><a href="#Attending-to-All-Mention-Pairs-for-Full-Abstract-Biological-Relation-Extraction-2017" class="headerlink" title="Attending to All Mention Pairs for Full Abstract Biological Relation Extraction(2017)"></a>Attending to All Mention Pairs for Full Abstract Biological Relation Extraction(2017)</h3><p>MIT的大神Patrick提出的bran，同时考虑所有的实体对并作出关系预测而不仅仅是单个句子内的；直接将全文用Transformer自注意编码器编码，以实现跨句子的实体关系抽取；用双向仿射变换操作来实现成对预测；joint model同时预测实体和关系。没有使用辅助的知识库，在Biocreative V CDR Dataset(chemical-disease)上实现了最高精度（不用特征工程，不加额外知识库）</p>
+<img src="/2019/01/08/BioRE文献阅读报告/14.png">
+<h3 id="Simultaneously-Self-Attending-to-All-Mentions-for-Full-Abstract-Biological-Relation-Extraction-2018"><a href="#Simultaneously-Self-Attending-to-All-Mentions-for-Full-Abstract-Biological-Relation-Extraction-2018" class="headerlink" title="Simultaneously Self-Attending to All Mentions for Full-Abstract Biological Relation Extraction(2018)"></a>Simultaneously Self-Attending to All Mentions for Full-Abstract Biological Relation Extraction(2018)</h3><p>A  bi-affine relation attention network that simultaneously scores all mention pairs within a document. Present a new CTD dataset constructed using strong-distant supervision.</p>
+<p>对上面那篇文章的完善和补充，还在Biocreative VI CDR Dataset(chemical-protein)上做了测试，并创建了一个新的数据量很大的CTD Dataset(chemical-gene-disease)造福BioNRE领域orz…</p>
+<p>GitHub源码地址：<a href="https://github.com/patverga/bran" target="_blank" rel="noopener">https://github.com/patverga/bran</a></p>
+<p><strong><em>4. Others:</em></strong></p>
+<h3 id="Bridging-semantics-and-syntax-with-graph-algorithms—state-of-the-art-of-extracting-biomedical-relations-2017"><a href="#Bridging-semantics-and-syntax-with-graph-algorithms—state-of-the-art-of-extracting-biomedical-relations-2017" class="headerlink" title="Bridging semantics and syntax with graph algorithms—state-of-the-art of extracting biomedical relations(2017)"></a>Bridging semantics and syntax with graph algorithms—state-of-the-art of extracting biomedical relations(2017)</h3><p>一篇用图模型提取生物医学关系的综述。</p>
+<h3 id="Deep-Residual-Learning-for-Weakly-Supervised-Relation-Extraction-2017"><a href="#Deep-Residual-Learning-for-Weakly-Supervised-Relation-Extraction-2017" class="headerlink" title="Deep Residual Learning for Weakly-Supervised Relation Extraction(2017)"></a>Deep Residual Learning for Weakly-Supervised Relation Extraction(2017)</h3><p>用图像处理领域大火的深度残差网络ResNet做关系抽取。</p>
+<p>GitHub源码地址：<a href="https://github.com/darrenyaoyao/ResCNN_RelationExtraction" target="_blank" rel="noopener">https://github.com/darrenyaoyao/ResCNN_RelationExtraction</a></p>
+<h3 id="Weakly-Supervised-Neural-Text-Classification-2018"><a href="#Weakly-Supervised-Neural-Text-Classification-2018" class="headerlink" title="Weakly-Supervised Neural Text Classification(2018)"></a>Weakly-Supervised Neural Text Classification(2018)</h3><p>A weakly-supervised method that addresses the lack of training data in neural text classification.<br>Including a pseudo-document generator, and a bootstraped self-training module.</p>
+<p>GitHub源码地址：<a href="https://github.com/yumeng5/WeSTClass" target="_blank" rel="noopener">https://github.com/yumeng5/WeSTClass</a></p>
+<h3 id="Open-Information-Extraction-with-Meta-pattern-Discovery-in-Biomedical-Literature-2018"><a href="#Open-Information-Extraction-with-Meta-pattern-Discovery-in-Biomedical-Literature-2018" class="headerlink" title="Open Information Extraction with Meta-pattern Discovery in Biomedical Literature(2018)"></a>Open Information Extraction with Meta-pattern Discovery in Biomedical Literature(2018)</h3><p>A novel paradigm to automatically extract structured information from unstructured text with no or little supervision. Using Clause+Pattern-guided information extraction system.</p>
+<p><strong><em>5. Supplement:</em></strong></p>
+<h3 id="Painless-Relation-Extraction-with-Kindred-2017"><a href="#Painless-Relation-Extraction-with-Kindred-2017" class="headerlink" title="Painless Relation Extraction with Kindred(2017)"></a>Painless Relation Extraction with Kindred(2017)</h3><p>一个用于生物医学关系抽取的Python工具包，集成了PubAnnotation, PubTator, and BioNLP Shared Task data</p>
+<p>GitHub源码地址：<a href="https://github.com/jakelever/kindred" target="_blank" rel="noopener">https://github.com/jakelever/kindred</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/07/BioNER文献阅读报告/" rel="next" title="BioNER文献阅读报告">
+                <i class="fa fa-chevron-left"></i> BioNER文献阅读报告
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/09/生物医学知识库技术调研/" rel="prev" title="生物医学知识库技术调研">
+                生物医学知识库技术调研 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="SonicYouth">
+          <p class="site-author-name" itemprop="name">SonicYouth</p>
+           
+              <p class="site-description motion-element" itemprop="description">白日梦王国</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/dearchill" target="_blank" title="Github">
+                  
+                    
+                      Github
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/190669470/" target="_blank" title="Douban">
+                  
+                    
+                      Douban
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Biomedical-Relation-Extraction-From-Binary-to-Complex"><span class="nav-number">1.</span> <span class="nav-text">Biomedical Relation Extraction: From Binary to Complex</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-Survey-of-Deep-Learning-Methods-for-Relation-Extraction"><span class="nav-number">2.</span> <span class="nav-text">A Survey of Deep Learning Methods for Relation Extraction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distant-Supervision-for-Relation-Extraction-via-Piecewise-Convolutional-Neural-Networks-2015"><span class="nav-number">3.</span> <span class="nav-text">Distant Supervision for Relation Extraction via Piecewise Convolutional Neural Networks(2015)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Neural-Relation-Extraction-with-Selective-Attention-over-Instances-2016"><span class="nav-number">4.</span> <span class="nav-text">Neural Relation Extraction with Selective Attention over Instances(2016)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distant-Supervision-for-Relation-Extraction-with-Sentence-Level-Attention-and-Entity-Descriptions-2017"><span class="nav-number">5.</span> <span class="nav-text">Distant Supervision for Relation Extraction with Sentence-Level Attention and Entity Descriptions(2017)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Relation-Classification-via-Multi-Level-Attention-CNNs-2016"><span class="nav-number">6.</span> <span class="nav-text">Relation Classification via Multi-Level Attention CNNs(2016)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-Bi-LSTM-RNN-Model-for-Relation-Classification-Using-Low-Cost-Sequence-Features-2016"><span class="nav-number">7.</span> <span class="nav-text">A Bi-LSTM-RNN Model for Relation Classification Using Low-Cost Sequence Features(2016)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Attention-Based-Bidirectional-Long-Short-Term-Memory-Networks-for-Relation-Classification（2016）"><span class="nav-number">8.</span> <span class="nav-text">Attention-Based Bidirectional Long Short-Term Memory Networks for Relation Classification（2016）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Semantic-Relation-Classification-via-Bidirectional-LSTM-Networks-with-Entity-aware-Attention-using-Latent-Entity-Typing-2019"><span class="nav-number">9.</span> <span class="nav-text">Semantic Relation Classification via Bidirectional LSTM Networks with Entity-aware Attention using Latent Entity Typing(2019)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Joint-Extraction-of-Entities-and-Relations-Based-on-a-Novel-Tagging-Scheme-2017"><span class="nav-number">10.</span> <span class="nav-text">Joint Extraction of Entities and Relations Based on a Novel Tagging Scheme(2017)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-neural-joint-model-for-entity-and-relation-extraction-from-biomedical-text-2017"><span class="nav-number">11.</span> <span class="nav-text">A neural joint model for entity and relation extraction from biomedical text(2017)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CoType-Joint-Extraction-of-Typed-Entities-and-Relations-with-Knowledge-Bases-2017"><span class="nav-number">12.</span> <span class="nav-text">CoType: Joint Extraction of Typed Entities and Relations with Knowledge Bases.(2017)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Attending-to-All-Mention-Pairs-for-Full-Abstract-Biological-Relation-Extraction-2017"><span class="nav-number">13.</span> <span class="nav-text">Attending to All Mention Pairs for Full Abstract Biological Relation Extraction(2017)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Simultaneously-Self-Attending-to-All-Mentions-for-Full-Abstract-Biological-Relation-Extraction-2018"><span class="nav-number">14.</span> <span class="nav-text">Simultaneously Self-Attending to All Mentions for Full-Abstract Biological Relation Extraction(2018)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bridging-semantics-and-syntax-with-graph-algorithms—state-of-the-art-of-extracting-biomedical-relations-2017"><span class="nav-number">15.</span> <span class="nav-text">Bridging semantics and syntax with graph algorithms—state-of-the-art of extracting biomedical relations(2017)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deep-Residual-Learning-for-Weakly-Supervised-Relation-Extraction-2017"><span class="nav-number">16.</span> <span class="nav-text">Deep Residual Learning for Weakly-Supervised Relation Extraction(2017)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Weakly-Supervised-Neural-Text-Classification-2018"><span class="nav-number">17.</span> <span class="nav-text">Weakly-Supervised Neural Text Classification(2018)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Open-Information-Extraction-with-Meta-pattern-Discovery-in-Biomedical-Literature-2018"><span class="nav-number">18.</span> <span class="nav-text">Open Information Extraction with Meta-pattern Discovery in Biomedical Literature(2018)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Painless-Relation-Extraction-with-Kindred-2017"><span class="nav-number">19.</span> <span class="nav-text">Painless Relation Extraction with Kindred(2017)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SonicYouth</span>
+</div>
+
+
+<!-- <div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+-->
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共35.0k字</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+  <script src="/js/src/md5.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: 'b61fdebb6de09def4ffe',
+          clientSecret: '1dc1dd7b7382d093cf16977e282dd3bbcf301380',
+          repo: 'dearchill.github.io',
+          owner: 'dearchill',
+          admin: ['dearchill'],
+          id: md5(location.pathname),
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')
+       </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

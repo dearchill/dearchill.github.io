@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="今天读了几篇词向量和预训练模型的文献，简单记一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文献阅读0709">
+<meta property="og:url" content="http://yoursite.com/2019/07/09/文献阅读0709/index.html">
+<meta property="og:site_name" content="C&#39;est La Vie">
+<meta property="og:description" content="今天读了几篇词向量和预训练模型的文献，简单记一下。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/07/09/文献阅读0709/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/09/文献阅读0709/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/09/文献阅读0709/3.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/09/文献阅读0709/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/09/文献阅读0709/5.png">
+<meta property="og:updated_time" content="2019-09-01T07:43:05.200Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="文献阅读0709">
+<meta name="twitter:description" content="今天读了几篇词向量和预训练模型的文献，简单记一下。">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/09/文献阅读0709/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/07/09/文献阅读0709/">
+
+
+
+
+
+  <title>文献阅读0709 | C'est La Vie</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="alternate" href="/atom.xml" title="C'est La Vie" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C'est La Vie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Love or death</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/09/文献阅读0709/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="SonicYouth">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C'est La Vie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">文献阅读0709</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-09T18:12:41+08:00">
+                2019-07-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,422
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  5
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>今天读了几篇词向量和预训练模型的文献，简单记一下。</p>
+<a id="more"></a>
+<h4 id="How-to-Train-Good-Word-Embeddings-for-Biomedical-NLP-2016"><a href="#How-to-Train-Good-Word-Embeddings-for-Biomedical-NLP-2016" class="headerlink" title="How to Train Good Word Embeddings for Biomedical NLP(2016)"></a>How to Train Good Word Embeddings for Biomedical NLP(2016)</h4><h5 id="一句话总结"><a href="#一句话总结" class="headerlink" title="一句话总结"></a>一句话总结</h5><p>这篇文章研究了用word2vec训练生物医学领域词向量时，训练数据集、模型结构和高阶参数对词向量质量的影响。评估方法用到了内部评估（单词相似测度）和外部评估（两个NER数据集）。</p>
+<h5 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h5><ol>
+<li>数据集大小的影响：选用了三种：PubMed数据集，PMC数据集，PubMed+PMC数据集，发现更大的数据集不一定能训练出更好的词向量，效果最好的是PubMed</li>
+<li>模型结构：对比了skip-gram（当前词预测上下文）和CBOW，发现skip-gram训练出来的要好一些</li>
+<li>6个高阶参数：negative sampling（对当前词随机采样N个负例进行预测），Subsampling(去除频率高的词的共现)，min-count(最低出现的频数），学习率，词向量维度，上下文的词窗大小。</li>
+<li>内部评估：UMNSRS单词相似度数据集，对出现的单词对，用模型计算余弦相似度然后再计算相关系数</li>
+<li>外部评估：用训练好的词嵌入向量加简单的前馈神经网络做下游NER任务，不做fine-tuning</li>
+</ol>
+<h5 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h5><p>具体参数的调整对结果的影响就不放上来了，最终选择的最佳参数和对应的精度如图。选这篇文章主要是之前看好多NER文献都在词向量部分提到这篇调参的启发，不过想不明白为什么还是每次都用词向量wikipedia-pubmed-and-PMC-w2v而不是这篇测试效果最好的wikipedia-PubMed，可能fine-tuning后效果提升更明显吧</p>
+<img src="/2019/07/09/文献阅读0709/1.png" title="最佳参数和相应的精度">
+<h4 id="A-Comparison-of-Word-Embeddings-for-the-Biomedical-Natural-Language-Processing-2018"><a href="#A-Comparison-of-Word-Embeddings-for-the-Biomedical-Natural-Language-Processing-2018" class="headerlink" title="A Comparison of Word Embeddings for the Biomedical Natural Language Processing(2018)"></a>A Comparison of Word Embeddings for the Biomedical Natural Language Processing(2018)</h4><h5 id="一句话总结-1"><a href="#一句话总结-1" class="headerlink" title="一句话总结"></a>一句话总结</h5><p>评估了从四种数据源（电子医疗、PubMed、Wikipedia、Google news）训练的词向量在运用到内部评估和外部下游任务(临床信息提取，生物医学信息提取，关系抽取)时的表现，发现没有通用的提高生物医学下游nlp任务的词嵌入模型。</p>
+<h5 id="方法-1"><a href="#方法-1" class="headerlink" title="方法"></a>方法</h5><ol>
+<li>内部评估使用的相似性测度的方式是：选择三个类别（disorder, symptom, drug）的目标词汇，从四种词向量中取出5个最相关的词，结果显然是用电子医疗和PubMed训练的词向量要好过Wikipedia和Google news；还有选择377个语义相关的词对，用四种词向量表示，观察词簇的密集程度，用相似性测度衡量（UMNSRS）</li>
+<li>外部评估分三部分<ul>
+<li>Clinical Information Extraction：检测骨折信息数据集；i2b2吸烟状态数据集。结果是通用词向量效果不一定比相关领域训练的词向量差</li>
+<li>Biomedical Information Retrieval：提供医疗决策信息。结果是四种词向量几乎都无精度提升</li>
+<li>drug-drug interaction (DDI) extraction：Google News词向量效果最好(虽然都差不多但还是很神奇)</li>
+</ul>
+</li>
+</ol>
+<h4 id="Comparing-CNN-and-LSTM-character-level-embeddings-in-BiLSTM-CRF-models-for-chemical-and-disease-named-entity-recognition-2018"><a href="#Comparing-CNN-and-LSTM-character-level-embeddings-in-BiLSTM-CRF-models-for-chemical-and-disease-named-entity-recognition-2018" class="headerlink" title="Comparing CNN and LSTM character-level embeddings in BiLSTM-CRF models for chemical and disease named entity recognition(2018)"></a>Comparing CNN and LSTM character-level embeddings in BiLSTM-CRF models for chemical and disease named entity recognition(2018)</h4><h5 id="一句话总结-2"><a href="#一句话总结-2" class="headerlink" title="一句话总结"></a>一句话总结</h5><p>比较了同样的BiLSTM+CRF模型用char-CNN和char-bilstm对CDNER的影响，发现无太大差别不过CNN可以显著降低模型复杂度明显提高计算效率。</p>
+<p>接着介绍一下NCBI NIH的几个词向量工作。</p>
+<h4 id="BioWordVec-improving-biomedical-word-embeddings-with-subword-information-and-MeSH-2018"><a href="#BioWordVec-improving-biomedical-word-embeddings-with-subword-information-and-MeSH-2018" class="headerlink" title="BioWordVec, improving biomedical word embeddings with subword information and MeSH(2018)"></a>BioWordVec, improving biomedical word embeddings with subword information and MeSH(2018)</h4><h5 id="一句话总结-3"><a href="#一句话总结-3" class="headerlink" title="一句话总结"></a>一句话总结</h5><p>传统直接用领域相关的语料训练词向量如word2vec或者glove，即使glove是context相关的能解决一词多义问题，但也还是没有利用到文本内部的结构信息，本文用MeSH条款提供subword信息，能够有效增加OOV的词嵌入表示，极大提升词嵌入性能。</p>
+<h5 id="方法-2"><a href="#方法-2" class="headerlink" title="方法"></a>方法</h5><img src="/2019/07/09/文献阅读0709/2.png">
+<ol>
+<li>采样MeSH条款序列：利用随机游走采样算法node2vec把用RDF构建的MeSH术语图转换成有序的术语序列，然后再把对应的id转成单词，这样链表就转成了具有语义关系的类似于句子的有向单词序列。</li>
+<li>子词嵌入模型：在统一的字符嵌入空间中学习文本序列和MeSH术语序列，也就是同时用PubMed和MeSH训练n-grams。用了类似于CBOW模型的fastText算法，学习分布式的字符表示，然后每个单词的词向量是这些n-grams的组合和原Vc的点乘，训练方式也类似于word2vec，只不过是训练字符，优化损失函数也是两个skip-gram损失函数的叠加。</li>
+</ol>
+<h5 id="结果-1"><a href="#结果-1" class="headerlink" title="结果"></a>结果</h5><img src="/2019/07/09/文献阅读0709/3.png">
+<h5 id="应用案例"><a href="#应用案例" class="headerlink" title="应用案例"></a>应用案例</h5><ol>
+<li>句子对间相似度计算：多采用将句子中的每个单词转换为词向量然后平均求相似度</li>
+<li><strong>生物医学关系抽取</strong>：这是我关注的重点。文章在二元关系PPI和多元关系DDI上做了测试，采用带dropout的CNN模型，还有复杂的RNN模型测试，均取得了最高的F-score。但在RNN上精度提升不明显，可能是SOTA的RNN模型是集成了最短路径依赖信息和POS嵌入的多层双向LSTM，降低了词嵌入层的重要性。</li>
+</ol>
+<img src="/2019/07/09/文献阅读0709/4.png" title="DDI 2013提取结果对比">
+<h4 id="BioSentVec-creating-sentence-embeddings-for-biomedical-texts-2018"><a href="#BioSentVec-creating-sentence-embeddings-for-biomedical-texts-2018" class="headerlink" title="BioSentVec: creating sentence embeddings for biomedical texts(2018)"></a>BioSentVec: creating sentence embeddings for biomedical texts(2018)</h4><h5 id="一句话总结-4"><a href="#一句话总结-4" class="headerlink" title="一句话总结"></a>一句话总结</h5><p>使用PubMed和MIMIC-III临床数据库类似于CBOW模型训练sent2vec，能在给定任意句子作为输入的情况下生成句子向量，能在高维空间中更好表征语义信息。在句子相似性和多标签句子分类数据集上做了测试。</p>
+<img src="/2019/07/09/文献阅读0709/5.png" title="在句子分类数据集上采用的模型和精度">
+<h4 id="Transfer-Learning-in-Biomedical-Natural-Language-Processing-An-Evaluation-of-BERT-and-ELMo-on-Ten-Benchmarking-Datasets-2019"><a href="#Transfer-Learning-in-Biomedical-Natural-Language-Processing-An-Evaluation-of-BERT-and-ELMo-on-Ten-Benchmarking-Datasets-2019" class="headerlink" title="Transfer Learning in Biomedical Natural Language Processing: An Evaluation of BERT and ELMo on Ten Benchmarking Datasets(2019)"></a>Transfer Learning in Biomedical Natural Language Processing: An Evaluation of BERT and ELMo on Ten Benchmarking Datasets(2019)</h4>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/08/文献阅读0708/" rel="next" title="文献阅读0708">
+                <i class="fa fa-chevron-left"></i> 文献阅读0708
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/10/文献阅读0710/" rel="prev" title="文献阅读0710">
+                文献阅读0710 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="SonicYouth">
+          <p class="site-author-name" itemprop="name">SonicYouth</p>
+           
+              <p class="site-description motion-element" itemprop="description">白日梦王国</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/dearchill" target="_blank" title="Github">
+                  
+                    
+                      Github
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/190669470/" target="_blank" title="Douban">
+                  
+                    
+                      Douban
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#How-to-Train-Good-Word-Embeddings-for-Biomedical-NLP-2016"><span class="nav-number">1.</span> <span class="nav-text">How to Train Good Word Embeddings for Biomedical NLP(2016)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#一句话总结"><span class="nav-number">1.1.</span> <span class="nav-text">一句话总结</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#方法"><span class="nav-number">1.2.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#结果"><span class="nav-number">1.3.</span> <span class="nav-text">结果</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Comparison-of-Word-Embeddings-for-the-Biomedical-Natural-Language-Processing-2018"><span class="nav-number">2.</span> <span class="nav-text">A Comparison of Word Embeddings for the Biomedical Natural Language Processing(2018)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#一句话总结-1"><span class="nav-number">2.1.</span> <span class="nav-text">一句话总结</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#方法-1"><span class="nav-number">2.2.</span> <span class="nav-text">方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Comparing-CNN-and-LSTM-character-level-embeddings-in-BiLSTM-CRF-models-for-chemical-and-disease-named-entity-recognition-2018"><span class="nav-number">3.</span> <span class="nav-text">Comparing CNN and LSTM character-level embeddings in BiLSTM-CRF models for chemical and disease named entity recognition(2018)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#一句话总结-2"><span class="nav-number">3.1.</span> <span class="nav-text">一句话总结</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BioWordVec-improving-biomedical-word-embeddings-with-subword-information-and-MeSH-2018"><span class="nav-number">4.</span> <span class="nav-text">BioWordVec, improving biomedical word embeddings with subword information and MeSH(2018)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#一句话总结-3"><span class="nav-number">4.1.</span> <span class="nav-text">一句话总结</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#方法-2"><span class="nav-number">4.2.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#结果-1"><span class="nav-number">4.3.</span> <span class="nav-text">结果</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#应用案例"><span class="nav-number">4.4.</span> <span class="nav-text">应用案例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BioSentVec-creating-sentence-embeddings-for-biomedical-texts-2018"><span class="nav-number">5.</span> <span class="nav-text">BioSentVec: creating sentence embeddings for biomedical texts(2018)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#一句话总结-4"><span class="nav-number">5.1.</span> <span class="nav-text">一句话总结</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Transfer-Learning-in-Biomedical-Natural-Language-Processing-An-Evaluation-of-BERT-and-ELMo-on-Ten-Benchmarking-Datasets-2019"><span class="nav-number">6.</span> <span class="nav-text">Transfer Learning in Biomedical Natural Language Processing: An Evaluation of BERT and ELMo on Ten Benchmarking Datasets(2019)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SonicYouth</span>
+</div>
+
+
+<!-- <div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+-->
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共35.0k字</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+  <script src="/js/src/md5.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: 'b61fdebb6de09def4ffe',
+          clientSecret: '1dc1dd7b7382d093cf16977e282dd3bbcf301380',
+          repo: 'dearchill.github.io',
+          owner: 'dearchill',
+          admin: ['dearchill'],
+          id: md5(location.pathname),
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')
+       </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

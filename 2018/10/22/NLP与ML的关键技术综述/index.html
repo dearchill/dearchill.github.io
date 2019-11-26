@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="NLP,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="好久没写了，果然flag IS flag。最近在系统调研和了解技术，所以这篇文章综述了知识库构建过程中需要用到的关键技术，主要是NLP和统计机器学习方面的，参考资料先列在这里：  吴军《数学之美》 李航《统计学习方法》 Natural Language Processing course by Michael Collins CS224n(Natural Language Processing w">
+<meta name="keywords" content="NLP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NLP与ML的关键技术综述">
+<meta property="og:url" content="http://yoursite.com/2018/10/22/NLP与ML的关键技术综述/index.html">
+<meta property="og:site_name" content="C&#39;est La Vie">
+<meta property="og:description" content="好久没写了，果然flag IS flag。最近在系统调研和了解技术，所以这篇文章综述了知识库构建过程中需要用到的关键技术，主要是NLP和统计机器学习方面的，参考资料先列在这里：  吴军《数学之美》 李航《统计学习方法》 Natural Language Processing course by Michael Collins CS224n(Natural Language Processing w">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/10/22/NLP与ML的关键技术综述/1.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/22/NLP与ML的关键技术综述/2.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/22/NLP与ML的关键技术综述/4.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/22/NLP与ML的关键技术综述/3.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/10/22/NLP与ML的关键技术综述/5.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/22/NLP与ML的关键技术综述/6.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/22/NLP与ML的关键技术综述/8.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/10/22/NLP与ML的关键技术综述/9.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/10/22/NLP与ML的关键技术综述/13.gif">
+<meta property="og:image" content="http://yoursite.com/2018/10/22/NLP与ML的关键技术综述/14.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/10/22/NLP与ML的关键技术综述/15.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/22/NLP与ML的关键技术综述/10.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/22/NLP与ML的关键技术综述/11.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/22/NLP与ML的关键技术综述/16.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/22/NLP与ML的关键技术综述/17.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/22/NLP与ML的关键技术综述/18.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/22/NLP与ML的关键技术综述/19.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/10/22/NLP与ML的关键技术综述/20.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/10/22/NLP与ML的关键技术综述/21.png">
+<meta property="og:updated_time" content="2019-07-30T07:31:13.920Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NLP与ML的关键技术综述">
+<meta name="twitter:description" content="好久没写了，果然flag IS flag。最近在系统调研和了解技术，所以这篇文章综述了知识库构建过程中需要用到的关键技术，主要是NLP和统计机器学习方面的，参考资料先列在这里：  吴军《数学之美》 李航《统计学习方法》 Natural Language Processing course by Michael Collins CS224n(Natural Language Processing w">
+<meta name="twitter:image" content="http://yoursite.com/2018/10/22/NLP与ML的关键技术综述/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/22/NLP与ML的关键技术综述/">
+
+
+
+
+
+  <title>NLP与ML的关键技术综述 | C'est La Vie</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="alternate" href="/atom.xml" title="C'est La Vie" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C'est La Vie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Love or death</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/22/NLP与ML的关键技术综述/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="SonicYouth">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C'est La Vie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">NLP与ML的关键技术综述</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-22T16:46:02+08:00">
+                2018-10-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  3,549
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  13
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>好久没写了，果然flag IS flag。最近在系统调研和了解技术，所以这篇文章综述了知识库构建过程中需要用到的关键技术，主要是NLP和统计机器学习方面的，参考资料先列在这里：</p>
+<ul>
+<li>吴军《数学之美》</li>
+<li>李航《统计学习方法》</li>
+<li>Natural Language Processing course by Michael Collins</li>
+<li>CS224n(Natural Language Processing with Deep Learning)</li>
+<li>其他相关博客<a id="more"></a>
+</li>
+</ul>
+<h3 id="语言模型-Language-Modeling-的演化及相关算法"><a href="#语言模型-Language-Modeling-的演化及相关算法" class="headerlink" title="语言模型(Language Modeling)的演化及相关算法"></a>语言模型(Language Modeling)的演化及相关算法</h3><p>统计语言模型是自然语言处理的基础，用来描述词、语句乃至于整个文档的概率分布模型。<br>单个句子出现的概率$P(S) = P(w<em>1,w_2,…,w_n)$，其中$w_i$表示单个词。用条件概率展开为$P(w_1,w_2,…,w_n) = P(w_1)·P(w_2|w_1)·P(w_3|w_1,w_2)···P(w_n|w_1,w_2,…,w</em>{n-1})$。主要模型的提出和演化过程如图：<br><img src="/2018/10/22/NLP与ML的关键技术综述/1.png" title="基于Language Model的NLP主要模型演化"></p>
+<h4 id="词袋模型Bag-of-Word-BOW-及相关算法"><a href="#词袋模型Bag-of-Word-BOW-及相关算法" class="headerlink" title="词袋模型Bag of Word(BOW)及相关算法"></a>词袋模型Bag of Word(BOW)及相关算法</h4><p>BOW认为一篇文档是由一组词构成的一个集合，词与词之间没有顺序以及先后的关系，词向量与原来文本中单词出现的顺序没有关系，而是词典中每个单词在文本中出现的频率。一篇文档可以包含多个主题，文档中每一个词都由其中的一个主题生成。</p>
+<h5 id="TF-IDF（词频-逆文档矩阵）统计词频"><a href="#TF-IDF（词频-逆文档矩阵）统计词频" class="headerlink" title="TF-IDF（词频-逆文档矩阵）统计词频"></a>TF-IDF（词频-逆文档矩阵）统计词频</h5><p>TF-IDF可以反映字词于一个文件集而非单个文档的重要程度。字词的重要性随着它在文件中出现的次数成正比增加，但同时会随着它在文件集中出现的频率成反比下降。<br><img src="/2018/10/22/NLP与ML的关键技术综述/2.png" title="TF-IDF计算公式"></p>
+<h5 id="LSA-潜在语义分析-构建主题模型"><a href="#LSA-潜在语义分析-构建主题模型" class="headerlink" title="LSA(潜在语义分析)构建主题模型"></a>LSA(潜在语义分析)构建主题模型</h5><p>LSA假设如果两个词多次出现在同一文档中，则这两个词在语义上具有相似性。这种模型遍历语料库得到全部词的TF-IDF，然后以行表词，列表文件，构成词语-文档权重矩阵X，通过SVD（奇异值分解）降维化解，得到U（文档-主题矩阵）和V（词语-主题矩阵）。有了相似度则可以对文本和文档进行聚类，LSA的目标是从文本中发现文章隐含的主题或者概念。<br><img src="/2018/10/22/NLP与ML的关键技术综述/4.png" title="SVD分解词语-文档矩阵"></p>
+<h5 id="PLSA（概率潜在语义分析）"><a href="#PLSA（概率潜在语义分析）" class="headerlink" title="PLSA（概率潜在语义分析）"></a>PLSA（概率潜在语义分析）</h5><p>PLSA引入概率模型代替SVD解决问题，其核心思想是找到一个潜在主题的概率模型，该模型可以生成我们在文档-术语矩阵中观察到的数据。如下图所示：<br><img src="/2018/10/22/NLP与ML的关键技术综述/3.jpg" title="PLSA模型"><br>我们有两种方式产生语言模型。<br>给定文档d，我们先根据p(z|d)从中选取d的一个主题z，再根据p(w|z)的概率产生一个单词w，即$ P(w,d) = P(d)\sum P(z|d)P(w|z) $<br>其中P(d)可直接由语料库确定，多项式分布P(z|d)和P(w|z)采用最大似然估计模型参数值，通过最大熵算法（EM）来迭代收敛。<br>给定主题z，我们用P(d|z)和P(w|z)单独生成文档，即$ P(w,d) = P(z)\sum P(d|z)P(w|z) $，这里产生了PLSA与LSA的对应关系：给定主题P(d|z) 的文档概率对应于文档-主题矩阵U，给定主题 P(w|z) 的单词概率对应于词语-主题矩阵V。</p>
+<h5 id="LDA（隐含狄利克雷分布）"><a href="#LDA（隐含狄利克雷分布）" class="headerlink" title="LDA（隐含狄利克雷分布）"></a>LDA（隐含狄利克雷分布）</h5><p>LDA是PLSA的贝叶斯版本，它是对PLSA中的两个多项式分布P(c|d)和P(w|c)引入先验得到的，是一种无监督学习算法，在训练时不需要手工标注的训练集，需要的仅仅是文档集以及指定主题的数量。LDA为三层贝叶斯概率模型，包含词、主题（隐含）和文档三层结构，文档-主题分布和词语-主题分布分别是从两个狄利克雷分布α和β中抽样得到，由此生成文档。模型如下：<br><img src="/2018/10/22/NLP与ML的关键技术综述/5.png" title="LDA贝叶斯网络"><br>LDA比PLSA具有更好的泛化能力。在PLSA中，文档概率是数据集中的一个固定点，如果没有看到那个文件，我们就没有那个数据点。然而，在LDA中，数据集作为训练数据用于文档-主题分布的狄利克雷分布。即使没有看到某个文件，我们可以很容易地从狄利克雷分布中抽样得来，并继续接下来的操作。</p>
+<h4 id="语言模型系列之N-Gram、NNLM及word2vec"><a href="#语言模型系列之N-Gram、NNLM及word2vec" class="headerlink" title="语言模型系列之N-Gram、NNLM及word2vec"></a>语言模型系列之N-Gram、NNLM及word2vec</h4><p>语言模型一般采用马尔可夫假设简化为N元模型，以三元模型(Trigram Model)为例，$P(S)=P(w<em>1)·P(w_2|w_1)·P(w_3|w_1,w_2)···P(w_i|w</em>{i-2},w<em>{i-1})···P(w_n|w</em>{n-2},w<em>{n-1})$，然后我们通过计算语料库中词组的频次比例，得到模型参数，如$P(w_n|w</em>{n-2},w<em>{n-1}) = \frac{c(w</em>{n-2},w<em>{n-1},w_n)}{c(w</em>{n-2},w_{n-1})}$。此外，为了消除样本不足时的零概率问题，引入插值法和折扣法。</p>
+<h5 id="N-Gram"><a href="#N-Gram" class="headerlink" title="N-Gram"></a>N-Gram</h5><p>N-Gram的基本思想是将文本里面的内容按照字节进行大小为N的滑动窗口操作，形成长度是N的字节片段序列。N-Gram可与贝叶斯公式结合应用于分词和词性标注，特别是中文CN-WordSeg和CN-POS。</p>
+<h5 id="NNLM（神经网络语言模型）"><a href="#NNLM（神经网络语言模型）" class="headerlink" title="NNLM（神经网络语言模型）"></a>NNLM（神经网络语言模型）</h5><p>Bengio提出的三层神经网络语言模型如图：<br><img src="/2018/10/22/NLP与ML的关键技术综述/6.png" title="神经网络语言模型"><br>首先介绍word embedding（单词嵌入）的概念：就是将文档单词序列的单一向量表示映射到低维连续密集向量空间表示。即从One hot representation到Distributed representation的转换。<br>神经网络(NN)的输入层为当前词wt的前n-1个词各自的词向量拼接，合计共(n−1)m维，隐藏层以tanh作为激活函数，输出层为当前词的softmax归一化概率。NN不仅学习Weight和bias，还还同时对输入层的词向量进行训练。方法是用梯度下降法最小化模型损失函数$ L = -\sum log(P(w<em>t|w</em>{t-n+1},w<em>{t-n+2}…w</em>{t-1})) $</p>
+<h5 id="CBOW-amp-Skip-gram"><a href="#CBOW-amp-Skip-gram" class="headerlink" title="CBOW &amp; Skip-gram"></a>CBOW &amp; Skip-gram</h5><p>CBOW和Skip-gram去掉了NNLM的隐藏层，而着重突出输入层one-hot到word embedding这一步，即word2vec（word embedding的一种）。先给出区别：<br>如果是拿一个词语的上下文作为输入，来预测这个词语本身，则是CBOW模型。其优化的目标函数为$ L = \sum log(P(w|Context(w)))$，如图：<br><img src="/2018/10/22/NLP与ML的关键技术综述/8.jpg" title="多词上下文CBOW模型"><br>而如果是用一个词语作为输入，来预测它周围的上下文，那这个模型叫做Skip-gram模型，其优化的目标函数为$ L = \sum log(P(Context(w)|w)) $，如图：<br><img src="/2018/10/22/NLP与ML的关键技术综述/9.jpg" title="多词上下文Skip-gram模型"><br>此外，通过hierarchical softmax和negative sampling两种方法优化词向量，分别使用了Huffman编码和负采样算法。</p>
+<h5 id="lda2vec：word2vec-和-LDA-的扩展"><a href="#lda2vec：word2vec-和-LDA-的扩展" class="headerlink" title="lda2vec：word2vec 和 LDA 的扩展"></a>lda2vec：word2vec 和 LDA 的扩展</h5><p>lda2vec 不直接用单词向量来预测上下文单词，而是使用上下文向量来进行预测。单词向量由前面的skip-gram模型生成。而文档向量是文档权重矩阵和主题矩阵的加权组合。lda2vec不仅能学习单词的词嵌入（和上下文向量嵌入），还同时学习主题表征和文档表征。如图：<br><img src="/2018/10/22/NLP与ML的关键技术综述/13.gif" title="lda2vec实例"></p>
+<h4 id="RNN及后续，LSTM和Attention"><a href="#RNN及后续，LSTM和Attention" class="headerlink" title="RNN及后续，LSTM和Attention"></a>RNN及后续，LSTM和Attention</h4><p>NLP领域一个重大的突破是引入深度学习，通常用来进行结构化预测的自然语言任务，如词性标记、命名实体识别等。所以这里也综述一下神经网络的架构。</p>
+<h5 id="全连接前馈神经网络（每个神经元只与前一层的神经元相连）"><a href="#全连接前馈神经网络（每个神经元只与前一层的神经元相连）" class="headerlink" title="全连接前馈神经网络（每个神经元只与前一层的神经元相连）"></a>全连接前馈神经网络（每个神经元只与前一层的神经元相连）</h5><p>如多层感知机MLP。MLP可以被看作是一个有向图，由多个的节点层所组成，每一层都全连接到下一层。除了输入节点，每个节点都是一个带有非线性激活函数的神经元，MLP采用反向传播算法训练。<br><img src="/2018/10/22/NLP与ML的关键技术综述/14.jpg" title="有一个隐藏层的多层感知器"></p>
+<h5 id="具有卷积和池化层的前馈神经网络"><a href="#具有卷积和池化层的前馈神经网络" class="headerlink" title="具有卷积和池化层的前馈神经网络"></a>具有卷积和池化层的前馈神经网络</h5><p>如CNN，被设计来识别大型结构中的指示性局部预测因子，<br>以一个经典的LeNet-5网络为例，包含卷积层、池化层和最后的全连接层。卷积层的作用局部特征提取；池化层的作用是对原始特征信号进行抽象，大幅度减少训练参数，减轻模型过拟合程度。<br><img src="/2018/10/22/NLP与ML的关键技术综述/15.png" title="神经网络语言模型"><br>CNN 对诸如情感分析（Sentiment analysis）这样的分类NLP任务非常有效，因为带有显著情感极性的词组会对结果有比较关键的影响。</p>
+<h5 id="循环神经网络（Recurrent-Neural-Networks）"><a href="#循环神经网络（Recurrent-Neural-Networks）" class="headerlink" title="循环神经网络（Recurrent Neural Networks）"></a>循环神经网络（Recurrent Neural Networks）</h5><p>RNN带有自循环结构，将状态在自身网络中循环传递，使得信息可以保存延续到下个时刻，因此可以接受更广泛的时间序列结构输入，流程如图：<br><img src="/2018/10/22/NLP与ML的关键技术综述/10.png" title="RNN 中的序列处理过程"></p>
+<h5 id="LSTM和GRU"><a href="#LSTM和GRU" class="headerlink" title="LSTM和GRU"></a>LSTM和GRU</h5><p>由于RNN进行的是一级一级的传递，所以缺陷是很难应用与所需预测位置较远的相关信息，改进后的长短期记忆网络LSTM很好解决了这个问题。它通过左到右依次为遗忘门、传入门、输出门三类门结构来改变cell状态和输出值，如图：<br><img src="/2018/10/22/NLP与ML的关键技术综述/11.png" title="LSTM基本结构"><br>GRU把细胞状态和隐藏状态进行了合并，省去了细胞结构，只采用了重置门和更新门<br><img src="/2018/10/22/NLP与ML的关键技术综述/16.png" title="LSTM的变种GRU"></p>
+<h5 id="双向RNN"><a href="#双向RNN" class="headerlink" title="双向RNN"></a>双向RNN</h5><p>另一个对RNN的改进是Bidirectional RNN，它隐藏层要保存两个值，A参与正向计算，A’参与反向计算，最终的输出值y取决于A和A’。其中方框A内的序列也可以替换为LSTM或CNN等<br><img src="/2018/10/22/NLP与ML的关键技术综述/17.png" title="双向RNN"></p>
+<h5 id="递归神经网络（Recursive-Neural-Networks）"><a href="#递归神经网络（Recursive-Neural-Networks）" class="headerlink" title="递归神经网络（Recursive Neural Networks）"></a>递归神经网络（Recursive Neural Networks）</h5><p>用循环神经网络来建模的话就是假设句子后面的词的信息和前面的词有关，在神经网络结构上表现为后面的神经网络的隐藏层的输入是前面的神经网络的隐藏层的输出；而用递归神经网络建模的话，就是假设句子是一个树状结构，由几个部分(主语，谓语，宾语）组成，而每个部分又可以在分成几个小部分，即某一部分的信息由它的子树的信息组合而来，整句话的信息由组成这句话的几个部分组合而来。<br><img src="/2018/10/22/NLP与ML的关键技术综述/18.png" title="递归神经网络"></p>
+<h5 id="序列变换模型（seq2seq-models）"><a href="#序列变换模型（seq2seq-models）" class="headerlink" title="序列变换模型（seq2seq models）"></a>序列变换模型（seq2seq models）</h5><p>基于注意力的模型相比基于RNN的模型需要训练的资源更少，如Attention机制。它的出发点是将注意力集中在部分显著或者是感兴趣的点上，对自然语言处理的语言模型P(w|Context(w))来说，在选择恰当而非全部的context并用它生成下一个状态。有点类似于卷积神经网络处理学习图像细节，如图：<br><img src="/2018/10/22/NLP与ML的关键技术综述/19.jpg" title="Attention based model"></p>
+<h3 id="概率图模型"><a href="#概率图模型" class="headerlink" title="概率图模型"></a>概率图模型</h3><p>统计概率图体系如下：<br><img src="/2018/10/22/NLP与ML的关键技术综述/20.jpg" title="图模型"><br>在概率图模型中，数据由公式G=(Y,E)建模表示，Y表节点（随机变量），E表边（依赖关系）。可以看出，贝叶斯网络是有向的，适合为有单向依赖的数据建模；马尔可夫网络无向，适合实体之间互相依赖的建模。它们的核心差异表现在如何求P=(Y)，即怎么表示$ Y=（y<em>{1},\cdots,y</em>{n}）$这个联合概率。其中有向图采用条件概率乘积求概率，无向图采用分解然后求势函数乘积的方式求概率。<br>另外解释一下判别式模型和生成式模型的区别：<br>判别式模型学习数据的features然后预测label，是对P(Y|X)建模，典型是逻辑回归LR。而生成式模型先从训练样本中学习联合概率分布，之后给定样本X通过条件概率得到Y的分布：P(Y|X) = P(X,Y)/P(X) = P(X|Y)P(Y)/P(X)，典型是朴素贝叶斯NB。<br>主要介绍HMM和CRF，它们在解决序列标注问题上有很大用途，过程是：先预先建立模型，然后在给定的数据上训练模型，确定参数，最后用确定的模型做序列标注问题。</p>
+<h4 id="隐马尔可夫模型HMM"><a href="#隐马尔可夫模型HMM" class="headerlink" title="隐马尔可夫模型HMM"></a>隐马尔可夫模型HMM</h4><p>有向图，典型生成式模型，解决编码和解码问题。其中Wi是可见状态，ti是隐含状态，隐含状态间有一个叫转移概率，隐含状态和可见状态之间有一个叫输出概率，如图：<br><img src="/2018/10/22/NLP与ML的关键技术综述/21.png" title="HMM"><br>$ P(t<em>1,t_2,…,w_1,w_2,…) = \prod P(t_i|t</em>{i-1})·P(w<em>i|t_i)$<br>而$ P(w_i|t_i) = \frac{P(w_i,t_i)}{P(t_i)} $可以通过语料库标注值计算，$P(t_i|t</em>{i-1}) = \frac{P(t<em>i,t</em>{i-1})}{t_{i-1}} $按照统计语言模型的训练方法得到。<br>HMM模型中存在两个假设：一是输出观察值之间严格独立，二是状态的转移过程中当前状态只与前一状态有关。<br>训练过程（模型参数确定）采用鲍姆-韦尔奇算法（类似于期望最大化算法），就是先初始化一套值，然后不断迭代估计新的模型参数，使输出概率最大化。<br>训练好模型参数后，给定模型和输出序列找到可能产生输出的状态序列，这就是序列标注问题：在新的观测序列上找出一条概率最大最可能的隐状态序列，采用viterbi算法解决。</p>
+<h4 id="条件随机场CRF"><a href="#条件随机场CRF" class="headerlink" title="条件随机场CRF"></a>条件随机场CRF</h4><p>无向图。条件随机场是在给定的随机变量X的条件下，随机变量（隐含状态序列）的马尔可夫随机场，它解决了HMM输出独立性假设的问题。它需要预先定义特征函数</p>
+<h4 id="LSTM-CRF"><a href="#LSTM-CRF" class="headerlink" title="LSTM+CRF"></a>LSTM+CRF</h4><p>这是我们将要在命名实体识别和关系抽取中用到的关键性算法。<br>它是LSTM和CRF的合体。其中LSTM是依靠神经网络的超强非线性拟合能力来为每个token预测一个label，而CRF的特征函数可以学习限定窗口下词的关系特征，LSTM+CRF的实质是让LSTM在CRF的特征限定下学习，得到新的非线性变化空间。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NLP/" rel="tag"><i class="fa fa-tag"></i> NLP</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/14/林轩田机器学习技法笔记（一）/" rel="next" title="林轩田机器学习技法笔记（一）">
+                <i class="fa fa-chevron-left"></i> 林轩田机器学习技法笔记（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/07/BioNER文献阅读报告/" rel="prev" title="BioNER文献阅读报告">
+                BioNER文献阅读报告 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="SonicYouth">
+          <p class="site-author-name" itemprop="name">SonicYouth</p>
+           
+              <p class="site-description motion-element" itemprop="description">白日梦王国</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/dearchill" target="_blank" title="Github">
+                  
+                    
+                      Github
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/190669470/" target="_blank" title="Douban">
+                  
+                    
+                      Douban
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#语言模型-Language-Modeling-的演化及相关算法"><span class="nav-number">1.</span> <span class="nav-text">语言模型(Language Modeling)的演化及相关算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#词袋模型Bag-of-Word-BOW-及相关算法"><span class="nav-number">1.1.</span> <span class="nav-text">词袋模型Bag of Word(BOW)及相关算法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#TF-IDF（词频-逆文档矩阵）统计词频"><span class="nav-number">1.1.1.</span> <span class="nav-text">TF-IDF（词频-逆文档矩阵）统计词频</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LSA-潜在语义分析-构建主题模型"><span class="nav-number">1.1.2.</span> <span class="nav-text">LSA(潜在语义分析)构建主题模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PLSA（概率潜在语义分析）"><span class="nav-number">1.1.3.</span> <span class="nav-text">PLSA（概率潜在语义分析）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LDA（隐含狄利克雷分布）"><span class="nav-number">1.1.4.</span> <span class="nav-text">LDA（隐含狄利克雷分布）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#语言模型系列之N-Gram、NNLM及word2vec"><span class="nav-number">1.2.</span> <span class="nav-text">语言模型系列之N-Gram、NNLM及word2vec</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#N-Gram"><span class="nav-number">1.2.1.</span> <span class="nav-text">N-Gram</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#NNLM（神经网络语言模型）"><span class="nav-number">1.2.2.</span> <span class="nav-text">NNLM（神经网络语言模型）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CBOW-amp-Skip-gram"><span class="nav-number">1.2.3.</span> <span class="nav-text">CBOW &amp; Skip-gram</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#lda2vec：word2vec-和-LDA-的扩展"><span class="nav-number">1.2.4.</span> <span class="nav-text">lda2vec：word2vec 和 LDA 的扩展</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RNN及后续，LSTM和Attention"><span class="nav-number">1.3.</span> <span class="nav-text">RNN及后续，LSTM和Attention</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#全连接前馈神经网络（每个神经元只与前一层的神经元相连）"><span class="nav-number">1.3.1.</span> <span class="nav-text">全连接前馈神经网络（每个神经元只与前一层的神经元相连）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#具有卷积和池化层的前馈神经网络"><span class="nav-number">1.3.2.</span> <span class="nav-text">具有卷积和池化层的前馈神经网络</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#循环神经网络（Recurrent-Neural-Networks）"><span class="nav-number">1.3.3.</span> <span class="nav-text">循环神经网络（Recurrent Neural Networks）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LSTM和GRU"><span class="nav-number">1.3.4.</span> <span class="nav-text">LSTM和GRU</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#双向RNN"><span class="nav-number">1.3.5.</span> <span class="nav-text">双向RNN</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#递归神经网络（Recursive-Neural-Networks）"><span class="nav-number">1.3.6.</span> <span class="nav-text">递归神经网络（Recursive Neural Networks）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#序列变换模型（seq2seq-models）"><span class="nav-number">1.3.7.</span> <span class="nav-text">序列变换模型（seq2seq models）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#概率图模型"><span class="nav-number">2.</span> <span class="nav-text">概率图模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#隐马尔可夫模型HMM"><span class="nav-number">2.1.</span> <span class="nav-text">隐马尔可夫模型HMM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#条件随机场CRF"><span class="nav-number">2.2.</span> <span class="nav-text">条件随机场CRF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LSTM-CRF"><span class="nav-number">2.3.</span> <span class="nav-text">LSTM+CRF</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SonicYouth</span>
+</div>
+
+
+<!-- <div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+-->
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共35.0k字</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+  <script src="/js/src/md5.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: 'b61fdebb6de09def4ffe',
+          clientSecret: '1dc1dd7b7382d093cf16977e282dd3bbcf301380',
+          repo: 'dearchill.github.io',
+          owner: 'dearchill',
+          admin: ['dearchill'],
+          id: md5(location.pathname),
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')
+       </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>
