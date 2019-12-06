@@ -418,12 +418,12 @@
 <li>按照学习协议分类：batch learning, online learning, active learning</li>
 <li>按照输入X的 features 分类：concrete features, raw features（如图片的像素mxn), abstract features，后两种需要通过 Feature Transform 转为具体的特征</li>
 </ul>
-<h4 id="Feasibility-of-Learning"><a href="#Feasibility-of-Learning" class="headerlink" title="Feasibility of Learning"></a>Feasibility of Learning</h4><p>分析了机器学习的可行性。首先用没有免费午餐定理(NFL)说明了无法保证一个机器学习算法在训练数据以外的数据集上一定能分类或预测正确，即算法 A 总是最优能使假设 g = f。但根据霍夫丁不等式(Hoeffding’s inequality)，如果固定 h，只要样本 D 的个数 N 足够大，样本和总体的错误率就是PAC的。对 h 个数很多的情况，只要 h 个数 M 是有限的，且 N 足够大，就能保证 $E<em>{in} \approx E</em>{out}$，证明机器学习是可行的。<br><img src="/2018/08/22/林轩田机器学习基石笔记（一）/3.jpg" title="The Statistical Learning Flow"></p>
+<h4 id="Feasibility-of-Learning"><a href="#Feasibility-of-Learning" class="headerlink" title="Feasibility of Learning"></a>Feasibility of Learning</h4><p>分析了机器学习的可行性。首先用没有免费午餐定理(NFL)说明了无法保证一个机器学习算法在训练数据以外的数据集上一定能分类或预测正确，即算法 A 总是最优能使假设 g = f。但根据霍夫丁不等式(Hoeffding’s inequality)，如果固定 h，只要样本 D 的个数 N 足够大，样本和总体的错误率就是PAC的。对 h 个数很多的情况，只要 h 个数 M 是有限的，且 N 足够大，就能保证 $E_{in} \approx E_{out}$，证明机器学习是可行的。<br><img src="/2018/08/22/林轩田机器学习基石笔记（一）/3.jpg" title="The Statistical Learning Flow"></p>
 <h4 id="Training-versus-Testing"><a href="#Training-versus-Testing" class="headerlink" title="Training versus Testing"></a>Training versus Testing</h4><img src="/2018/08/22/林轩田机器学习基石笔记（一）/4.jpg" title="Two Central Questions">
-<p>由课程第一部分引出来机器学习的两个核心问题：$E<em>{in}(g) = E</em>{out}(g)$和$E_{in}(g) = 0$，这两个问题刚好对应 test 和 train 两个过程。<br>为解决第一个问题，探讨了 M 个 hypothesis 到底可以划分为多少种。记 M = effective(N)，定义了成长函数$m_H(H)$：使 N 个点二分类个数最多的分类值（上界是 2^N），定义了截断点（break point）：成长函数不等于2^N 时的最小 N。我们猜测成长函数和 N 存在多项式关系，这样对霍夫丁不等式：</p>
+<p>由课程第一部分引出来机器学习的两个核心问题：$E_{in}(g) = E_{out}(g)$和$E_{in}(g) = 0$，这两个问题刚好对应 test 和 train 两个过程。<br>为解决第一个问题，探讨了 M 个 hypothesis 到底可以划分为多少种。记 M = effective(N)，定义了成长函数$m_H(H)$：使 N 个点二分类个数最多的分类值（上界是 2^N），定义了截断点（break point）：成长函数不等于2^N 时的最小 N。我们猜测成长函数和 N 存在多项式关系，这样对霍夫丁不等式：</p>
 <script type="math/tex; mode=display">P[|E_{in}(g) - E_{out}(g)| > \epsilon] \leqslant 2 * M * exp(-2\epsilon^2 N)]</script><p>由于 M 相对 N 的增长速度远小于2^N，第一个问题基本满足。而对足够多的 M 总能找到一个 h 满足$E_{in}(g) \approx 0$，机器学习就是可行的。</p>
 <h4 id="Theory-of-Generalization"><a href="#Theory-of-Generalization" class="headerlink" title="Theory of Generalization"></a>Theory of Generalization</h4><p>这节证明了只要存在break point其成长函数$m_H(H)$就满足poly(N)。并将$m_H(H)$代入了Hoffding不等式中，推导出了 VC bound，证明了机器学习的可行性。（具体证明过程略）</p>
-<h4 id="The-VC-Dimension"><a href="#The-VC-Dimension" class="headerlink" title="The VC Dimension"></a>The VC Dimension</h4><p>引入了 VC Dimension 的定义：某假设集H能够shatter的最多inputs的个数，即最大完全正确的分类能力，等于break point数减一。以 PLA 算法为例，2D 下$d<em>{vc}$ = 3，高维的$d</em>{vc}$个数为维数加1。从物理意义上讲，VC Dimension 代表了假设空间的分类能力，即反映了H的自由度，也就等于features的个数。<br>$E<em>{out}$, $E</em>{in}$和模型复杂度随$d<em>{vc}$变化的曲线如图：<br><img src="/2018/08/22/林轩田机器学习基石笔记（一）/5.jpg" title="Error vs. VC Dimension"><br>所以选择合适的$d</em>{vc}$，或者features才能使模型具有很好的泛化能力。如2D PLA 下的线性分类，W = {$w_0,w_1,w_2$}，也就是说 input 只需要 3 个 features 就能很好学习。</p>
+<h4 id="The-VC-Dimension"><a href="#The-VC-Dimension" class="headerlink" title="The VC Dimension"></a>The VC Dimension</h4><p>引入了 VC Dimension 的定义：某假设集H能够shatter的最多inputs的个数，即最大完全正确的分类能力，等于break point数减一。以 PLA 算法为例，2D 下$d_{vc}$ = 3，高维的$d_{vc}$个数为维数加1。从物理意义上讲，VC Dimension 代表了假设空间的分类能力，即反映了H的自由度，也就等于features的个数。<br>$E_{out}$, $E_{in}$和模型复杂度随$d_{vc}$变化的曲线如图：<br><img src="/2018/08/22/林轩田机器学习基石笔记（一）/5.jpg" title="Error vs. VC Dimension"><br>所以选择合适的$d_{vc}$，或者features才能使模型具有很好的泛化能力。如2D PLA 下的线性分类，W = {$w_0,w_1,w_2$}，也就是说 input 只需要 3 个 features 就能很好学习。</p>
 <h4 id="Noise-and-Error"><a href="#Noise-and-Error" class="headerlink" title="Noise and Error"></a>Noise and Error</h4><p>这节讲了数据集有噪声时机器学习的适用性。<br>引入噪声后，数据集在某点处不是确定分布而变成按照P(y|x)概率分布，加入误差测量后，机器学习模型变为：<br><img src="/2018/08/22/林轩田机器学习基石笔记（一）/6.jpg" title="The New Learning Flow"><br>机器学习cost function常用的 Error 有0/1 error和squared error两类，训练的目的是使得Error($E_{in}$)不断变小。实际问题中，对false accept（误把负类当成正类）和false reject（误把正类当成负类）两类错误应该选择不同的权重进行错误惩罚。</p>
 
       
@@ -827,7 +827,24 @@
         }
       });
     </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
   
 
 

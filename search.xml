@@ -11,6 +11,7 @@
 <img src="/2019/11/25/snorkel初探/1.png">
 <img src="/2019/11/25/snorkel初探/2.png">
 <img src="/2019/11/25/snorkel初探/3.png">
+<p><strong>By using the label model to transfer the domain knowledge encoded in our LFs to the discriminative model, we were able to generalize beyond the noisy labeling heuristics</strong>.</p>
 ]]></content>
   </entry>
   <entry>
@@ -939,15 +940,15 @@ BaderLab/Transfer-Learning-BNER-Bioinformatics-2018/" target="_blank" rel="noope
 <li>其他相关博客<a id="more"></a>
 </li>
 </ul>
-<h3 id="语言模型-Language-Modeling-的演化及相关算法"><a href="#语言模型-Language-Modeling-的演化及相关算法" class="headerlink" title="语言模型(Language Modeling)的演化及相关算法"></a>语言模型(Language Modeling)的演化及相关算法</h3><p>统计语言模型是自然语言处理的基础，用来描述词、语句乃至于整个文档的概率分布模型。<br>单个句子出现的概率$P(S) = P(w<em>1,w_2,…,w_n)$，其中$w_i$表示单个词。用条件概率展开为$P(w_1,w_2,…,w_n) = P(w_1)·P(w_2|w_1)·P(w_3|w_1,w_2)···P(w_n|w_1,w_2,…,w</em>{n-1})$。主要模型的提出和演化过程如图：<br><img src="/2018/10/22/NLP与ML的关键技术综述/1.png" title="基于Language Model的NLP主要模型演化"></p>
+<h3 id="语言模型-Language-Modeling-的演化及相关算法"><a href="#语言模型-Language-Modeling-的演化及相关算法" class="headerlink" title="语言模型(Language Modeling)的演化及相关算法"></a>语言模型(Language Modeling)的演化及相关算法</h3><p>统计语言模型是自然语言处理的基础，用来描述词、语句乃至于整个文档的概率分布模型。<br>单个句子出现的概率$P(S) = P(w_1,w_2,…,w_n)$，其中$w_i$表示单个词。用条件概率展开为$P(w_1,w_2,…,w_n) = P(w_1)·P(w_2|w_1)·P(w_3|w_1,w_2)···P(w_n|w_1,w_2,…,w_{n-1})$。主要模型的提出和演化过程如图：<br><img src="/2018/10/22/NLP与ML的关键技术综述/1.png" title="基于Language Model的NLP主要模型演化"></p>
 <h4 id="词袋模型Bag-of-Word-BOW-及相关算法"><a href="#词袋模型Bag-of-Word-BOW-及相关算法" class="headerlink" title="词袋模型Bag of Word(BOW)及相关算法"></a>词袋模型Bag of Word(BOW)及相关算法</h4><p>BOW认为一篇文档是由一组词构成的一个集合，词与词之间没有顺序以及先后的关系，词向量与原来文本中单词出现的顺序没有关系，而是词典中每个单词在文本中出现的频率。一篇文档可以包含多个主题，文档中每一个词都由其中的一个主题生成。</p>
 <h5 id="TF-IDF（词频-逆文档矩阵）统计词频"><a href="#TF-IDF（词频-逆文档矩阵）统计词频" class="headerlink" title="TF-IDF（词频-逆文档矩阵）统计词频"></a>TF-IDF（词频-逆文档矩阵）统计词频</h5><p>TF-IDF可以反映字词于一个文件集而非单个文档的重要程度。字词的重要性随着它在文件中出现的次数成正比增加，但同时会随着它在文件集中出现的频率成反比下降。<br><img src="/2018/10/22/NLP与ML的关键技术综述/2.png" title="TF-IDF计算公式"></p>
 <h5 id="LSA-潜在语义分析-构建主题模型"><a href="#LSA-潜在语义分析-构建主题模型" class="headerlink" title="LSA(潜在语义分析)构建主题模型"></a>LSA(潜在语义分析)构建主题模型</h5><p>LSA假设如果两个词多次出现在同一文档中，则这两个词在语义上具有相似性。这种模型遍历语料库得到全部词的TF-IDF，然后以行表词，列表文件，构成词语-文档权重矩阵X，通过SVD（奇异值分解）降维化解，得到U（文档-主题矩阵）和V（词语-主题矩阵）。有了相似度则可以对文本和文档进行聚类，LSA的目标是从文本中发现文章隐含的主题或者概念。<br><img src="/2018/10/22/NLP与ML的关键技术综述/4.png" title="SVD分解词语-文档矩阵"></p>
 <h5 id="PLSA（概率潜在语义分析）"><a href="#PLSA（概率潜在语义分析）" class="headerlink" title="PLSA（概率潜在语义分析）"></a>PLSA（概率潜在语义分析）</h5><p>PLSA引入概率模型代替SVD解决问题，其核心思想是找到一个潜在主题的概率模型，该模型可以生成我们在文档-术语矩阵中观察到的数据。如下图所示：<br><img src="/2018/10/22/NLP与ML的关键技术综述/3.jpg" title="PLSA模型"><br>我们有两种方式产生语言模型。<br>给定文档d，我们先根据p(z|d)从中选取d的一个主题z，再根据p(w|z)的概率产生一个单词w，即$ P(w,d) = P(d)\sum P(z|d)P(w|z) $<br>其中P(d)可直接由语料库确定，多项式分布P(z|d)和P(w|z)采用最大似然估计模型参数值，通过最大熵算法（EM）来迭代收敛。<br>给定主题z，我们用P(d|z)和P(w|z)单独生成文档，即$ P(w,d) = P(z)\sum P(d|z)P(w|z) $，这里产生了PLSA与LSA的对应关系：给定主题P(d|z) 的文档概率对应于文档-主题矩阵U，给定主题 P(w|z) 的单词概率对应于词语-主题矩阵V。</p>
 <h5 id="LDA（隐含狄利克雷分布）"><a href="#LDA（隐含狄利克雷分布）" class="headerlink" title="LDA（隐含狄利克雷分布）"></a>LDA（隐含狄利克雷分布）</h5><p>LDA是PLSA的贝叶斯版本，它是对PLSA中的两个多项式分布P(c|d)和P(w|c)引入先验得到的，是一种无监督学习算法，在训练时不需要手工标注的训练集，需要的仅仅是文档集以及指定主题的数量。LDA为三层贝叶斯概率模型，包含词、主题（隐含）和文档三层结构，文档-主题分布和词语-主题分布分别是从两个狄利克雷分布α和β中抽样得到，由此生成文档。模型如下：<br><img src="/2018/10/22/NLP与ML的关键技术综述/5.png" title="LDA贝叶斯网络"><br>LDA比PLSA具有更好的泛化能力。在PLSA中，文档概率是数据集中的一个固定点，如果没有看到那个文件，我们就没有那个数据点。然而，在LDA中，数据集作为训练数据用于文档-主题分布的狄利克雷分布。即使没有看到某个文件，我们可以很容易地从狄利克雷分布中抽样得来，并继续接下来的操作。</p>
-<h4 id="语言模型系列之N-Gram、NNLM及word2vec"><a href="#语言模型系列之N-Gram、NNLM及word2vec" class="headerlink" title="语言模型系列之N-Gram、NNLM及word2vec"></a>语言模型系列之N-Gram、NNLM及word2vec</h4><p>语言模型一般采用马尔可夫假设简化为N元模型，以三元模型(Trigram Model)为例，$P(S)=P(w<em>1)·P(w_2|w_1)·P(w_3|w_1,w_2)···P(w_i|w</em>{i-2},w<em>{i-1})···P(w_n|w</em>{n-2},w<em>{n-1})$，然后我们通过计算语料库中词组的频次比例，得到模型参数，如$P(w_n|w</em>{n-2},w<em>{n-1}) = \frac{c(w</em>{n-2},w<em>{n-1},w_n)}{c(w</em>{n-2},w_{n-1})}$。此外，为了消除样本不足时的零概率问题，引入插值法和折扣法。</p>
+<h4 id="语言模型系列之N-Gram、NNLM及word2vec"><a href="#语言模型系列之N-Gram、NNLM及word2vec" class="headerlink" title="语言模型系列之N-Gram、NNLM及word2vec"></a>语言模型系列之N-Gram、NNLM及word2vec</h4><p>语言模型一般采用马尔可夫假设简化为N元模型，以三元模型(Trigram Model)为例，$P(S)=P(w_1)·P(w_2|w_1)·P(w_3|w_1,w_2)···P(w_i|w_{i-2},w_{i-1})···P(w_n|w_{n-2},w_{n-1})$，然后我们通过计算语料库中词组的频次比例，得到模型参数，如$P(w_n|w_{n-2},w_{n-1}) = \frac{c(w_{n-2},w_{n-1},w_n)}{c(w_{n-2},w_{n-1})}$。此外，为了消除样本不足时的零概率问题，引入插值法和折扣法。</p>
 <h5 id="N-Gram"><a href="#N-Gram" class="headerlink" title="N-Gram"></a>N-Gram</h5><p>N-Gram的基本思想是将文本里面的内容按照字节进行大小为N的滑动窗口操作，形成长度是N的字节片段序列。N-Gram可与贝叶斯公式结合应用于分词和词性标注，特别是中文CN-WordSeg和CN-POS。</p>
-<h5 id="NNLM（神经网络语言模型）"><a href="#NNLM（神经网络语言模型）" class="headerlink" title="NNLM（神经网络语言模型）"></a>NNLM（神经网络语言模型）</h5><p>Bengio提出的三层神经网络语言模型如图：<br><img src="/2018/10/22/NLP与ML的关键技术综述/6.png" title="神经网络语言模型"><br>首先介绍word embedding（单词嵌入）的概念：就是将文档单词序列的单一向量表示映射到低维连续密集向量空间表示。即从One hot representation到Distributed representation的转换。<br>神经网络(NN)的输入层为当前词wt的前n-1个词各自的词向量拼接，合计共(n−1)m维，隐藏层以tanh作为激活函数，输出层为当前词的softmax归一化概率。NN不仅学习Weight和bias，还还同时对输入层的词向量进行训练。方法是用梯度下降法最小化模型损失函数$ L = -\sum log(P(w<em>t|w</em>{t-n+1},w<em>{t-n+2}…w</em>{t-1})) $</p>
+<h5 id="NNLM（神经网络语言模型）"><a href="#NNLM（神经网络语言模型）" class="headerlink" title="NNLM（神经网络语言模型）"></a>NNLM（神经网络语言模型）</h5><p>Bengio提出的三层神经网络语言模型如图：<br><img src="/2018/10/22/NLP与ML的关键技术综述/6.png" title="神经网络语言模型"><br>首先介绍word embedding（单词嵌入）的概念：就是将文档单词序列的单一向量表示映射到低维连续密集向量空间表示。即从One hot representation到Distributed representation的转换。<br>神经网络(NN)的输入层为当前词wt的前n-1个词各自的词向量拼接，合计共(n−1)m维，隐藏层以tanh作为激活函数，输出层为当前词的softmax归一化概率。NN不仅学习Weight和bias，还还同时对输入层的词向量进行训练。方法是用梯度下降法最小化模型损失函数$ L = -\sum log(P(w_t|w_{t-n+1},w_{t-n+2}…w_{t-1})) $</p>
 <h5 id="CBOW-amp-Skip-gram"><a href="#CBOW-amp-Skip-gram" class="headerlink" title="CBOW &amp; Skip-gram"></a>CBOW &amp; Skip-gram</h5><p>CBOW和Skip-gram去掉了NNLM的隐藏层，而着重突出输入层one-hot到word embedding这一步，即word2vec（word embedding的一种）。先给出区别：<br>如果是拿一个词语的上下文作为输入，来预测这个词语本身，则是CBOW模型。其优化的目标函数为$ L = \sum log(P(w|Context(w)))$，如图：<br><img src="/2018/10/22/NLP与ML的关键技术综述/8.jpg" title="多词上下文CBOW模型"><br>而如果是用一个词语作为输入，来预测它周围的上下文，那这个模型叫做Skip-gram模型，其优化的目标函数为$ L = \sum log(P(Context(w)|w)) $，如图：<br><img src="/2018/10/22/NLP与ML的关键技术综述/9.jpg" title="多词上下文Skip-gram模型"><br>此外，通过hierarchical softmax和negative sampling两种方法优化词向量，分别使用了Huffman编码和负采样算法。</p>
 <h5 id="lda2vec：word2vec-和-LDA-的扩展"><a href="#lda2vec：word2vec-和-LDA-的扩展" class="headerlink" title="lda2vec：word2vec 和 LDA 的扩展"></a>lda2vec：word2vec 和 LDA 的扩展</h5><p>lda2vec 不直接用单词向量来预测上下文单词，而是使用上下文向量来进行预测。单词向量由前面的skip-gram模型生成。而文档向量是文档权重矩阵和主题矩阵的加权组合。lda2vec不仅能学习单词的词嵌入（和上下文向量嵌入），还同时学习主题表征和文档表征。如图：<br><img src="/2018/10/22/NLP与ML的关键技术综述/13.gif" title="lda2vec实例"></p>
 <h4 id="RNN及后续，LSTM和Attention"><a href="#RNN及后续，LSTM和Attention" class="headerlink" title="RNN及后续，LSTM和Attention"></a>RNN及后续，LSTM和Attention</h4><p>NLP领域一个重大的突破是引入深度学习，通常用来进行结构化预测的自然语言任务，如词性标记、命名实体识别等。所以这里也综述一下神经网络的架构。</p>
@@ -958,8 +959,8 @@ BaderLab/Transfer-Learning-BNER-Bioinformatics-2018/" target="_blank" rel="noope
 <h5 id="双向RNN"><a href="#双向RNN" class="headerlink" title="双向RNN"></a>双向RNN</h5><p>另一个对RNN的改进是Bidirectional RNN，它隐藏层要保存两个值，A参与正向计算，A’参与反向计算，最终的输出值y取决于A和A’。其中方框A内的序列也可以替换为LSTM或CNN等<br><img src="/2018/10/22/NLP与ML的关键技术综述/17.png" title="双向RNN"></p>
 <h5 id="递归神经网络（Recursive-Neural-Networks）"><a href="#递归神经网络（Recursive-Neural-Networks）" class="headerlink" title="递归神经网络（Recursive Neural Networks）"></a>递归神经网络（Recursive Neural Networks）</h5><p>用循环神经网络来建模的话就是假设句子后面的词的信息和前面的词有关，在神经网络结构上表现为后面的神经网络的隐藏层的输入是前面的神经网络的隐藏层的输出；而用递归神经网络建模的话，就是假设句子是一个树状结构，由几个部分(主语，谓语，宾语）组成，而每个部分又可以在分成几个小部分，即某一部分的信息由它的子树的信息组合而来，整句话的信息由组成这句话的几个部分组合而来。<br><img src="/2018/10/22/NLP与ML的关键技术综述/18.png" title="递归神经网络"></p>
 <h5 id="序列变换模型（seq2seq-models）"><a href="#序列变换模型（seq2seq-models）" class="headerlink" title="序列变换模型（seq2seq models）"></a>序列变换模型（seq2seq models）</h5><p>基于注意力的模型相比基于RNN的模型需要训练的资源更少，如Attention机制。它的出发点是将注意力集中在部分显著或者是感兴趣的点上，对自然语言处理的语言模型P(w|Context(w))来说，在选择恰当而非全部的context并用它生成下一个状态。有点类似于卷积神经网络处理学习图像细节，如图：<br><img src="/2018/10/22/NLP与ML的关键技术综述/19.jpg" title="Attention based model"></p>
-<h3 id="概率图模型"><a href="#概率图模型" class="headerlink" title="概率图模型"></a>概率图模型</h3><p>统计概率图体系如下：<br><img src="/2018/10/22/NLP与ML的关键技术综述/20.jpg" title="图模型"><br>在概率图模型中，数据由公式G=(Y,E)建模表示，Y表节点（随机变量），E表边（依赖关系）。可以看出，贝叶斯网络是有向的，适合为有单向依赖的数据建模；马尔可夫网络无向，适合实体之间互相依赖的建模。它们的核心差异表现在如何求P=(Y)，即怎么表示$ Y=（y<em>{1},\cdots,y</em>{n}）$这个联合概率。其中有向图采用条件概率乘积求概率，无向图采用分解然后求势函数乘积的方式求概率。<br>另外解释一下判别式模型和生成式模型的区别：<br>判别式模型学习数据的features然后预测label，是对P(Y|X)建模，典型是逻辑回归LR。而生成式模型先从训练样本中学习联合概率分布，之后给定样本X通过条件概率得到Y的分布：P(Y|X) = P(X,Y)/P(X) = P(X|Y)P(Y)/P(X)，典型是朴素贝叶斯NB。<br>主要介绍HMM和CRF，它们在解决序列标注问题上有很大用途，过程是：先预先建立模型，然后在给定的数据上训练模型，确定参数，最后用确定的模型做序列标注问题。</p>
-<h4 id="隐马尔可夫模型HMM"><a href="#隐马尔可夫模型HMM" class="headerlink" title="隐马尔可夫模型HMM"></a>隐马尔可夫模型HMM</h4><p>有向图，典型生成式模型，解决编码和解码问题。其中Wi是可见状态，ti是隐含状态，隐含状态间有一个叫转移概率，隐含状态和可见状态之间有一个叫输出概率，如图：<br><img src="/2018/10/22/NLP与ML的关键技术综述/21.png" title="HMM"><br>$ P(t<em>1,t_2,…,w_1,w_2,…) = \prod P(t_i|t</em>{i-1})·P(w<em>i|t_i)$<br>而$ P(w_i|t_i) = \frac{P(w_i,t_i)}{P(t_i)} $可以通过语料库标注值计算，$P(t_i|t</em>{i-1}) = \frac{P(t<em>i,t</em>{i-1})}{t_{i-1}} $按照统计语言模型的训练方法得到。<br>HMM模型中存在两个假设：一是输出观察值之间严格独立，二是状态的转移过程中当前状态只与前一状态有关。<br>训练过程（模型参数确定）采用鲍姆-韦尔奇算法（类似于期望最大化算法），就是先初始化一套值，然后不断迭代估计新的模型参数，使输出概率最大化。<br>训练好模型参数后，给定模型和输出序列找到可能产生输出的状态序列，这就是序列标注问题：在新的观测序列上找出一条概率最大最可能的隐状态序列，采用viterbi算法解决。</p>
+<h3 id="概率图模型"><a href="#概率图模型" class="headerlink" title="概率图模型"></a>概率图模型</h3><p>统计概率图体系如下：<br><img src="/2018/10/22/NLP与ML的关键技术综述/20.jpg" title="图模型"><br>在概率图模型中，数据由公式G=(Y,E)建模表示，Y表节点（随机变量），E表边（依赖关系）。可以看出，贝叶斯网络是有向的，适合为有单向依赖的数据建模；马尔可夫网络无向，适合实体之间互相依赖的建模。它们的核心差异表现在如何求P=(Y)，即怎么表示$ Y=（y_{1},\cdots,y_{n}）$这个联合概率。其中有向图采用条件概率乘积求概率，无向图采用分解然后求势函数乘积的方式求概率。<br>另外解释一下判别式模型和生成式模型的区别：<br>判别式模型学习数据的features然后预测label，是对P(Y|X)建模，典型是逻辑回归LR。而生成式模型先从训练样本中学习联合概率分布，之后给定样本X通过条件概率得到Y的分布：P(Y|X) = P(X,Y)/P(X) = P(X|Y)P(Y)/P(X)，典型是朴素贝叶斯NB。<br>主要介绍HMM和CRF，它们在解决序列标注问题上有很大用途，过程是：先预先建立模型，然后在给定的数据上训练模型，确定参数，最后用确定的模型做序列标注问题。</p>
+<h4 id="隐马尔可夫模型HMM"><a href="#隐马尔可夫模型HMM" class="headerlink" title="隐马尔可夫模型HMM"></a>隐马尔可夫模型HMM</h4><p>有向图，典型生成式模型，解决编码和解码问题。其中Wi是可见状态，ti是隐含状态，隐含状态间有一个叫转移概率，隐含状态和可见状态之间有一个叫输出概率，如图：<br><img src="/2018/10/22/NLP与ML的关键技术综述/21.png" title="HMM"><br>$ P(t_1,t_2,…,w_1,w_2,…) = \prod P(t_i|t_{i-1})·P(w_i|t_i)$<br>而$ P(w_i|t_i) = \frac{P(w_i,t_i)}{P(t_i)} $可以通过语料库标注值计算，$P(t_i|t_{i-1}) = \frac{P(t_i,t_{i-1})}{t_{i-1}} $按照统计语言模型的训练方法得到。<br>HMM模型中存在两个假设：一是输出观察值之间严格独立，二是状态的转移过程中当前状态只与前一状态有关。<br>训练过程（模型参数确定）采用鲍姆-韦尔奇算法（类似于期望最大化算法），就是先初始化一套值，然后不断迭代估计新的模型参数，使输出概率最大化。<br>训练好模型参数后，给定模型和输出序列找到可能产生输出的状态序列，这就是序列标注问题：在新的观测序列上找出一条概率最大最可能的隐状态序列，采用viterbi算法解决。</p>
 <h4 id="条件随机场CRF"><a href="#条件随机场CRF" class="headerlink" title="条件随机场CRF"></a>条件随机场CRF</h4><p>无向图。条件随机场是在给定的随机变量X的条件下，随机变量（隐含状态序列）的马尔可夫随机场，它解决了HMM输出独立性假设的问题。它需要预先定义特征函数</p>
 <h4 id="LSTM-CRF"><a href="#LSTM-CRF" class="headerlink" title="LSTM+CRF"></a>LSTM+CRF</h4><p>这是我们将要在命名实体识别和关系抽取中用到的关键性算法。<br>它是LSTM和CRF的合体。其中LSTM是依靠神经网络的超强非线性拟合能力来为每个token预测一个label，而CRF的特征函数可以学习限定窗口下词的关系特征，LSTM+CRF的实质是让LSTM在CRF的特征限定下学习，得到新的非线性变化空间。</p>
 ]]></content>
@@ -975,7 +976,7 @@ BaderLab/Transfer-Learning-BNER-Bioinformatics-2018/" target="_blank" rel="noope
 <p>整个课程分为三个部分：<br><img src="/2018/09/14/林轩田机器学习技法笔记（一）/2.png" title="Three Major Techniques"><br>第一部分讲述如何规范和扩展更多的特征，这个引出了支持向量机；第二部分讲述如何将特征进行融合，这个引出了自适应推进算法；第三部分讲述如何辨别和学习隐藏的特征，这里引出了一些类神经网络的算法，比如深度学习。</p>
 <p>这篇是第一部分的笔记，具体包含了线性支持向量机、对偶支持向量机、核型支持向量机、软边界支持向量机、核型逻辑回归、支持向量回归。笔记如下：</p>
 <h4 id="Linear-Support-Vector-Machine"><a href="#Linear-Support-Vector-Machine" class="headerlink" title="Linear Support Vector Machine"></a>Linear Support Vector Machine</h4><p>解决的问题是对于PLA，如何使分类线的容忍误差程度最大，即 margin 最大<br><img src="/2018/09/14/林轩田机器学习技法笔记（一）/3.png" title="Large-Margin Separating Hyperplane"><br>这就转化成求点到直线的距离问题，<br><img src="/2018/09/14/林轩田机器学习技法笔记（一）/4.png"><br><img src="/2018/09/14/林轩田机器学习技法笔记（一）/5.png"><br><img src="/2018/09/14/林轩田机器学习技法笔记（一）/6.png" title="Final Condition and An Example"><br>可以看出求解线性 SVM 的过程是一个求解二次规划问题的过程。Support Vector Machine(SVM)这个名字的由来是：分类面仅仅由分类面的两边距离它最近的几个点决定的，其它点对分类面没有影响。决定分类面的几个点称之为支持向量(Support Vector)，好比这些点“支撑”着分类面。</p>
-<p>SVM 与之前介绍的正则化regularization思想很类似。regularization的目标是$E<em>{in}$最小化，条件是$ w^Tw \leq C $;SVM的目标是$w^Tw$最小化，条件是$ y_n(w^Tx_n+b)\geq1 $，即保<br>证了$E</em>{in} = 0$。有趣的是，regularization与 SVM 的目标和限制条件分别对调了。</p>
+<p>SVM 与之前介绍的正则化regularization思想很类似。regularization的目标是$E_{in}$最小化，条件是$ w^Tw \leq C $;SVM的目标是$w^Tw$最小化，条件是$ y_n(w^Tx_n+b)\geq1 $，即保<br>证了$E_{in} = 0$。有趣的是，regularization与 SVM 的目标和限制条件分别对调了。</p>
 <p>此外，由于 SVM 是 Large-Margin 的，会比 PLA 有更低的模型复杂度和更好的模型泛化能力。<br><img src="/2018/09/14/林轩田机器学习技法笔记（一）/7.png" title="Large-Margin Restricts Dichotomies"></p>
 <h4 id="Dual-Support-Vector-Machine"><a href="#Dual-Support-Vector-Machine" class="headerlink" title="Dual Support Vector Machine"></a>Dual Support Vector Machine</h4><p>上节 Linear SVM 的目标是找出最“胖”的分割线进行正负类的分离，方法是使用二次规划来求出分类线。不过对于非线性分类问题，需要运用特征转换增加z域的维度d+1。当模型很复杂时，d很大，求解问题困难，所以我们想要使求解SVM不依赖d，这就是对偶支持向量机(Dual Support Vector Machine)。<br><img src="/2018/09/14/林轩田机器学习技法笔记（一）/8.png" title="SVM without d"></p>
 ]]></content>
@@ -1119,7 +1120,7 @@ BaderLab/Transfer-Learning-BNER-Bioinformatics-2018/" target="_blank" rel="noope
     <title>林轩田机器学习基石笔记（三）</title>
     <url>/2018/08/28/%E6%9E%97%E8%BD%A9%E7%94%B0%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%9F%B3%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%89%EF%BC%89/</url>
     <content><![CDATA[<p>这篇笔记是林老师机器学习课程最后一部分的内容：How Can Machine Learn Better?<br>主要介绍一些机器学习的技巧，如正则化解决过拟合等。详细内容如下：<br><a id="more"></a></p>
-<h4 id="Hazard-of-Overfitting"><a href="#Hazard-of-Overfitting" class="headerlink" title="Hazard of Overfitting"></a>Hazard of Overfitting</h4><p>目标多项式的模型复杂度增加会产生过拟合的问题，即$E<em>{in}$很小但$E</em>{out}$很大，泛化能力差。<br>如果数据量 N 很大的时候，低阶模型和高阶模型对应的 $E<em>{in}$ 和 $E</em>{out}$ 都比较接近，但是对于高阶模型，z域中的特征很多的时候，需要的样本数量N很大，容易发生维度灾难。<br><img src="/2018/08/28/林轩田机器学习基石笔记（三）/1.png" title="Curse of Dimensionality"><br>一般来说，VC Dimension、noise、N这三个因素是影响过拟合现象的关键。其中模型复杂度越高（确定性噪声越大），随机噪声强度越大，数据量越小，还有当目标多项式阶数较低但拟合模型越为复杂，越容易发生过拟合。</p>
+<h4 id="Hazard-of-Overfitting"><a href="#Hazard-of-Overfitting" class="headerlink" title="Hazard of Overfitting"></a>Hazard of Overfitting</h4><p>目标多项式的模型复杂度增加会产生过拟合的问题，即$E_{in}$很小但$E_{out}$很大，泛化能力差。<br>如果数据量 N 很大的时候，低阶模型和高阶模型对应的 $E_{in}$ 和 $E_{out}$ 都比较接近，但是对于高阶模型，z域中的特征很多的时候，需要的样本数量N很大，容易发生维度灾难。<br><img src="/2018/08/28/林轩田机器学习基石笔记（三）/1.png" title="Curse of Dimensionality"><br>一般来说，VC Dimension、noise、N这三个因素是影响过拟合现象的关键。其中模型复杂度越高（确定性噪声越大），随机噪声强度越大，数据量越小，还有当目标多项式阶数较低但拟合模型越为复杂，越容易发生过拟合。</p>
 <p>几个处理过拟合的方法：数据清理/裁剪(data cleaning/pruning)，数据提示(data hinting)，正则化(regularization)和加入验证（validation）</p>
 <h4 id="Regularization"><a href="#Regularization" class="headerlink" title="Regularization"></a>Regularization</h4><p>正则化的思路是将高阶的 hypothesis sets 转换为低阶的 hypothesis sets。也就是说，对于高阶的hypothesis，为了防止过拟合，我们可以将其高阶部分的权重 w 设置一个宽泛的限制条件，例如这里使用的是L2 Regularizer，使所有的权重 w 的平方和的大小不超过一个值。这样变成了最小化该函数：</p>
 <script type="math/tex; mode=display">E_{aug}(w) = E_{in}(w)+\frac{\lambda}{N} * w^Tw</script><p>其实可以把$\lambda$看成是一种对模型复杂度的penality，$\lambda$越小，惩罚越小，越容易过拟合，$\lambda$越大，拟合曲线就越平滑，越容易欠拟合。</p>
@@ -1140,13 +1141,13 @@ BaderLab/Transfer-Learning-BNER-Bioinformatics-2018/" target="_blank" rel="noope
     <url>/2018/08/23/%E6%9E%97%E8%BD%A9%E7%94%B0%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%9F%B3%E7%AC%94%E8%AE%B0%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
     <content><![CDATA[<p>这篇笔记是林老师机器学习课程第三部分的内容：How Can Machine Learn?<br>主要涵盖三个线性分类模型：linear classification、linear regression、logistic regression，和一个非线性变换 nonlinear transformation。详细内容如下：<br><a id="more"></a></p>
 <h4 id="Linear-Regression"><a href="#Linear-Regression" class="headerlink" title="Linear Regression"></a>Linear Regression</h4><p>解决曲线拟合问题。设输入 X 为 d 维，加上常数项维度为 d+1，与权重w的线性组合即为 Hypothesis，记为h(x)，即 $h(x) = w^T * X$，误差为均方误差。</p>
-<p>最小化$ E<em>{in}(w) = \frac{1}{N} * \sum</em>{n=1}^N (w^Tx<em>n-y_n)^2$，利用线性最小二乘法的求解方法（矩阵求解或者迭代法随机梯度下降）求解得到权重向量 $ w = (X^T X)^{-1} X^TY $，一般情况下，只要满足样本数量N远大于样本特征维度d+1，矩阵就是非奇异的（可逆的）。然后证明了同 linear classification 类似，当N足够大的时候，抽样样本的误差值 $E</em>{in}$和总体样本的误差值$E_{out}$都收敛于平均噪声，满足VC Dimension，可以机器学习。<br></p>
-<h4 id="Logistic-Regression"><a href="#Logistic-Regression" class="headerlink" title="Logistic Regression"></a>Logistic Regression</h4><p>二分类问题。使用将特征加权和 $ s = \sum<em>{i=0}^dw_ix_i $限制在 [0,1] 间的 Sigmoid Function  $\theta(s) = \frac{1}{1+e^{-s}}$，带入得到 hypothesis 为 $h(x) = \theta(w^Tx) = \frac{1}{1+e^{-w^Tx}}$。<br>其误差函数用cross­-entropy error表示，最小化$ E</em>{in}(w) = \frac{1}{N} * \sum<em>{n=1}^N ln(1+exp(-y_nw^Tx_n)) $，最后还是通过梯度下降法计算$ \nabla E</em>{in}(w) \approx 0$时的对应的 w 值。<br>交叉熵的介绍见这篇文章：<a href="https://blog.csdn.net/tsyccnh/article/details/79163834" target="_blank" rel="noopener">关于交叉熵在loss函数中使用的理解</a></p>
-<h4 id="Linear-Models-for-Classification"><a href="#Linear-Models-for-Classification" class="headerlink" title="Linear Models for Classification"></a>Linear Models for Classification</h4><p>几种线性分类模型如下：<br><img src="/2018/08/23/林轩田机器学习基石笔记（二）/2.jpg" title="Linear Models Revisited"><br>本节讲了用线性回归和逻辑回归来反过来求解线性分类问题的思路。<br>分别用 $error<em>{0/1}$，$error</em>{SQR}$，$error_{CE}$ 表示上述三类模型的误差，下图对这三类误差进行了直观展示：<br><img src="/2018/08/23/林轩田机器学习基石笔记（二）/3.jpg" title="Visualizing Error Functions"></p>
+<p>最小化$ E_{in}(w) = \frac{1}{N} * \sum_{n=1}^N (w^Tx_n-y_n)^2$，利用线性最小二乘法的求解方法（矩阵求解或者迭代法随机梯度下降）求解得到权重向量 $ w = (X^T X)^{-1} X^TY $，一般情况下，只要满足样本数量N远大于样本特征维度d+1，矩阵就是非奇异的（可逆的）。然后证明了同 linear classification 类似，当N足够大的时候，抽样样本的误差值 $E_{in}$和总体样本的误差值$E_{out}$都收敛于平均噪声，满足VC Dimension，可以机器学习。<br></p>
+<h4 id="Logistic-Regression"><a href="#Logistic-Regression" class="headerlink" title="Logistic Regression"></a>Logistic Regression</h4><p>二分类问题。使用将特征加权和 $ s = \sum_{i=0}^dw_ix_i $限制在 [0,1] 间的 Sigmoid Function  $\theta(s) = \frac{1}{1+e^{-s}}$，带入得到 hypothesis 为 $h(x) = \theta(w^Tx) = \frac{1}{1+e^{-w^Tx}}$。<br>其误差函数用cross­-entropy error表示，最小化$ E_{in}(w) = \frac{1}{N} * \sum_{n=1}^N ln(1+exp(-y_nw^Tx_n)) $，最后还是通过梯度下降法计算$ \nabla E_{in}(w) \approx 0$时的对应的 w 值。<br>交叉熵的介绍见这篇文章：<a href="https://blog.csdn.net/tsyccnh/article/details/79163834" target="_blank" rel="noopener">关于交叉熵在loss函数中使用的理解</a></p>
+<h4 id="Linear-Models-for-Classification"><a href="#Linear-Models-for-Classification" class="headerlink" title="Linear Models for Classification"></a>Linear Models for Classification</h4><p>几种线性分类模型如下：<br><img src="/2018/08/23/林轩田机器学习基石笔记（二）/2.jpg" title="Linear Models Revisited"><br>本节讲了用线性回归和逻辑回归来反过来求解线性分类问题的思路。<br>分别用 $error_{0/1}$，$error_{SQR}$，$error_{CE}$ 表示上述三类模型的误差，下图对这三类误差进行了直观展示：<br><img src="/2018/08/23/林轩田机器学习基石笔记（二）/3.jpg" title="Visualizing Error Functions"></p>
 <p>可以看出$error_{0/1}$的上界是由logistic regression模型的error function决定的，所以可以用逻辑回归来求解线性分类问题。不过 PLA 是binary classification，logistic regression是软性分类(可以看作是soft-PLA)，计算某点属于该类的概率。</p>
 <p>本节还介绍了随机梯度下降的方法（Stochastic Gradient Descent），每次只迭代一个点。关于其与批量梯度下降（Batch Gradient Descent）的区别<a href="https://www.cnblogs.com/sirius-swu/p/6932583.html" target="_blank" rel="noopener">详见这篇文章</a></p>
 <p>最后本节介绍了用线性分类的方法求解多分类问题的两种方法：One­Versus­All(OVA)和One­Versus­One(OVO)。对 OVA，分成多个计算二分类问题，用逻辑回归计算每个点属于各类的概率，取最大概率的类别即可。OVO 主要为了解决类别很多时，正负数据不平衡的问题。它每次只取两类进行binary classification，按照单个点被分成某类的次数排序，取次数最多的即可。</p>
-<h4 id="Nonlinear-Transformation"><a href="#Nonlinear-Transformation" class="headerlink" title="Nonlinear Transformation"></a>Nonlinear Transformation</h4><p>本节介绍用非线性的模型来解决分类问题。思路是用特征转换（Feature Transform）把线性不可分的x空间的点特征映射到z空间中去，在 z 空间完成线性分类后再用 x 的多项式替换。例如对于二次的 hypothesis，它包含二次项、一次项和常数项1，即$\phi<em>2(x)$ = (1,$x_1$,$x_2$,$x_1x_2$,$x_1^2$,$x_2^2$)，应使z域的维度与x域中多项式的个数一致，即样本特征维度 d+1 = 6维。<br>非线性变换带来的问题是时间复杂度和空间复杂度的增加，所以应在 $E</em>{in}$满足条件的情况下尽量选用最简单的模型。</p>
+<h4 id="Nonlinear-Transformation"><a href="#Nonlinear-Transformation" class="headerlink" title="Nonlinear Transformation"></a>Nonlinear Transformation</h4><p>本节介绍用非线性的模型来解决分类问题。思路是用特征转换（Feature Transform）把线性不可分的x空间的点特征映射到z空间中去，在 z 空间完成线性分类后再用 x 的多项式替换。例如对于二次的 hypothesis，它包含二次项、一次项和常数项1，即$\phi_2$(x) = (1,$x_1$,$x_2$,$x_1x_2$,$x_1^2$,$x_2^2$)，应使z域的维度与x域中多项式的个数一致，即样本特征维度 d+1 = 6维。<br>非线性变换带来的问题是时间复杂度和空间复杂度的增加，所以应在 $E_{in}$满足条件的情况下尽量选用最简单的模型。</p>
 ]]></content>
       <tags>
         <tag>机器学习</tag>
@@ -1177,12 +1178,12 @@ BaderLab/Transfer-Learning-BNER-Bioinformatics-2018/" target="_blank" rel="noope
 <li>按照学习协议分类：batch learning, online learning, active learning</li>
 <li>按照输入X的 features 分类：concrete features, raw features（如图片的像素mxn), abstract features，后两种需要通过 Feature Transform 转为具体的特征</li>
 </ul>
-<h4 id="Feasibility-of-Learning"><a href="#Feasibility-of-Learning" class="headerlink" title="Feasibility of Learning"></a>Feasibility of Learning</h4><p>分析了机器学习的可行性。首先用没有免费午餐定理(NFL)说明了无法保证一个机器学习算法在训练数据以外的数据集上一定能分类或预测正确，即算法 A 总是最优能使假设 g = f。但根据霍夫丁不等式(Hoeffding’s inequality)，如果固定 h，只要样本 D 的个数 N 足够大，样本和总体的错误率就是PAC的。对 h 个数很多的情况，只要 h 个数 M 是有限的，且 N 足够大，就能保证 $E<em>{in} \approx E</em>{out}$，证明机器学习是可行的。<br><img src="/2018/08/22/林轩田机器学习基石笔记（一）/3.jpg" title="The Statistical Learning Flow"></p>
+<h4 id="Feasibility-of-Learning"><a href="#Feasibility-of-Learning" class="headerlink" title="Feasibility of Learning"></a>Feasibility of Learning</h4><p>分析了机器学习的可行性。首先用没有免费午餐定理(NFL)说明了无法保证一个机器学习算法在训练数据以外的数据集上一定能分类或预测正确，即算法 A 总是最优能使假设 g = f。但根据霍夫丁不等式(Hoeffding’s inequality)，如果固定 h，只要样本 D 的个数 N 足够大，样本和总体的错误率就是PAC的。对 h 个数很多的情况，只要 h 个数 M 是有限的，且 N 足够大，就能保证 $E_{in} \approx E_{out}$，证明机器学习是可行的。<br><img src="/2018/08/22/林轩田机器学习基石笔记（一）/3.jpg" title="The Statistical Learning Flow"></p>
 <h4 id="Training-versus-Testing"><a href="#Training-versus-Testing" class="headerlink" title="Training versus Testing"></a>Training versus Testing</h4><img src="/2018/08/22/林轩田机器学习基石笔记（一）/4.jpg" title="Two Central Questions">
-<p>由课程第一部分引出来机器学习的两个核心问题：$E<em>{in}(g) = E</em>{out}(g)$和$E_{in}(g) = 0$，这两个问题刚好对应 test 和 train 两个过程。<br>为解决第一个问题，探讨了 M 个 hypothesis 到底可以划分为多少种。记 M = effective(N)，定义了成长函数$m_H(H)$：使 N 个点二分类个数最多的分类值（上界是 2^N），定义了截断点（break point）：成长函数不等于2^N 时的最小 N。我们猜测成长函数和 N 存在多项式关系，这样对霍夫丁不等式：</p>
+<p>由课程第一部分引出来机器学习的两个核心问题：$E_{in}(g) = E_{out}(g)$和$E_{in}(g) = 0$，这两个问题刚好对应 test 和 train 两个过程。<br>为解决第一个问题，探讨了 M 个 hypothesis 到底可以划分为多少种。记 M = effective(N)，定义了成长函数$m_H(H)$：使 N 个点二分类个数最多的分类值（上界是 2^N），定义了截断点（break point）：成长函数不等于2^N 时的最小 N。我们猜测成长函数和 N 存在多项式关系，这样对霍夫丁不等式：</p>
 <script type="math/tex; mode=display">P[|E_{in}(g) - E_{out}(g)| > \epsilon] \leqslant 2 * M * exp(-2\epsilon^2 N)]</script><p>由于 M 相对 N 的增长速度远小于2^N，第一个问题基本满足。而对足够多的 M 总能找到一个 h 满足$E_{in}(g) \approx 0$，机器学习就是可行的。</p>
 <h4 id="Theory-of-Generalization"><a href="#Theory-of-Generalization" class="headerlink" title="Theory of Generalization"></a>Theory of Generalization</h4><p>这节证明了只要存在break point其成长函数$m_H(H)$就满足poly(N)。并将$m_H(H)$代入了Hoffding不等式中，推导出了 VC bound，证明了机器学习的可行性。（具体证明过程略）</p>
-<h4 id="The-VC-Dimension"><a href="#The-VC-Dimension" class="headerlink" title="The VC Dimension"></a>The VC Dimension</h4><p>引入了 VC Dimension 的定义：某假设集H能够shatter的最多inputs的个数，即最大完全正确的分类能力，等于break point数减一。以 PLA 算法为例，2D 下$d<em>{vc}$ = 3，高维的$d</em>{vc}$个数为维数加1。从物理意义上讲，VC Dimension 代表了假设空间的分类能力，即反映了H的自由度，也就等于features的个数。<br>$E<em>{out}$, $E</em>{in}$和模型复杂度随$d<em>{vc}$变化的曲线如图：<br><img src="/2018/08/22/林轩田机器学习基石笔记（一）/5.jpg" title="Error vs. VC Dimension"><br>所以选择合适的$d</em>{vc}$，或者features才能使模型具有很好的泛化能力。如2D PLA 下的线性分类，W = {$w_0,w_1,w_2$}，也就是说 input 只需要 3 个 features 就能很好学习。</p>
+<h4 id="The-VC-Dimension"><a href="#The-VC-Dimension" class="headerlink" title="The VC Dimension"></a>The VC Dimension</h4><p>引入了 VC Dimension 的定义：某假设集H能够shatter的最多inputs的个数，即最大完全正确的分类能力，等于break point数减一。以 PLA 算法为例，2D 下$d_{vc}$ = 3，高维的$d_{vc}$个数为维数加1。从物理意义上讲，VC Dimension 代表了假设空间的分类能力，即反映了H的自由度，也就等于features的个数。<br>$E_{out}$, $E_{in}$和模型复杂度随$d_{vc}$变化的曲线如图：<br><img src="/2018/08/22/林轩田机器学习基石笔记（一）/5.jpg" title="Error vs. VC Dimension"><br>所以选择合适的$d_{vc}$，或者features才能使模型具有很好的泛化能力。如2D PLA 下的线性分类，W = {$w_0,w_1,w_2$}，也就是说 input 只需要 3 个 features 就能很好学习。</p>
 <h4 id="Noise-and-Error"><a href="#Noise-and-Error" class="headerlink" title="Noise and Error"></a>Noise and Error</h4><p>这节讲了数据集有噪声时机器学习的适用性。<br>引入噪声后，数据集在某点处不是确定分布而变成按照P(y|x)概率分布，加入误差测量后，机器学习模型变为：<br><img src="/2018/08/22/林轩田机器学习基石笔记（一）/6.jpg" title="The New Learning Flow"><br>机器学习cost function常用的 Error 有0/1 error和squared error两类，训练的目的是使得Error($E_{in}$)不断变小。实际问题中，对false accept（误把负类当成正类）和false reject（误把正类当成负类）两类错误应该选择不同的权重进行错误惩罚。</p>
 ]]></content>
       <tags>
@@ -1207,15 +1208,15 @@ BaderLab/Transfer-Learning-BNER-Bioinformatics-2018/" target="_blank" rel="noope
 <li>有监督学习方法：SVM, HMM, ME, CRF</li>
 </ul>
 <ul>
-<li>半/弱监督学习方法：基于Bootstrap自助抽样法</li>
+<li>半/弱监督学习方法：预训练+特征融合</li>
 </ul>
 </li>
 <li>基于深度学习的方法</li>
 </ul>
 </li>
 <li>关系抽取<ul>
-<li>基于特征向量或核函数的有监督学习</li>
-<li>无监督聚类</li>
+<li>基于特征向量或核函数的有监督关系分析</li>
+<li>无监督方法如共现聚类</li>
 </ul>
 </li>
 <li>属性抽取/事件抽取<br>一般可转为关系抽取</li>
@@ -1246,27 +1247,25 @@ BaderLab/Transfer-Learning-BNER-Bioinformatics-2018/" target="_blank" rel="noope
 </li>
 </ol>
 <h3 id="一个小鼠脑科学知识库的初步搭建流程和技术路线"><a href="#一个小鼠脑科学知识库的初步搭建流程和技术路线" class="headerlink" title="一个小鼠脑科学知识库的初步搭建流程和技术路线"></a>一个小鼠脑科学知识库的初步搭建流程和技术路线</h3><h4 id="知识抽取"><a href="#知识抽取" class="headerlink" title="知识抽取"></a>知识抽取</h4><ul>
-<li><strong>半结构化数据</strong><br>Wikipedia 中的脑区和核团信息框：利用 Wikidata api 提取json键值对存入数据库</li>
+<li><strong>半结构化数据</strong><br>Wikipedia 中的脑区核团信息框：利用 Wikidata api 提取json键值对存入数据库</li>
 <li><p><strong>非结构化数据</strong></p>
 <ul>
 <li>参考 Allen 脑解剖学命名树和 Wikipedia 上的核团介绍构建实体关系表、同义词表，构建基本的 SPO 三元组形成关系网，用图数据库neo4j存储并展示</li>
-<li><p>对 pubmed 摘要和全文作自然语言处理补充关系网<br>工具：NLTK, spacy, gensim, Stanford CoreNLP, Apache OpenNLP, AllenNLP</p>
+<li><p>对 pubmed 摘要和全文作自然语言处理补充关系网<br>工具：NLTK, spacy, Stanford CoreNLP, AllenNLP</p>
 <ul>
-<li>分句，分词，词干化处理，去除停用词，词性标注</li>
-<li>关键词提取，常用词组统计，tf-idf</li>
-<li>句法解析（parsing）和依存路径<br><a href="https://github.com/dasguptar/treelstm.pytorch" target="_blank" rel="noopener">Tree LSTM</a></li>
+<li>分句，分词，词形还原（lemmatization），词性标注</li>
+<li>关键词提取，N-grams，tf-idf</li>
+<li>句法分析（parsing）和依存路径解析</li>
 <li>NER<ol>
 <li><a href="https://github.com/Franck-Dernoncourt/NeuroNER" target="_blank" rel="noopener">NeuroNER</a></li>
-<li><a href="https://github.com/glample/tagger" target="_blank" rel="noopener">LSTM+CRF</a><br>参考论文<br><a href="https://arxiv.org/pdf/1603.01360.pdf" target="_blank" rel="noopener">Neural Architectures for Named Entity Recognition</a></li>
 <li><a href="https://guillaumegenthial.github.io/sequence-tagging-with-tensorflow.html" target="_blank" rel="noopener">Bi-LSTM+CRF</a><br>参考论文<br><a href="https://arxiv.org/pdf/1508.01991.pdf" target="_blank" rel="noopener">Bidirectional LSTM-CRF Models for Sequence Tagging</a></li>
-<li>标注语料库<ul>
-<li><a href="http://www.geniaproject.org/genia-corpus" target="_blank" rel="noopener">GENIA corpus</a><br>参考论文<br><a href="https://link.springer.com/content/pdf/10.1007%2F11573036_36.pdf" target="_blank" rel="noopener">Developing a Robust Part-of-Speech Tagger for Biomedical Text</a></li>
-</ul>
-</li>
 </ol>
 </li>
 <li><p>NRE</p>
-<p>基于生物医学本体库的远程监督</p>
+<ol>
+<li>基于生物医学本体库的远程监督</li>
+<li>snorkel弱监督方法</li>
+</ol>
 </li>
 </ul>
 </li>
@@ -1279,6 +1278,7 @@ BaderLab/Transfer-Learning-BNER-Bioinformatics-2018/" target="_blank" rel="noope
 <li>参考本体资源<ul>
 <li>鼠脑结构：<a href="https://bioportal.bioontology.org/ontologies/ABA-AMB" target="_blank" rel="noopener">Allen鼠脑图谱本体</a></li>
 <li>鼠脑模拟信息：<a href="https://bioportal.bioontology.org/ontologies/MA" target="_blank" rel="noopener">成年小鼠解剖学本体</a></li>
+<li><a href="https://github.com/biolink/biolink-model" target="_blank" rel="noopener">Biolink</a></li>
 </ul>
 </li>
 <li>手工构建流程<br>将核团实体和之间的关系抽象得到本体类，定义分类概念和层级，用 protégé 填充相关联的类别、关系、属性等，确定数据属性和对象属性的取值。然后把本体交由具有神经科学相关知识的研究人员审核。</li>
@@ -1291,13 +1291,17 @@ BaderLab/Transfer-Learning-BNER-Bioinformatics-2018/" target="_blank" rel="noope
 </li>
 </ul>
 <h4 id="知识存储"><a href="#知识存储" class="headerlink" title="知识存储"></a>知识存储</h4><ul>
-<li><strong>存储方式</strong><br>关系型数据库 MySQL(用 OWL 形式化表达 ER 图(D2RQ))<br>图数据库 Neo4j</li>
+<li><strong>存储方式</strong><br>关系型数据库 MySQL或文档型数据库MongoDB(用 OWL 形式化表达 ER 图(D2RQ))<br>图数据库 Neo4j</li>
 <li><strong>分布式计算框架</strong>(可选)<br>Hadoop</li>
 </ul>
 <h4 id="知识表示"><a href="#知识表示" class="headerlink" title="知识表示"></a>知识表示</h4><ul>
 <li><strong>web 服务框架</strong><br>使用 ElasticSearch（动态） 或 Apache Solr（静态）构建</li>
-<li><strong>知识推理及排序</strong><br>SWRL</li>
-<li><strong>信息展示</strong><br>按照 anatomy(structure, neuron types, input and output, neurochemistry), function, clinical significance三部分，建立类似于<a href="http://www.linked-neuron-data.org/connectome.jsp?link=link3" target="_blank" rel="noopener">LBD</a>的直观连接图，以链接数据的形式展示脑区结构、功能和关联疾病间的关系。</li>
+<li><strong>知识推理及排序</strong><br>SWRL1</li>
+<li><strong>信息展示</strong><ol>
+<li>按照 anatomy(structure, neuron types, input and output, neurochemistry), function, clinical significance三部分，建立类似于<a href="http://www.linked-neuron-data.org/connectome.jsp?link=link3" target="_blank" rel="noopener">LBD</a>的直观连接图，以链接数据的形式展示脑区结构、功能和关联疾病间的关系。</li>
+<li>PubMed文献实体和关系标注</li>
+</ol>
+</li>
 <li><strong>查询方式</strong><ul>
 <li>建立查找索引，直接搜索</li>
 <li>使用 SPARQL 查询 RDF</li>

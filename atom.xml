@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-11-25T02:46:38.870Z</updated>
+  <updated>2019-11-27T10:40:59.253Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://yoursite.com/2019/11/25/snorkel%E5%88%9D%E6%8E%A2/"/>
     <id>http://yoursite.com/2019/11/25/snorkel%E5%88%9D%E6%8E%A2/</id>
     <published>2019-11-25T01:35:32.000Z</published>
-    <updated>2019-11-25T02:46:38.870Z</updated>
+    <updated>2019-11-27T10:40:59.253Z</updated>
     
-    <content type="html"><![CDATA[<p>远程监督是关系抽取中最常采用的方法，它的核心思想是将文本与大规模知识图谱进行实体对齐，利用知识图谱已有的实体间关系对文本进行标注，可以有效解决有监督学习抽取样本过少的问题。而snorkel是斯坦福大学deepdive框架的后续项目，它将deepdive中的远程监督和弱监督的思想进一步完善，并用纯python的形式构成了一套完整的学习框架。我们的关系抽取项目采用snorkel与深度学习相结合的方法。</p><a id="more"></a><p>人工标记训练数据费时费力，所以最好的方式是利用外部知识库、模式/规则或其他分类器来启发式地生成训练数据。从本质上来讲，这些都是以编程方式生成训练数据的方法，或者更简洁地说就是编程训练数据。</p><p>远程监督基本假设是：如果从知识图谱中可获取三元组R(E1, E2)（注：R代表关系，E1、E2代表两个实体），且E1和E2共现与句子S中，则S表达了E1和E2间的关系R，标注为训练正例。由于假设过强，会出现wrong label的问题，常采用多实例学习的方法解决，将所有包含该关系的句子组成一个bag然后筛选句子生成训练样本。后来提出multi-instance multi-labels，即一个句子只能表达E1和E2的一种关系，但是不同的句子可以表达多个关系即labels，为同时挖掘实体对的多个关系提供了可能。</p><p>snorkel采用的方法是用户编写标签函数(LFs)，然后利用生成模型学习标签函数准确性，输出概率训练标签，来训练神经网络判别模型，流程如下：</p><img src="/2019/11/25/snorkel初探/1.png"><img src="/2019/11/25/snorkel初探/2.png"><img src="/2019/11/25/snorkel初探/3.png">]]></content>
+    <content type="html"><![CDATA[<p>远程监督是关系抽取中最常采用的方法，它的核心思想是将文本与大规模知识图谱进行实体对齐，利用知识图谱已有的实体间关系对文本进行标注，可以有效解决有监督学习抽取样本过少的问题。而snorkel是斯坦福大学deepdive框架的后续项目，它将deepdive中的远程监督和弱监督的思想进一步完善，并用纯python的形式构成了一套完整的学习框架。我们的关系抽取项目采用snorkel与深度学习相结合的方法。</p><a id="more"></a><p>人工标记训练数据费时费力，所以最好的方式是利用外部知识库、模式/规则或其他分类器来启发式地生成训练数据。从本质上来讲，这些都是以编程方式生成训练数据的方法，或者更简洁地说就是编程训练数据。</p><p>远程监督基本假设是：如果从知识图谱中可获取三元组R(E1, E2)（注：R代表关系，E1、E2代表两个实体），且E1和E2共现与句子S中，则S表达了E1和E2间的关系R，标注为训练正例。由于假设过强，会出现wrong label的问题，常采用多实例学习的方法解决，将所有包含该关系的句子组成一个bag然后筛选句子生成训练样本。后来提出multi-instance multi-labels，即一个句子只能表达E1和E2的一种关系，但是不同的句子可以表达多个关系即labels，为同时挖掘实体对的多个关系提供了可能。</p><p>snorkel采用的方法是用户编写标签函数(LFs)，然后利用生成模型学习标签函数准确性，输出概率训练标签，来训练神经网络判别模型，流程如下：</p><img src="/2019/11/25/snorkel初探/1.png"><img src="/2019/11/25/snorkel初探/2.png"><img src="/2019/11/25/snorkel初探/3.png"><p><strong>By using the label model to transfer the domain knowledge encoded in our LFs to the discriminative model, we were able to generalize beyond the noisy labeling heuristics</strong>.</p>]]></content>
     
     <summary type="html">
     

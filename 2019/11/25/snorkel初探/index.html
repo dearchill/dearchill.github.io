@@ -111,7 +111,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/11/25/snorkel初探/1.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/25/snorkel初探/2.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/25/snorkel初探/3.png">
-<meta property="og:updated_time" content="2019-11-25T02:46:38.870Z">
+<meta property="og:updated_time" content="2019-11-27T10:40:59.253Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="snorkel初探">
 <meta name="twitter:description" content="远程监督是关系抽取中最常采用的方法，它的核心思想是将文本与大规模知识图谱进行实体对齐，利用知识图谱已有的实体间关系对文本进行标注，可以有效解决有监督学习抽取样本过少的问题。而snorkel是斯坦福大学deepdive框架的后续项目，它将deepdive中的远程监督和弱监督的思想进一步完善，并用纯python的形式构成了一套完整的学习框架。我们的关系抽取项目采用snorkel与深度学习相结合的方法。">
@@ -355,7 +355,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  483
+                  511
                 </span>
               
 
@@ -400,6 +400,7 @@
 <img src="/2019/11/25/snorkel初探/1.png">
 <img src="/2019/11/25/snorkel初探/2.png">
 <img src="/2019/11/25/snorkel初探/3.png">
+<p><strong>By using the label model to transfer the domain knowledge encoded in our LFs to the discriminative model, we were able to generalize beyond the noisy labeling heuristics</strong>.</p>
 
       
     </div>
@@ -731,7 +732,24 @@
           distractionFreeMode: 'true'
         })
         gitalk.render('gitalk-container')
-       </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+       </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 
 

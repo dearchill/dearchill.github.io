@@ -112,7 +112,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/08/17/小鼠脑科学知识库/1.png">
 <meta property="og:image" content="http://yoursite.com/2018/08/17/小鼠脑科学知识库/2.png">
 <meta property="og:image" content="http://yoursite.com/2018/08/17/小鼠脑科学知识库/3.png">
-<meta property="og:updated_time" content="2019-08-26T02:41:18.720Z">
+<meta property="og:updated_time" content="2019-12-06T02:26:12.525Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="小鼠脑科学知识库">
 <meta name="twitter:description" content="Knowledge Graph: things, not strings. GoogleOfficial Google Blog: Introducing the Knowledge Graph: things, not strings">
@@ -356,7 +356,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  1,066
+                  1,052
                 </span>
               
 
@@ -408,15 +408,15 @@
 <li>有监督学习方法：SVM, HMM, ME, CRF</li>
 </ul>
 <ul>
-<li>半/弱监督学习方法：基于Bootstrap自助抽样法</li>
+<li>半/弱监督学习方法：预训练+特征融合</li>
 </ul>
 </li>
 <li>基于深度学习的方法</li>
 </ul>
 </li>
 <li>关系抽取<ul>
-<li>基于特征向量或核函数的有监督学习</li>
-<li>无监督聚类</li>
+<li>基于特征向量或核函数的有监督关系分析</li>
+<li>无监督方法如共现聚类</li>
 </ul>
 </li>
 <li>属性抽取/事件抽取<br>一般可转为关系抽取</li>
@@ -447,27 +447,25 @@
 </li>
 </ol>
 <h3 id="一个小鼠脑科学知识库的初步搭建流程和技术路线"><a href="#一个小鼠脑科学知识库的初步搭建流程和技术路线" class="headerlink" title="一个小鼠脑科学知识库的初步搭建流程和技术路线"></a>一个小鼠脑科学知识库的初步搭建流程和技术路线</h3><h4 id="知识抽取"><a href="#知识抽取" class="headerlink" title="知识抽取"></a>知识抽取</h4><ul>
-<li><strong>半结构化数据</strong><br>Wikipedia 中的脑区和核团信息框：利用 Wikidata api 提取json键值对存入数据库</li>
+<li><strong>半结构化数据</strong><br>Wikipedia 中的脑区核团信息框：利用 Wikidata api 提取json键值对存入数据库</li>
 <li><p><strong>非结构化数据</strong></p>
 <ul>
 <li>参考 Allen 脑解剖学命名树和 Wikipedia 上的核团介绍构建实体关系表、同义词表，构建基本的 SPO 三元组形成关系网，用图数据库neo4j存储并展示</li>
-<li><p>对 pubmed 摘要和全文作自然语言处理补充关系网<br>工具：NLTK, spacy, gensim, Stanford CoreNLP, Apache OpenNLP, AllenNLP</p>
+<li><p>对 pubmed 摘要和全文作自然语言处理补充关系网<br>工具：NLTK, spacy, Stanford CoreNLP, AllenNLP</p>
 <ul>
-<li>分句，分词，词干化处理，去除停用词，词性标注</li>
-<li>关键词提取，常用词组统计，tf-idf</li>
-<li>句法解析（parsing）和依存路径<br><a href="https://github.com/dasguptar/treelstm.pytorch" target="_blank" rel="noopener">Tree LSTM</a></li>
+<li>分句，分词，词形还原（lemmatization），词性标注</li>
+<li>关键词提取，N-grams，tf-idf</li>
+<li>句法分析（parsing）和依存路径解析</li>
 <li>NER<ol>
 <li><a href="https://github.com/Franck-Dernoncourt/NeuroNER" target="_blank" rel="noopener">NeuroNER</a></li>
-<li><a href="https://github.com/glample/tagger" target="_blank" rel="noopener">LSTM+CRF</a><br>参考论文<br><a href="https://arxiv.org/pdf/1603.01360.pdf" target="_blank" rel="noopener">Neural Architectures for Named Entity Recognition</a></li>
 <li><a href="https://guillaumegenthial.github.io/sequence-tagging-with-tensorflow.html" target="_blank" rel="noopener">Bi-LSTM+CRF</a><br>参考论文<br><a href="https://arxiv.org/pdf/1508.01991.pdf" target="_blank" rel="noopener">Bidirectional LSTM-CRF Models for Sequence Tagging</a></li>
-<li>标注语料库<ul>
-<li><a href="http://www.geniaproject.org/genia-corpus" target="_blank" rel="noopener">GENIA corpus</a><br>参考论文<br><a href="https://link.springer.com/content/pdf/10.1007%2F11573036_36.pdf" target="_blank" rel="noopener">Developing a Robust Part-of-Speech Tagger for Biomedical Text</a></li>
-</ul>
-</li>
 </ol>
 </li>
 <li><p>NRE</p>
-<p>基于生物医学本体库的远程监督</p>
+<ol>
+<li>基于生物医学本体库的远程监督</li>
+<li>snorkel弱监督方法</li>
+</ol>
 </li>
 </ul>
 </li>
@@ -480,6 +478,7 @@
 <li>参考本体资源<ul>
 <li>鼠脑结构：<a href="https://bioportal.bioontology.org/ontologies/ABA-AMB" target="_blank" rel="noopener">Allen鼠脑图谱本体</a></li>
 <li>鼠脑模拟信息：<a href="https://bioportal.bioontology.org/ontologies/MA" target="_blank" rel="noopener">成年小鼠解剖学本体</a></li>
+<li><a href="https://github.com/biolink/biolink-model" target="_blank" rel="noopener">Biolink</a></li>
 </ul>
 </li>
 <li>手工构建流程<br>将核团实体和之间的关系抽象得到本体类，定义分类概念和层级，用 protégé 填充相关联的类别、关系、属性等，确定数据属性和对象属性的取值。然后把本体交由具有神经科学相关知识的研究人员审核。</li>
@@ -492,13 +491,17 @@
 </li>
 </ul>
 <h4 id="知识存储"><a href="#知识存储" class="headerlink" title="知识存储"></a>知识存储</h4><ul>
-<li><strong>存储方式</strong><br>关系型数据库 MySQL(用 OWL 形式化表达 ER 图(D2RQ))<br>图数据库 Neo4j</li>
+<li><strong>存储方式</strong><br>关系型数据库 MySQL或文档型数据库MongoDB(用 OWL 形式化表达 ER 图(D2RQ))<br>图数据库 Neo4j</li>
 <li><strong>分布式计算框架</strong>(可选)<br>Hadoop</li>
 </ul>
 <h4 id="知识表示"><a href="#知识表示" class="headerlink" title="知识表示"></a>知识表示</h4><ul>
 <li><strong>web 服务框架</strong><br>使用 ElasticSearch（动态） 或 Apache Solr（静态）构建</li>
-<li><strong>知识推理及排序</strong><br>SWRL</li>
-<li><strong>信息展示</strong><br>按照 anatomy(structure, neuron types, input and output, neurochemistry), function, clinical significance三部分，建立类似于<a href="http://www.linked-neuron-data.org/connectome.jsp?link=link3" target="_blank" rel="noopener">LBD</a>的直观连接图，以链接数据的形式展示脑区结构、功能和关联疾病间的关系。</li>
+<li><strong>知识推理及排序</strong><br>SWRL1</li>
+<li><strong>信息展示</strong><ol>
+<li>按照 anatomy(structure, neuron types, input and output, neurochemistry), function, clinical significance三部分，建立类似于<a href="http://www.linked-neuron-data.org/connectome.jsp?link=link3" target="_blank" rel="noopener">LBD</a>的直观连接图，以链接数据的形式展示脑区结构、功能和关联疾病间的关系。</li>
+<li>PubMed文献实体和关系标注</li>
+</ol>
+</li>
 <li><strong>查询方式</strong><ul>
 <li>建立查找索引，直接搜索</li>
 <li>使用 SPARQL 查询 RDF</li>
@@ -885,7 +888,24 @@
           distractionFreeMode: 'true'
         })
         gitalk.render('gitalk-container')
-       </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+       </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 
 

@@ -403,7 +403,7 @@
 <p>整个课程分为三个部分：<br><img src="/2018/09/14/林轩田机器学习技法笔记（一）/2.png" title="Three Major Techniques"><br>第一部分讲述如何规范和扩展更多的特征，这个引出了支持向量机；第二部分讲述如何将特征进行融合，这个引出了自适应推进算法；第三部分讲述如何辨别和学习隐藏的特征，这里引出了一些类神经网络的算法，比如深度学习。</p>
 <p>这篇是第一部分的笔记，具体包含了线性支持向量机、对偶支持向量机、核型支持向量机、软边界支持向量机、核型逻辑回归、支持向量回归。笔记如下：</p>
 <h4 id="Linear-Support-Vector-Machine"><a href="#Linear-Support-Vector-Machine" class="headerlink" title="Linear Support Vector Machine"></a>Linear Support Vector Machine</h4><p>解决的问题是对于PLA，如何使分类线的容忍误差程度最大，即 margin 最大<br><img src="/2018/09/14/林轩田机器学习技法笔记（一）/3.png" title="Large-Margin Separating Hyperplane"><br>这就转化成求点到直线的距离问题，<br><img src="/2018/09/14/林轩田机器学习技法笔记（一）/4.png"><br><img src="/2018/09/14/林轩田机器学习技法笔记（一）/5.png"><br><img src="/2018/09/14/林轩田机器学习技法笔记（一）/6.png" title="Final Condition and An Example"><br>可以看出求解线性 SVM 的过程是一个求解二次规划问题的过程。Support Vector Machine(SVM)这个名字的由来是：分类面仅仅由分类面的两边距离它最近的几个点决定的，其它点对分类面没有影响。决定分类面的几个点称之为支持向量(Support Vector)，好比这些点“支撑”着分类面。</p>
-<p>SVM 与之前介绍的正则化regularization思想很类似。regularization的目标是$E<em>{in}$最小化，条件是$ w^Tw \leq C $;SVM的目标是$w^Tw$最小化，条件是$ y_n(w^Tx_n+b)\geq1 $，即保<br>证了$E</em>{in} = 0$。有趣的是，regularization与 SVM 的目标和限制条件分别对调了。</p>
+<p>SVM 与之前介绍的正则化regularization思想很类似。regularization的目标是$E_{in}$最小化，条件是$ w^Tw \leq C $;SVM的目标是$w^Tw$最小化，条件是$ y_n(w^Tx_n+b)\geq1 $，即保<br>证了$E_{in} = 0$。有趣的是，regularization与 SVM 的目标和限制条件分别对调了。</p>
 <p>此外，由于 SVM 是 Large-Margin 的，会比 PLA 有更低的模型复杂度和更好的模型泛化能力。<br><img src="/2018/09/14/林轩田机器学习技法笔记（一）/7.png" title="Large-Margin Restricts Dichotomies"></p>
 <h4 id="Dual-Support-Vector-Machine"><a href="#Dual-Support-Vector-Machine" class="headerlink" title="Dual Support Vector Machine"></a>Dual Support Vector Machine</h4><p>上节 Linear SVM 的目标是找出最“胖”的分割线进行正负类的分离，方法是使用二次规划来求出分类线。不过对于非线性分类问题，需要运用特征转换增加z域的维度d+1。当模型很复杂时，d很大，求解问题困难，所以我们想要使求解SVM不依赖d，这就是对偶支持向量机(Dual Support Vector Machine)。<br><img src="/2018/09/14/林轩田机器学习技法笔记（一）/8.png" title="SVM without d"></p>
 
@@ -808,7 +808,24 @@
         }
       });
     </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
   
 
 
