@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>snorkel抽取BC5CDR数据集关系</title>
+    <url>/2019/12/17/snorkel%E6%8A%BD%E5%8F%96BC5CDR%E6%95%B0%E6%8D%AE%E9%9B%86%E5%85%B3%E7%B3%BB/</url>
+    <content><![CDATA[<p>本周的工作是继续用snorkel工具以弱监督的方法在BC5CDR数据集进行抽取和评估，这也是snorkel在生物医学领域关系抽取的官方tutorial示例。其中BC5CDR包含500篇摘要的CID关系(chemical-induced-diseases)，与我们制定的关系类型chemical-causes-disease一致。此外，阅读了一篇发表在AKBC 2019探讨了在半监督模型中加入集成学习对关系抽取影响的文章。</p>
+<a id="more"></a>
+<p>上篇博客用弱监督的方法在chemical-disease关系抽取上进行了尝试，证明了与有监督模型相比的有效性，本周基于BC5CDR数据集的新特性，对标签函数进行了修改和重写。还在此基础上加入集成学习提高精度。</p>
+<p>原始数据为xml格式的PubMed摘要和标注信息：</p>
+<img src="/2019/12/17/snorkel抽取BC5CDR数据集关系/1.png">
+<p>抽取方法同上篇，采用的snorkel弱监督学习框架，通过用户编写标签函数(LFs)，然后利用生成模型学习标签函数准确性，输出概率训练标签，来训练神经网络判别模型。其中标签函数的制定采用规则、正则匹配或是远程监督的方法（本周选用了一个），生成模型为对标签函数的概率投票，作为输入x的概率标签y，最后用一个判别模型（如神经网络）进行关系分类。  </p>
+<p>首先进行数据预处理，snorkel内部预置了CorpusParser模块处理xml得到句子，然后用TaggerOne标注实体（这也是pubtator使用的工具），选出句子中的候选实体对。之后是编写标签函数生成概率标签：</p>
+<p>这里采用了三种标签函数类型，有CTD知识库远程监督方法：</p>
+<img src="/2019/12/17/snorkel抽取BC5CDR数据集关系/2.png">
+<p>正则表达式规则：</p>
+<img src="/2019/12/17/snorkel抽取BC5CDR数据集关系/3.png">
+<p>上下文层级特征：</p>
+<img src="/2019/12/17/snorkel抽取BC5CDR数据集关系/4.png">
+<p>然后将标签函数用于训练集的标签产生，在dev数据集判别效果，训练生成式模型：</p>
+<img src="/2019/12/17/snorkel抽取BC5CDR数据集关系/5.png">
+<p>最后将生成模型产生的概率标签作为训练集x的标签，用LSTM网络进行模型训练，在测试集评估精度。</p>
+<img src="/2019/12/17/snorkel抽取BC5CDR数据集关系/6.png">
+<p>最后测得的F-score为0.5286。</p>
+<p>后来在AKBC 2019找到一篇用半监督集成学习做弱监督关系抽取的文章《Semi-supervised Ensemble Learning with Weak Supervision for Biomedical Relation Extraction》，文章为避免标签函数的制定过程中采用复杂的feature engineering造成过拟合，采用了集成学习的方法。</p>
+<p>思路是(1)用小型带标签数据集训练base learners，来预测更多的unlabeled data为weak labels；(2)加denoiser，然后在此基础上用弱监督学习训练更强大的meta-learner(noise-aware discriminative model，这里选用的是双向LSTM)。文章的创新之处是选用K个基础学习器，通过改变features、文本特征表示和机器学习模型等来构建多个分类器，这样生成的概率标签相当于集多个模型的优点，更robust。</p>
+<p>下图结果展示了用机器学习模型集成学习产生弱标签对关系抽取的影响，在参数的选择，降噪方法的选择，meta-learner选择上的不同表现。</p>
+<img src="/2019/12/17/snorkel抽取BC5CDR数据集关系/7.png">
+<p>可以看出在弱监督学习中加入base learners确实相比我们自己定义的标签函数学习到的结果（0.5286）有F-score的提升（右侧三列），而却可以用本文提出的模型做数据扩增，迁移领域只需要标注少量的金标准数据集即可。此外，鉴于F1 score有时会不具有说服力，文章还因此提出了对marginal weak labels更好的评估方法。  </p>
+]]></content>
+  </entry>
+  <entry>
     <title>snorkel初探</title>
     <url>/2019/11/25/snorkel%E5%88%9D%E6%8E%A2/</url>
     <content><![CDATA[<p>远程监督是关系抽取中最常采用的方法，它的核心思想是将文本与大规模知识图谱进行实体对齐，利用知识图谱已有的实体间关系对文本进行标注，可以有效解决有监督学习抽取样本过少的问题。而snorkel是斯坦福大学deepdive框架的后续项目，它将deepdive中的远程监督和弱监督的思想进一步完善，并用纯python的形式构成了一套完整的学习框架。我们的关系抽取项目采用snorkel与深度学习相结合的方法。</p>
@@ -11,7 +39,23 @@
 <img src="/2019/11/25/snorkel初探/1.png">
 <img src="/2019/11/25/snorkel初探/2.png">
 <img src="/2019/11/25/snorkel初探/3.png">
-<p><strong>By using the label model to transfer the domain knowledge encoded in our LFs to the discriminative model, we were able to generalize beyond the noisy labeling heuristics</strong>.</p>
+<p>By using the label model to transfer the domain knowledge encoded in our LFs to the discriminative model, we were able to generalize beyond the noisy labeling heuristics.</p>
+<p>以下是周报的内容：</p>
+<h5 id="工作内容："><a href="#工作内容：" class="headerlink" title="工作内容："></a>工作内容：</h5><p>(1)关系抽取是知识图谱构建中非常基础和重要的一环，可以说知识图谱内部保存的数据就是高精度的三元组关系。前期的工作已经完成了实体抽取和实体规范化，已经得到了关系抽取中的候选实体，下一步就是在每句话的候选实体对上运用关系抽取模型抽取得到关系。</p>
+<p>(2)之前的工作包括调研关系抽取方法，制定关系标准，寻找可用的数据集。由于关系抽取的金标准数据集太少，大规模图谱构建一般采用有监督和弱监督相结合的方法，前者通过研究新模型提高识别精度，后者加入远程监督解决金标准数据集较少的问题。但在生物医学领域多数研究都是基于前者，极少有能够落地到对文献进行大规模关系抽取的方法（尤其是深度学习模型），因为训练数据集少导致模型过拟合不足以应对文献内的复杂变化的关系。通过加入后者弱监督学习，可以提高模型的泛化能力。本周工作即为弱监督模型在chemical-disease关系抽取的尝试，证明该方法在使用少量金标准数据集就能达到相当的精度。</p>
+<p>(3)本次工作为用snorkel框架，对chemical和disease间的cause和treat关系进行抽取。数据集为通过众包构建的<a href="https://github.com/CrowdTruth/Medical-Relation-Extraction" target="_blank" rel="noopener">CrowdTruth数据集</a>: 包括3984个包含cause和treat关系的句子，部分经过人工标注。  </p>
+<img src="/2019/11/25/snorkel初探/4.png">
+<p>首先准备数据，得到结果如上图，划分数据集为train-dev-val-test四部分。其中train不含金标准标签（因为要在训练时生成x的概率标签），dev为少量带专家标注的金标准数据，通过评估选择标签函数和得到生成模型，val充当验证集调整最后的判别式模型参数，最后在test上测试精度。</p>
+<p>其中标签函数的编写是决定模型性能的关键，其实有点类似于基于规则的有监督学习中的特征工程，包括关键词类型的：</p>
+<img src="/2019/11/25/snorkel初探/5.png">
+<p>正则表达式类型的：</p>
+<img src="/2019/11/25/snorkel初探/6.png">
+<p>还可以加入启发式规则还有基于远程监督的，最后将规则用于训练集的标签产生，在dev数据集判别如下，然后通过coverage（recall）和correct（precision）的trade-off来选择标签输入生成模型：</p>
+<img src="/2019/11/25/snorkel初探/7.png">
+<p>最后设计将生成模型产生的概率标签作为训练集x的标签，用LSTM网络进行模型训练，将训练好的模型在测试集评估精度，与从开始直接用金标准数据集训练的模型对比。  </p>
+<img src="/2019/11/25/snorkel初探/8.png">
+<p>结果如下，可以看出基于不同标签函数的snorkel与使用众包标签和基线的精度对比精度下降在可接受的范围内。</p>
+<img src="/2019/11/25/snorkel初探/9.png">
 ]]></content>
   </entry>
   <entry>
@@ -1211,12 +1255,12 @@ BaderLab/Transfer-Learning-BNER-Bioinformatics-2018/" target="_blank" rel="noope
 <li>半/弱监督学习方法：预训练+特征融合</li>
 </ul>
 </li>
-<li>基于深度学习的方法</li>
+<li>基于深度学习的方法：Bi-LSTM+CRF</li>
 </ul>
 </li>
 <li>关系抽取<ul>
-<li>基于特征向量或核函数的有监督关系分析</li>
-<li>无监督方法如共现聚类</li>
+<li>基于特征向量或核函数的有监督关系分类</li>
+<li>无监督聚类</li>
 </ul>
 </li>
 <li>属性抽取/事件抽取<br>一般可转为关系抽取</li>
@@ -1226,7 +1270,7 @@ BaderLab/Transfer-Learning-BNER-Bioinformatics-2018/" target="_blank" rel="noope
 <ul>
 <li>实体链接：从文本中抽取得到的实体链接到知识库中对应的正确实体对象<ul>
 <li>实体消歧<br>基于包含语义信息的特征向量模型（词袋模型）的聚类</li>
-<li>共指消解<br>计算实体相似度并进行聚类</li>
+<li>共指消解<br>计算实体相似度然后进行聚类</li>
 </ul>
 </li>
 <li>知识合并<ul>
@@ -1251,7 +1295,7 @@ BaderLab/Transfer-Learning-BNER-Bioinformatics-2018/" target="_blank" rel="noope
 <li><p><strong>非结构化数据</strong></p>
 <ul>
 <li>参考 Allen 脑解剖学命名树和 Wikipedia 上的核团介绍构建实体关系表、同义词表，构建基本的 SPO 三元组形成关系网，用图数据库neo4j存储并展示</li>
-<li><p>对 pubmed 摘要和全文作自然语言处理补充关系网<br>工具：NLTK, spacy, Stanford CoreNLP, AllenNLP</p>
+<li><p>对 pubmed 摘要和全文作自然语言处理补充关系网<br>工具：spacy, Stanford CoreNLP</p>
 <ul>
 <li>分句，分词，词形还原（lemmatization），词性标注</li>
 <li>关键词提取，N-grams，tf-idf</li>
@@ -1263,8 +1307,9 @@ BaderLab/Transfer-Learning-BNER-Bioinformatics-2018/" target="_blank" rel="noope
 </li>
 <li><p>NRE</p>
 <ol>
-<li>基于生物医学本体库的远程监督</li>
-<li>snorkel弱监督方法</li>
+<li>共现关系抽取</li>
+<li>基于深度学习BiLSTM的关系分类</li>
+<li>snorkel弱监督方法，辅以生物医学本体库的远程监督</li>
 </ol>
 </li>
 </ul>
@@ -1294,16 +1339,15 @@ BaderLab/Transfer-Learning-BNER-Bioinformatics-2018/" target="_blank" rel="noope
 <li><strong>存储方式</strong><br>关系型数据库 MySQL或文档型数据库MongoDB(用 OWL 形式化表达 ER 图(D2RQ))<br>图数据库 Neo4j</li>
 <li><strong>分布式计算框架</strong>(可选)<br>Hadoop</li>
 </ul>
-<h4 id="知识表示"><a href="#知识表示" class="headerlink" title="知识表示"></a>知识表示</h4><ul>
+<h4 id="形式化展示"><a href="#形式化展示" class="headerlink" title="形式化展示"></a>形式化展示</h4><ul>
 <li><strong>web 服务框架</strong><br>使用 ElasticSearch（动态） 或 Apache Solr（静态）构建</li>
-<li><strong>知识推理及排序</strong><br>SWRL1</li>
 <li><strong>信息展示</strong><ol>
 <li>按照 anatomy(structure, neuron types, input and output, neurochemistry), function, clinical significance三部分，建立类似于<a href="http://www.linked-neuron-data.org/connectome.jsp?link=link3" target="_blank" rel="noopener">LBD</a>的直观连接图，以链接数据的形式展示脑区结构、功能和关联疾病间的关系。</li>
 <li>PubMed文献实体和关系标注</li>
 </ol>
 </li>
-<li><strong>查询方式</strong><ul>
-<li>建立查找索引，直接搜索</li>
+<li><strong>对外服务</strong><ul>
+<li>建立查找索引，直接搜索关键词</li>
 <li>使用 SPARQL 查询 RDF</li>
 </ul>
 </li>

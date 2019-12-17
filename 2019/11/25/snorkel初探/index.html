@@ -111,7 +111,13 @@
 <meta property="og:image" content="http://yoursite.com/2019/11/25/snorkel初探/1.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/25/snorkel初探/2.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/25/snorkel初探/3.png">
-<meta property="og:updated_time" content="2019-11-27T10:40:59.253Z">
+<meta property="og:image" content="http://yoursite.com/2019/11/25/snorkel初探/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/25/snorkel初探/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/25/snorkel初探/6.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/25/snorkel初探/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/25/snorkel初探/8.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/25/snorkel初探/9.png">
+<meta property="og:updated_time" content="2019-12-17T14:56:52.947Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="snorkel初探">
 <meta name="twitter:description" content="远程监督是关系抽取中最常采用的方法，它的核心思想是将文本与大规模知识图谱进行实体对齐，利用知识图谱已有的实体间关系对文本进行标注，可以有效解决有监督学习抽取样本过少的问题。而snorkel是斯坦福大学deepdive框架的后续项目，它将deepdive中的远程监督和弱监督的思想进一步完善，并用纯python的形式构成了一套完整的学习框架。我们的关系抽取项目采用snorkel与深度学习相结合的方法。">
@@ -355,7 +361,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  511
+                  1,296
                 </span>
               
 
@@ -371,7 +377,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  2
+                  5
                 </span>
               
             </div>
@@ -400,7 +406,23 @@
 <img src="/2019/11/25/snorkel初探/1.png">
 <img src="/2019/11/25/snorkel初探/2.png">
 <img src="/2019/11/25/snorkel初探/3.png">
-<p><strong>By using the label model to transfer the domain knowledge encoded in our LFs to the discriminative model, we were able to generalize beyond the noisy labeling heuristics</strong>.</p>
+<p>By using the label model to transfer the domain knowledge encoded in our LFs to the discriminative model, we were able to generalize beyond the noisy labeling heuristics.</p>
+<p>以下是周报的内容：</p>
+<h5 id="工作内容："><a href="#工作内容：" class="headerlink" title="工作内容："></a>工作内容：</h5><p>(1)关系抽取是知识图谱构建中非常基础和重要的一环，可以说知识图谱内部保存的数据就是高精度的三元组关系。前期的工作已经完成了实体抽取和实体规范化，已经得到了关系抽取中的候选实体，下一步就是在每句话的候选实体对上运用关系抽取模型抽取得到关系。</p>
+<p>(2)之前的工作包括调研关系抽取方法，制定关系标准，寻找可用的数据集。由于关系抽取的金标准数据集太少，大规模图谱构建一般采用有监督和弱监督相结合的方法，前者通过研究新模型提高识别精度，后者加入远程监督解决金标准数据集较少的问题。但在生物医学领域多数研究都是基于前者，极少有能够落地到对文献进行大规模关系抽取的方法（尤其是深度学习模型），因为训练数据集少导致模型过拟合不足以应对文献内的复杂变化的关系。通过加入后者弱监督学习，可以提高模型的泛化能力。本周工作即为弱监督模型在chemical-disease关系抽取的尝试，证明该方法在使用少量金标准数据集就能达到相当的精度。</p>
+<p>(3)本次工作为用snorkel框架，对chemical和disease间的cause和treat关系进行抽取。数据集为通过众包构建的<a href="https://github.com/CrowdTruth/Medical-Relation-Extraction" target="_blank" rel="noopener">CrowdTruth数据集</a>: 包括3984个包含cause和treat关系的句子，部分经过人工标注。  </p>
+<img src="/2019/11/25/snorkel初探/4.png">
+<p>首先准备数据，得到结果如上图，划分数据集为train-dev-val-test四部分。其中train不含金标准标签（因为要在训练时生成x的概率标签），dev为少量带专家标注的金标准数据，通过评估选择标签函数和得到生成模型，val充当验证集调整最后的判别式模型参数，最后在test上测试精度。</p>
+<p>其中标签函数的编写是决定模型性能的关键，其实有点类似于基于规则的有监督学习中的特征工程，包括关键词类型的：</p>
+<img src="/2019/11/25/snorkel初探/5.png">
+<p>正则表达式类型的：</p>
+<img src="/2019/11/25/snorkel初探/6.png">
+<p>还可以加入启发式规则还有基于远程监督的，最后将规则用于训练集的标签产生，在dev数据集判别如下，然后通过coverage（recall）和correct（precision）的trade-off来选择标签输入生成模型：</p>
+<img src="/2019/11/25/snorkel初探/7.png">
+<p>最后设计将生成模型产生的概率标签作为训练集x的标签，用LSTM网络进行模型训练，将训练好的模型在测试集评估精度，与从开始直接用金标准数据集训练的模型对比。  </p>
+<img src="/2019/11/25/snorkel初探/8.png">
+<p>结果如下，可以看出基于不同标签函数的snorkel与使用众包标签和基线的精度对比精度下降在可接受的范围内。</p>
+<img src="/2019/11/25/snorkel初探/9.png">
 
       
     </div>
@@ -434,6 +456,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/17/snorkel抽取BC5CDR数据集关系/" rel="prev" title="snorkel抽取BC5CDR数据集关系">
+                snorkel抽取BC5CDR数据集关系 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -487,8 +513,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="SonicYouth">
           <p class="site-author-name" itemprop="name">SonicYouth</p>
@@ -501,7 +536,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -560,6 +595,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#工作内容："><span class="nav-number">1.</span> <span class="nav-text">工作内容：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -598,7 +649,7 @@
 -->
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共35.0k字</span>
+  <span class="post-count">博客全站共36.7k字</span>
 </div>
 
 

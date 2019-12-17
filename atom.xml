@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-11-27T10:40:59.253Z</updated>
+  <updated>2019-12-17T15:05:43.202Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,13 +17,32 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>snorkel抽取BC5CDR数据集关系</title>
+    <link href="http://yoursite.com/2019/12/17/snorkel%E6%8A%BD%E5%8F%96BC5CDR%E6%95%B0%E6%8D%AE%E9%9B%86%E5%85%B3%E7%B3%BB/"/>
+    <id>http://yoursite.com/2019/12/17/snorkel%E6%8A%BD%E5%8F%96BC5CDR%E6%95%B0%E6%8D%AE%E9%9B%86%E5%85%B3%E7%B3%BB/</id>
+    <published>2019-12-17T14:58:13.000Z</published>
+    <updated>2019-12-17T15:05:43.202Z</updated>
+    
+    <content type="html"><![CDATA[<p>本周的工作是继续用snorkel工具以弱监督的方法在BC5CDR数据集进行抽取和评估，这也是snorkel在生物医学领域关系抽取的官方tutorial示例。其中BC5CDR包含500篇摘要的CID关系(chemical-induced-diseases)，与我们制定的关系类型chemical-causes-disease一致。此外，阅读了一篇发表在AKBC 2019探讨了在半监督模型中加入集成学习对关系抽取影响的文章。</p><a id="more"></a><p>上篇博客用弱监督的方法在chemical-disease关系抽取上进行了尝试，证明了与有监督模型相比的有效性，本周基于BC5CDR数据集的新特性，对标签函数进行了修改和重写。还在此基础上加入集成学习提高精度。</p><p>原始数据为xml格式的PubMed摘要和标注信息：</p><img src="/2019/12/17/snorkel抽取BC5CDR数据集关系/1.png"><p>抽取方法同上篇，采用的snorkel弱监督学习框架，通过用户编写标签函数(LFs)，然后利用生成模型学习标签函数准确性，输出概率训练标签，来训练神经网络判别模型。其中标签函数的制定采用规则、正则匹配或是远程监督的方法（本周选用了一个），生成模型为对标签函数的概率投票，作为输入x的概率标签y，最后用一个判别模型（如神经网络）进行关系分类。  </p><p>首先进行数据预处理，snorkel内部预置了CorpusParser模块处理xml得到句子，然后用TaggerOne标注实体（这也是pubtator使用的工具），选出句子中的候选实体对。之后是编写标签函数生成概率标签：</p><p>这里采用了三种标签函数类型，有CTD知识库远程监督方法：</p><img src="/2019/12/17/snorkel抽取BC5CDR数据集关系/2.png"><p>正则表达式规则：</p><img src="/2019/12/17/snorkel抽取BC5CDR数据集关系/3.png"><p>上下文层级特征：</p><img src="/2019/12/17/snorkel抽取BC5CDR数据集关系/4.png"><p>然后将标签函数用于训练集的标签产生，在dev数据集判别效果，训练生成式模型：</p><img src="/2019/12/17/snorkel抽取BC5CDR数据集关系/5.png"><p>最后将生成模型产生的概率标签作为训练集x的标签，用LSTM网络进行模型训练，在测试集评估精度。</p><img src="/2019/12/17/snorkel抽取BC5CDR数据集关系/6.png"><p>最后测得的F-score为0.5286。</p><p>后来在AKBC 2019找到一篇用半监督集成学习做弱监督关系抽取的文章《Semi-supervised Ensemble Learning with Weak Supervision for Biomedical Relation Extraction》，文章为避免标签函数的制定过程中采用复杂的feature engineering造成过拟合，采用了集成学习的方法。</p><p>思路是(1)用小型带标签数据集训练base learners，来预测更多的unlabeled data为weak labels；(2)加denoiser，然后在此基础上用弱监督学习训练更强大的meta-learner(noise-aware discriminative model，这里选用的是双向LSTM)。文章的创新之处是选用K个基础学习器，通过改变features、文本特征表示和机器学习模型等来构建多个分类器，这样生成的概率标签相当于集多个模型的优点，更robust。</p><p>下图结果展示了用机器学习模型集成学习产生弱标签对关系抽取的影响，在参数的选择，降噪方法的选择，meta-learner选择上的不同表现。</p><img src="/2019/12/17/snorkel抽取BC5CDR数据集关系/7.png"><p>可以看出在弱监督学习中加入base learners确实相比我们自己定义的标签函数学习到的结果（0.5286）有F-score的提升（右侧三列），而却可以用本文提出的模型做数据扩增，迁移领域只需要标注少量的金标准数据集即可。此外，鉴于F1 score有时会不具有说服力，文章还因此提出了对marginal weak labels更好的评估方法。  </p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本周的工作是继续用snorkel工具以弱监督的方法在BC5CDR数据集进行抽取和评估，这也是snorkel在生物医学领域关系抽取的官方tutorial示例。其中BC5CDR包含500篇摘要的CID关系(chemical-induced-diseases)，与我们制定的关系类型chemical-causes-disease一致。此外，阅读了一篇发表在AKBC 2019探讨了在半监督模型中加入集成学习对关系抽取影响的文章。&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>snorkel初探</title>
     <link href="http://yoursite.com/2019/11/25/snorkel%E5%88%9D%E6%8E%A2/"/>
     <id>http://yoursite.com/2019/11/25/snorkel%E5%88%9D%E6%8E%A2/</id>
     <published>2019-11-25T01:35:32.000Z</published>
-    <updated>2019-11-27T10:40:59.253Z</updated>
+    <updated>2019-12-17T14:56:52.947Z</updated>
     
-    <content type="html"><![CDATA[<p>远程监督是关系抽取中最常采用的方法，它的核心思想是将文本与大规模知识图谱进行实体对齐，利用知识图谱已有的实体间关系对文本进行标注，可以有效解决有监督学习抽取样本过少的问题。而snorkel是斯坦福大学deepdive框架的后续项目，它将deepdive中的远程监督和弱监督的思想进一步完善，并用纯python的形式构成了一套完整的学习框架。我们的关系抽取项目采用snorkel与深度学习相结合的方法。</p><a id="more"></a><p>人工标记训练数据费时费力，所以最好的方式是利用外部知识库、模式/规则或其他分类器来启发式地生成训练数据。从本质上来讲，这些都是以编程方式生成训练数据的方法，或者更简洁地说就是编程训练数据。</p><p>远程监督基本假设是：如果从知识图谱中可获取三元组R(E1, E2)（注：R代表关系，E1、E2代表两个实体），且E1和E2共现与句子S中，则S表达了E1和E2间的关系R，标注为训练正例。由于假设过强，会出现wrong label的问题，常采用多实例学习的方法解决，将所有包含该关系的句子组成一个bag然后筛选句子生成训练样本。后来提出multi-instance multi-labels，即一个句子只能表达E1和E2的一种关系，但是不同的句子可以表达多个关系即labels，为同时挖掘实体对的多个关系提供了可能。</p><p>snorkel采用的方法是用户编写标签函数(LFs)，然后利用生成模型学习标签函数准确性，输出概率训练标签，来训练神经网络判别模型，流程如下：</p><img src="/2019/11/25/snorkel初探/1.png"><img src="/2019/11/25/snorkel初探/2.png"><img src="/2019/11/25/snorkel初探/3.png"><p><strong>By using the label model to transfer the domain knowledge encoded in our LFs to the discriminative model, we were able to generalize beyond the noisy labeling heuristics</strong>.</p>]]></content>
+    <content type="html"><![CDATA[<p>远程监督是关系抽取中最常采用的方法，它的核心思想是将文本与大规模知识图谱进行实体对齐，利用知识图谱已有的实体间关系对文本进行标注，可以有效解决有监督学习抽取样本过少的问题。而snorkel是斯坦福大学deepdive框架的后续项目，它将deepdive中的远程监督和弱监督的思想进一步完善，并用纯python的形式构成了一套完整的学习框架。我们的关系抽取项目采用snorkel与深度学习相结合的方法。</p><a id="more"></a><p>人工标记训练数据费时费力，所以最好的方式是利用外部知识库、模式/规则或其他分类器来启发式地生成训练数据。从本质上来讲，这些都是以编程方式生成训练数据的方法，或者更简洁地说就是编程训练数据。</p><p>远程监督基本假设是：如果从知识图谱中可获取三元组R(E1, E2)（注：R代表关系，E1、E2代表两个实体），且E1和E2共现与句子S中，则S表达了E1和E2间的关系R，标注为训练正例。由于假设过强，会出现wrong label的问题，常采用多实例学习的方法解决，将所有包含该关系的句子组成一个bag然后筛选句子生成训练样本。后来提出multi-instance multi-labels，即一个句子只能表达E1和E2的一种关系，但是不同的句子可以表达多个关系即labels，为同时挖掘实体对的多个关系提供了可能。</p><p>snorkel采用的方法是用户编写标签函数(LFs)，然后利用生成模型学习标签函数准确性，输出概率训练标签，来训练神经网络判别模型，流程如下：</p><img src="/2019/11/25/snorkel初探/1.png"><img src="/2019/11/25/snorkel初探/2.png"><img src="/2019/11/25/snorkel初探/3.png"><p>By using the label model to transfer the domain knowledge encoded in our LFs to the discriminative model, we were able to generalize beyond the noisy labeling heuristics.</p><p>以下是周报的内容：</p><h5 id="工作内容："><a href="#工作内容：" class="headerlink" title="工作内容："></a>工作内容：</h5><p>(1)关系抽取是知识图谱构建中非常基础和重要的一环，可以说知识图谱内部保存的数据就是高精度的三元组关系。前期的工作已经完成了实体抽取和实体规范化，已经得到了关系抽取中的候选实体，下一步就是在每句话的候选实体对上运用关系抽取模型抽取得到关系。</p><p>(2)之前的工作包括调研关系抽取方法，制定关系标准，寻找可用的数据集。由于关系抽取的金标准数据集太少，大规模图谱构建一般采用有监督和弱监督相结合的方法，前者通过研究新模型提高识别精度，后者加入远程监督解决金标准数据集较少的问题。但在生物医学领域多数研究都是基于前者，极少有能够落地到对文献进行大规模关系抽取的方法（尤其是深度学习模型），因为训练数据集少导致模型过拟合不足以应对文献内的复杂变化的关系。通过加入后者弱监督学习，可以提高模型的泛化能力。本周工作即为弱监督模型在chemical-disease关系抽取的尝试，证明该方法在使用少量金标准数据集就能达到相当的精度。</p><p>(3)本次工作为用snorkel框架，对chemical和disease间的cause和treat关系进行抽取。数据集为通过众包构建的<a href="https://github.com/CrowdTruth/Medical-Relation-Extraction" target="_blank" rel="noopener">CrowdTruth数据集</a>: 包括3984个包含cause和treat关系的句子，部分经过人工标注。  </p><img src="/2019/11/25/snorkel初探/4.png"><p>首先准备数据，得到结果如上图，划分数据集为train-dev-val-test四部分。其中train不含金标准标签（因为要在训练时生成x的概率标签），dev为少量带专家标注的金标准数据，通过评估选择标签函数和得到生成模型，val充当验证集调整最后的判别式模型参数，最后在test上测试精度。</p><p>其中标签函数的编写是决定模型性能的关键，其实有点类似于基于规则的有监督学习中的特征工程，包括关键词类型的：</p><img src="/2019/11/25/snorkel初探/5.png"><p>正则表达式类型的：</p><img src="/2019/11/25/snorkel初探/6.png"><p>还可以加入启发式规则还有基于远程监督的，最后将规则用于训练集的标签产生，在dev数据集判别如下，然后通过coverage（recall）和correct（precision）的trade-off来选择标签输入生成模型：</p><img src="/2019/11/25/snorkel初探/7.png"><p>最后设计将生成模型产生的概率标签作为训练集x的标签，用LSTM网络进行模型训练，将训练好的模型在测试集评估精度，与从开始直接用金标准数据集训练的模型对比。  </p><img src="/2019/11/25/snorkel初探/8.png"><p>结果如下，可以看出基于不同标签函数的snorkel与使用众包标签和基线的精度对比精度下降在可接受的范围内。</p><img src="/2019/11/25/snorkel初探/9.png">]]></content>
     
     <summary type="html">
     
@@ -377,27 +396,6 @@
     </summary>
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>生物医学知识库技术调研</title>
-    <link href="http://yoursite.com/2019/04/09/%E7%94%9F%E7%89%A9%E5%8C%BB%E5%AD%A6%E7%9F%A5%E8%AF%86%E5%BA%93%E6%8A%80%E6%9C%AF%E8%B0%83%E7%A0%94/"/>
-    <id>http://yoursite.com/2019/04/09/%E7%94%9F%E7%89%A9%E5%8C%BB%E5%AD%A6%E7%9F%A5%E8%AF%86%E5%BA%93%E6%8A%80%E6%9C%AF%E8%B0%83%E7%A0%94/</id>
-    <published>2019-04-09T07:11:43.000Z</published>
-    <updated>2019-08-28T00:53:23.980Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近对我找到的一些成型的生物医学领域的知识库进行了系统调研，文章大多是谷歌搜索”biomedical knowledge graph OR base”找到的，有的是对一个成熟系统的功能介绍文章，有的是一些面向生物信息挖掘和图谱构建过程的技术文章，依据这些技术还追根溯源找到了很多可用的工具。简单记几个重要的跟我们预期功能类似的：</p><a id="more"></a><h4 id="SemMedDB-a-PubMed-scale-repository-of-biomedical-semantic-predications-2012"><a href="#SemMedDB-a-PubMed-scale-repository-of-biomedical-semantic-predications-2012" class="headerlink" title="SemMedDB: a PubMed-scale repository of biomedical semantic predications(2012)"></a>SemMedDB: a PubMed-scale repository of biomedical semantic predications(2012)</h4><p>隶属NIH的The Semantic Knowledge Representation project，基于<a href="https://www.nlm.nih.gov/research/umls/" target="_blank" rel="noopener">UMLS</a>标准化的，用<a href="https://semrep.nlm.nih.gov" target="_blank" rel="noopener">SemRep</a>（基于规则）抽取PubMed的标题和摘要得到的关系数据库，包含大约9400万条预测关系，具有一个网页应用<a href="https://skr3.nlm.nih.gov/SemMed/index.html" target="_blank" rel="noopener">SemMed</a></p><p>The Semantic MEDLINE Database (SemMedDB) is a repository of <strong>semantic predications</strong> (subject-predicate-object triples) extracted from PubMed abstracts by SemRep, a semantic interpreter of biomedical text.</p><p>SemRep extracts 30 predicate types, largely relating to clinical medicine (e.g. TREATS, DIAGNOSES, ADMINISTERED_TO, PROCESS_OF), substance interactions(e.g. INTERACTS_WITH, INHIBITS, STIMULATES), genetic etiology of disease (e.g. ASSOCIATED_WITH, CAUSES, PREDISPOSES) and pharmacogenomics (e.g. AFFECTS, AUGMENTS, DISRUPTS).</p><p>MySQL database： <a href="http://skr3.nlm.nih.gov/SemMedDB" target="_blank" rel="noopener">http://skr3.nlm.nih.gov/SemMedDB</a></p><h4 id="Knowledge-Bio-A-Web-application-for-exploring-building-and-sharing-webs-of-biomedical-relationships-mined-from-PubMed-2016"><a href="#Knowledge-Bio-A-Web-application-for-exploring-building-and-sharing-webs-of-biomedical-relationships-mined-from-PubMed-2016" class="headerlink" title="Knowledge.Bio: A Web application for exploring, building and sharing webs of biomedical relationships mined from PubMed(2016)"></a>Knowledge.Bio: A Web application for exploring, building and sharing webs of biomedical relationships mined from PubMed(2016)</h4><p>基于SemMedDB和Implicitome的生物医学关系可视化平台，能够以图的方式展示实体间的关系。</p><ol><li><p>知识范围：以实体构成的关系，实体来源于UMLS中的生物医学概念和Entrez Gene中的基因类别</p></li><li><p>构建工具：Python Django框架，Jade templates, Bootstrap.js和DataTable.js模板，后台是以MySQL存储的SemmedDB和UMLS</p><img src="/2019/04/09/生物医学知识库技术调研/7.png" title="搜索界面"></li></ol><h4 id="Thalia-semantic-search-engine-for-biomedical-abstracts-2018"><a href="#Thalia-semantic-search-engine-for-biomedical-abstracts-2018" class="headerlink" title="Thalia: semantic search engine for biomedical abstracts(2018)"></a>Thalia: semantic search engine for biomedical abstracts(2018)</h4><p>能识别八种生物医学实体的PubMed标注工具和语义搜索引擎。</p><ol><li><p>高亮、集成和链接信息的范围：daily updated PubMed</p></li><li><p>标注信息：chemicals, diseases, drugs, genes, metabolites, proteins, species and anatomical entities.对属于多个类别的同一实体进行了多重标注。</p></li><li><p>工具：Argo, a text mining workflow system.基于词典和条件随机场的监督学习NER工具</p></li><li><p>实体规范化本体：ChEBI (chemicals), DrugBank (drugs), HMDB (metabolites), HGNC (genes), UMLS Metathesaurus (dis- eases), UniProt (proteins), NCBI (species) and CARO (anatomical)</p></li><li><p>语义搜索：呈现基于实体共现的标准化后的实体链接</p></li><li><p>语义查询工具：基于Lucene的Elasticsearch搭建，REST API 地址：<a href="http://nactem-copious.man.ac.uk/thalia-wsgi/api" target="_blank" rel="noopener">http://nactem-copious.man.ac.uk/thalia-wsgi/api</a></p></li><li><p>网站：<a href="http://nactem-copious.man.ac.uk/Thalia/" target="_blank" rel="noopener">http://nactem-copious.man.ac.uk/Thalia/</a></p><img src="/2019/04/09/生物医学知识库技术调研/5.png" title="Thalia搜索界面一览"><img src="/2019/04/09/生物医学知识库技术调研/6.png" title="单个PubMed词条高亮实体标注信息"></li></ol><h4 id="iTextMine-integrated-text-mining-system-for-large-scale-knowledge-extraction-from-the-literature-2018"><a href="#iTextMine-integrated-text-mining-system-for-large-scale-knowledge-extraction-from-the-literature-2018" class="headerlink" title="iTextMine: integrated text-mining system for large-scale knowledge extraction from the literature(2018)"></a>iTextMine: integrated text-mining system for large-scale knowledge extraction from the literature(2018)</h4><p>这是一篇整合现有的信息抽取工具然后规范化输出结果以实现大规模生物知识抽取的文章。</p><ol><li><p>知识抽取范围：all Medline abstracts and PMC open access full-length articles</p></li><li><p>目标知识：gene/protein &amp; disease/therapy relations.</p></li><li><p>工具：RLIMS-P, eFIP, miRTex, eGARD</p></li><li><p>其他整合工具： PubTator(for entity normalization), SemRep, BioContext and Turku Event Extraction System</p></li><li><p>数据输出格式：JSON </p></li><li><p>构建流程：文本输入—&gt;平行处理—&gt;后处理—&gt;存储—&gt;数据输出—&gt;网页展示</p><img src="/2019/04/09/生物医学知识库技术调研/4.png" title="iTextMine system overview"><ul><li>文本输入：从PubMed获取的全文以分段的XML表示</li><li>平行处理：在docker环境的Spark框架下，以chunk的形式用工具处理输入文本，然后用Hirschberg’s algorithm解决文本对齐问题。</li><li>后处理：用PubTator和本体库解决实体标准化的问题，用UniProt AC和NCBI管理本体和进行ID mapping，这一步主要是做实体消歧和指代消解。</li><li>存储：MongoDB存储标准化的 JSON格式数据。</li><li>数据输出：REST API  <a href="https://research.bioinformatics.udel.edu/itextmine/api/" target="_blank" rel="noopener">https://research.bioinformatics.udel.edu/itextmine/api/</a>  通过key和PMIDs管理结果。</li><li>网页展示：Apache Lucene</li></ul></li><li><p>网站：<a href="https://research.bioinformatics.udel.edu/itextmine/integrate" target="_blank" rel="noopener">https://research.bioinformatics.udel.edu/itextmine/integrate</a></p><img src="/2019/04/09/生物医学知识库技术调研/1.png" title="iTextMine搜索界面一览"><img src="/2019/04/09/生物医学知识库技术调研/2.png" title="关键词查询结果展示"><img src="/2019/04/09/生物医学知识库技术调研/3.png" title="单条文章结果展示"></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;最近对我找到的一些成型的生物医学领域的知识库进行了系统调研，文章大多是谷歌搜索”biomedical knowledge graph OR base”找到的，有的是对一个成熟系统的功能介绍文章，有的是一些面向生物信息挖掘和图谱构建过程的技术文章，依据这些技术还追根溯源找到了很多可用的工具。简单记几个重要的跟我们预期功能类似的：&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="知识图谱" scheme="http://yoursite.com/tags/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/"/>
     
   </entry>
   

@@ -112,7 +112,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/08/17/小鼠脑科学知识库/1.png">
 <meta property="og:image" content="http://yoursite.com/2018/08/17/小鼠脑科学知识库/2.png">
 <meta property="og:image" content="http://yoursite.com/2018/08/17/小鼠脑科学知识库/3.png">
-<meta property="og:updated_time" content="2019-12-06T02:26:12.525Z">
+<meta property="og:updated_time" content="2019-12-17T14:20:41.368Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="小鼠脑科学知识库">
 <meta name="twitter:description" content="Knowledge Graph: things, not strings. GoogleOfficial Google Blog: Introducing the Knowledge Graph: things, not strings">
@@ -356,7 +356,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  1,052
+                  1,064
                 </span>
               
 
@@ -411,12 +411,12 @@
 <li>半/弱监督学习方法：预训练+特征融合</li>
 </ul>
 </li>
-<li>基于深度学习的方法</li>
+<li>基于深度学习的方法：Bi-LSTM+CRF</li>
 </ul>
 </li>
 <li>关系抽取<ul>
-<li>基于特征向量或核函数的有监督关系分析</li>
-<li>无监督方法如共现聚类</li>
+<li>基于特征向量或核函数的有监督关系分类</li>
+<li>无监督聚类</li>
 </ul>
 </li>
 <li>属性抽取/事件抽取<br>一般可转为关系抽取</li>
@@ -426,7 +426,7 @@
 <ul>
 <li>实体链接：从文本中抽取得到的实体链接到知识库中对应的正确实体对象<ul>
 <li>实体消歧<br>基于包含语义信息的特征向量模型（词袋模型）的聚类</li>
-<li>共指消解<br>计算实体相似度并进行聚类</li>
+<li>共指消解<br>计算实体相似度然后进行聚类</li>
 </ul>
 </li>
 <li>知识合并<ul>
@@ -451,7 +451,7 @@
 <li><p><strong>非结构化数据</strong></p>
 <ul>
 <li>参考 Allen 脑解剖学命名树和 Wikipedia 上的核团介绍构建实体关系表、同义词表，构建基本的 SPO 三元组形成关系网，用图数据库neo4j存储并展示</li>
-<li><p>对 pubmed 摘要和全文作自然语言处理补充关系网<br>工具：NLTK, spacy, Stanford CoreNLP, AllenNLP</p>
+<li><p>对 pubmed 摘要和全文作自然语言处理补充关系网<br>工具：spacy, Stanford CoreNLP</p>
 <ul>
 <li>分句，分词，词形还原（lemmatization），词性标注</li>
 <li>关键词提取，N-grams，tf-idf</li>
@@ -463,8 +463,9 @@
 </li>
 <li><p>NRE</p>
 <ol>
-<li>基于生物医学本体库的远程监督</li>
-<li>snorkel弱监督方法</li>
+<li>共现关系抽取</li>
+<li>基于深度学习BiLSTM的关系分类</li>
+<li>snorkel弱监督方法，辅以生物医学本体库的远程监督</li>
 </ol>
 </li>
 </ul>
@@ -494,16 +495,15 @@
 <li><strong>存储方式</strong><br>关系型数据库 MySQL或文档型数据库MongoDB(用 OWL 形式化表达 ER 图(D2RQ))<br>图数据库 Neo4j</li>
 <li><strong>分布式计算框架</strong>(可选)<br>Hadoop</li>
 </ul>
-<h4 id="知识表示"><a href="#知识表示" class="headerlink" title="知识表示"></a>知识表示</h4><ul>
+<h4 id="形式化展示"><a href="#形式化展示" class="headerlink" title="形式化展示"></a>形式化展示</h4><ul>
 <li><strong>web 服务框架</strong><br>使用 ElasticSearch（动态） 或 Apache Solr（静态）构建</li>
-<li><strong>知识推理及排序</strong><br>SWRL1</li>
 <li><strong>信息展示</strong><ol>
 <li>按照 anatomy(structure, neuron types, input and output, neurochemistry), function, clinical significance三部分，建立类似于<a href="http://www.linked-neuron-data.org/connectome.jsp?link=link3" target="_blank" rel="noopener">LBD</a>的直观连接图，以链接数据的形式展示脑区结构、功能和关联疾病间的关系。</li>
 <li>PubMed文献实体和关系标注</li>
 </ol>
 </li>
-<li><strong>查询方式</strong><ul>
-<li>建立查找索引，直接搜索</li>
+<li><strong>对外服务</strong><ul>
+<li>建立查找索引，直接搜索关键词</li>
 <li>使用 SPARQL 查询 RDF</li>
 </ul>
 </li>
@@ -641,7 +641,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -709,7 +709,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#知识图谱的构建技术综述"><span class="nav-number">1.</span> <span class="nav-text">知识图谱的构建技术综述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义"><span class="nav-number">1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#体系架构"><span class="nav-number">1.2.</span> <span class="nav-text">体系架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#构建流程"><span class="nav-number">1.3.</span> <span class="nav-text">构建流程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一个小鼠脑科学知识库的初步搭建流程和技术路线"><span class="nav-number">2.</span> <span class="nav-text">一个小鼠脑科学知识库的初步搭建流程和技术路线</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#知识抽取"><span class="nav-number">2.1.</span> <span class="nav-text">知识抽取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#知识融合"><span class="nav-number">2.2.</span> <span class="nav-text">知识融合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#知识存储"><span class="nav-number">2.3.</span> <span class="nav-text">知识存储</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#知识表示"><span class="nav-number">2.4.</span> <span class="nav-text">知识表示</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#补充材料：一些机器学习和-NLP-原理算法（待添加）"><span class="nav-number">3.</span> <span class="nav-text">补充材料：一些机器学习和 NLP 原理算法（待添加）</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#知识图谱的构建技术综述"><span class="nav-number">1.</span> <span class="nav-text">知识图谱的构建技术综述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义"><span class="nav-number">1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#体系架构"><span class="nav-number">1.2.</span> <span class="nav-text">体系架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#构建流程"><span class="nav-number">1.3.</span> <span class="nav-text">构建流程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一个小鼠脑科学知识库的初步搭建流程和技术路线"><span class="nav-number">2.</span> <span class="nav-text">一个小鼠脑科学知识库的初步搭建流程和技术路线</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#知识抽取"><span class="nav-number">2.1.</span> <span class="nav-text">知识抽取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#知识融合"><span class="nav-number">2.2.</span> <span class="nav-text">知识融合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#知识存储"><span class="nav-number">2.3.</span> <span class="nav-text">知识存储</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#形式化展示"><span class="nav-number">2.4.</span> <span class="nav-text">形式化展示</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#补充材料：一些机器学习和-NLP-原理算法（待添加）"><span class="nav-number">3.</span> <span class="nav-text">补充材料：一些机器学习和 NLP 原理算法（待添加）</span></a></li></ol></div>
             
 
           </div>
@@ -754,7 +754,7 @@
 -->
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共35.0k字</span>
+  <span class="post-count">博客全站共36.7k字</span>
 </div>
 
 
