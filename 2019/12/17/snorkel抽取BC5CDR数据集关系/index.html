@@ -114,8 +114,11 @@
 <meta property="og:image" content="http://yoursite.com/2019/12/17/snorkel抽取BC5CDR数据集关系/4.png">
 <meta property="og:image" content="http://yoursite.com/2019/12/17/snorkel抽取BC5CDR数据集关系/5.png">
 <meta property="og:image" content="http://yoursite.com/2019/12/17/snorkel抽取BC5CDR数据集关系/6.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/17/snorkel抽取BC5CDR数据集关系/10.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/17/snorkel抽取BC5CDR数据集关系/8.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/17/snorkel抽取BC5CDR数据集关系/9.png">
 <meta property="og:image" content="http://yoursite.com/2019/12/17/snorkel抽取BC5CDR数据集关系/7.png">
-<meta property="og:updated_time" content="2019-12-17T15:05:43.202Z">
+<meta property="og:updated_time" content="2019-12-23T02:02:03.782Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="snorkel抽取BC5CDR数据集关系">
 <meta name="twitter:description" content="本周的工作是继续用snorkel工具以弱监督的方法在BC5CDR数据集进行抽取和评估，这也是snorkel在生物医学领域关系抽取的官方tutorial示例。其中BC5CDR包含500篇摘要的CID关系(chemical-induced-diseases)，与我们制定的关系类型chemical-causes-disease一致。此外，阅读了一篇发表在AKBC 2019探讨了在半监督模型中加入集成学习">
@@ -359,7 +362,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  922
+                  1,007
                 </span>
               
 
@@ -375,7 +378,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  3
+                  4
                 </span>
               
             </div>
@@ -414,6 +417,13 @@
 <p>最后将生成模型产生的概率标签作为训练集x的标签，用LSTM网络进行模型训练，在测试集评估精度。</p>
 <img src="/2019/12/17/snorkel抽取BC5CDR数据集关系/6.png">
 <p>最后测得的F-score为0.5286。</p>
+<p>与其他模型达到的SOTA结果对比：</p>
+<img src="/2019/12/17/snorkel抽取BC5CDR数据集关系/10.png">  
+<p>最后将模型用在大规模PubMed文献上，与前期文献获取和实体标注的流程串联。</p>
+<p>生成的候选实体如下（1000篇文献，12537个句子，1779个chemical-disease实体对）</p>
+<img src="/2019/12/17/snorkel抽取BC5CDR数据集关系/8.png">
+<p>最终预测结果（前20个候选实体及预测标签）：</p>
+<img src="/2019/12/17/snorkel抽取BC5CDR数据集关系/9.png">
 <p>后来在AKBC 2019找到一篇用半监督集成学习做弱监督关系抽取的文章《Semi-supervised Ensemble Learning with Weak Supervision for Biomedical Relation Extraction》，文章为避免标签函数的制定过程中采用复杂的feature engineering造成过拟合，采用了集成学习的方法。</p>
 <p>思路是(1)用小型带标签数据集训练base learners，来预测更多的unlabeled data为weak labels；(2)加denoiser，然后在此基础上用弱监督学习训练更强大的meta-learner(noise-aware discriminative model，这里选用的是双向LSTM)。文章的创新之处是选用K个基础学习器，通过改变features、文本特征表示和机器学习模型等来构建多个分类器，这样生成的概率标签相当于集多个模型的优点，更robust。</p>
 <p>下图结果展示了用机器学习模型集成学习产生弱标签对关系抽取的影响，在参数的选择，降噪方法的选择，meta-learner选择上的不同表现。</p>
@@ -616,7 +626,7 @@
 -->
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共36.7k字</span>
+  <span class="post-count">博客全站共36.8k字</span>
 </div>
 
 
